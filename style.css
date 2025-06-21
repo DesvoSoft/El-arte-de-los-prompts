@@ -1,0 +1,153 @@
+:root {
+  --bg-main: #0f0f11;
+  --bg-card: #1c1c1e;
+  --text-color: #eaeaea;
+  --accent: #00ffcc;
+  --border-radius: 8px;
+  --font-family: 'Segoe UI', sans-serif;
+}
+
+[data-theme="light"] {
+  --bg-main: #ffffff;
+  --bg-card: #f5f5f5;
+  --text-color: #111;
+  --accent: #007766;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-family);
+  background-color: var(--bg-main);
+  color: var(--text-color);
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+header {
+  background: linear-gradient(to right, #1c1c1e, #2d2d30);
+  padding: 1rem 2rem;
+  text-align: center;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 2rem;
+  color: var(--accent);
+}
+
+header p {
+  margin: 0.5rem 0 0;
+  font-size: 0.95rem;
+  color: #bbbbbb;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.sidebar {
+  width: 250px;
+  background: #1c1c1e;
+  padding: 1rem;
+  overflow-y: auto;
+  height: calc(100vh - 4rem);
+  position: sticky;
+  top: 4rem;
+  border-right: 1px solid #333;
+}
+
+.search {
+  margin-bottom: 1rem;
+}
+
+.search input {
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 4px;
+  border: none;
+  background: #2d2d30;
+  color: white;
+}
+
+.menu button {
+  width: 100%;
+  padding: 0.6rem;
+  background: #2d2d30;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: left;
+  margin-bottom: 0.5rem;
+  transition: background 0.3s;
+}
+
+.menu button:hover {
+  background: #444;
+}
+
+.main {
+  flex: 1;
+  padding: 1.5rem;
+  overflow-y: auto;
+}
+
+.content {
+  background: var(--bg-card);
+  padding: 1.5rem;
+  border-radius: var(--border-radius);
+  line-height: 1.6;
+}
+
+pre {
+  background: #222;
+  padding: 1rem;
+  border-radius: 6px;
+  overflow-x: auto;
+  font-size: 0.9rem;
+}
+
+code {
+  background: #333;
+  padding: 0.2em 0.4em;
+  border-radius: 4px;
+  font-family: monospace;
+}
+
+footer {
+  text-align: center;
+  padding: 1rem;
+  font-size: 0.9rem;
+  color: #aaa;
+}
+
+.toggle-theme {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: #222;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+  }
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+    top: unset;
+  }
+  .toggle-theme {
+    right: 0.5rem;
+    top: 0.5rem;
+  }
+}
