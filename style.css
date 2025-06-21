@@ -5,13 +5,35 @@
   --accent: #00ffcc;
   --border-radius: 8px;
   --font-family: 'Segoe UI', sans-serif;
+  --header-bg: linear-gradient(to right, #1c1c1e, #2d2d30);
+  --sidebar-bg: #1c1c1e;
+  --sidebar-border: #333;
+  --menu-bg: #2d2d30;
+  --menu-hover: #444;
+  --search-bg: #2d2d30;
+  --toggle-bg: #222;
+  --toggle-color: #fff;
+  --pre-bg: #222;
+  --code-bg: #333;
+  --footer-color: #aaa;
 }
 
 [data-theme="light"] {
   --bg-main: #ffffff;
   --bg-card: #f5f5f5;
   --text-color: #111;
-  --accent: #007766;
+  --accent: #0077aa;
+  --header-bg: linear-gradient(to right, #e2e2e2, #f8f8f8);
+  --sidebar-bg: #ececec;
+  --sidebar-border: #ccc;
+  --menu-bg: #eaeaea;
+  --menu-hover: #ddd;
+  --search-bg: #eaeaea;
+  --toggle-bg: #ddd;
+  --toggle-color: #111;
+  --pre-bg: #f0f0f0;
+  --code-bg: #e6e6e6;
+  --footer-color: #555;
 }
 
 body {
@@ -25,7 +47,7 @@ body {
 }
 
 header {
-  background: linear-gradient(to right, #1c1c1e, #2d2d30);
+  background: var(--header-bg);
   padding: 1rem 2rem;
   text-align: center;
 }
@@ -39,7 +61,7 @@ header h1 {
 header p {
   margin: 0.5rem 0 0;
   font-size: 0.95rem;
-  color: #bbbbbb;
+  color: var(--text-color);
 }
 
 .container {
@@ -50,13 +72,13 @@ header p {
 
 .sidebar {
   width: 250px;
-  background: #1c1c1e;
+  background: var(--sidebar-bg);
   padding: 1rem;
   overflow-y: auto;
   height: calc(100vh - 4rem);
   position: sticky;
   top: 4rem;
-  border-right: 1px solid #333;
+  border-right: 1px solid var(--sidebar-border);
 }
 
 .search {
@@ -68,15 +90,15 @@ header p {
   padding: 0.5rem;
   border-radius: 4px;
   border: none;
-  background: #2d2d30;
-  color: white;
+  background: var(--search-bg);
+  color: var(--text-color);
 }
 
 .menu button {
   width: 100%;
   padding: 0.6rem;
-  background: #2d2d30;
-  color: white;
+  background: var(--menu-bg);
+  color: var(--text-color);
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -86,7 +108,7 @@ header p {
 }
 
 .menu button:hover {
-  background: #444;
+  background: var(--menu-hover);
 }
 
 .main {
@@ -103,7 +125,7 @@ header p {
 }
 
 pre {
-  background: #222;
+  background: var(--pre-bg);
   padding: 1rem;
   border-radius: 6px;
   overflow-x: auto;
@@ -111,7 +133,7 @@ pre {
 }
 
 code {
-  background: #333;
+  background: var(--code-bg);
   padding: 0.2em 0.4em;
   border-radius: 4px;
   font-family: monospace;
@@ -121,15 +143,15 @@ footer {
   text-align: center;
   padding: 1rem;
   font-size: 0.9rem;
-  color: #aaa;
+  color: var(--footer-color);
 }
 
 .toggle-theme {
   position: absolute;
   top: 1rem;
   right: 1rem;
-  background: #222;
-  color: #fff;
+  background: var(--toggle-bg);
+  color: var(--toggle-color);
   border: none;
   padding: 0.5rem 1rem;
   border-radius: 5px;
