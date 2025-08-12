@@ -87,7 +87,7 @@ body::after {
   inset: -10%;
   z-index: -2;
   background: radial-gradient(1000px 700px at 10% 20%, rgba(128, 255, 234, 0.16), transparent 60%),
-              radial-gradient(900px 600px at 85% 10%, rgba(209, 107, 165, 0.12), transparent 60%),
+              radial-gradient(900px 600px at 85% 10%, rgba(255, 150, 80, 0.12), transparent 60%),
               radial-gradient(900px 800px at 30% 85%, rgba(134, 168, 231, 0.14), transparent 60%);
   filter: saturate(115%);
   animation: floatGradient 28s ease-in-out infinite alternate;
@@ -121,6 +121,56 @@ html::before {
 @media (prefers-reduced-motion: reduce) {
   body::before, body::after { animation: none; }
 }
+
+/* ================================
+   Halo dinámico rotatorio
+===================================*/
+
+/* Aseguramos orden de capas del fondo */
+body::before, 
+body::after { 
+  z-index: -3; 
+}
+body::after { 
+  filter: blur(40px); 
+}
+
+/* Nueva capa de halo rotatorio */
+html::after {
+  content: "";
+  position: fixed;
+  inset: -10%;
+  z-index: -2; /* justo encima de body::before/after pero debajo del contenido */
+  pointer-events: none;
+
+  background:
+    conic-gradient(
+      from 0deg at 50% 50%,
+      rgba(255, 255, 255, 0.00) 0deg,
+      rgba(255, 255, 255, 0.10) 45deg,
+      rgba(255, 255, 255, 0.00) 90deg,
+      rgba(255, 255, 255, 0.00) 180deg,
+      rgba(255, 255, 255, 0.08) 225deg,
+      rgba(255, 255, 255, 0.00) 270deg,
+      rgba(255, 255, 255, 0.00) 360deg
+    );
+
+  mix-blend-mode: soft-light;   /* brillo suave sobre el fondo */
+  animation: spinHalo 22s linear infinite;
+  opacity: 0.65;
+}
+
+/* Animación del halo */
+@keyframes spinHalo {
+  from { transform: rotate(0deg) scale(1.02); }
+  to   { transform: rotate(360deg) scale(1.02); }
+}
+
+/* Accesibilidad: sin animaciones si el usuario lo pide */
+@media (prefers-reduced-motion: reduce) {
+  html::after { animation: none !important; }
+}
+
 
 /* ================================
    Header
