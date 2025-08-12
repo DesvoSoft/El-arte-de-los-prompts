@@ -62,9 +62,7 @@
    Reset + Base
 ===================================*/
 * { box-sizing: border-box; }
-html, body {
-  height: 100%;
-}
+html, body { height: 100%; }
 body {
   margin: 0;
   font-family: var(--font-family);
@@ -78,71 +76,38 @@ body {
 }
 
 /* ================================
-   Fondo con degradados animados
+   Fondo con degradados animados (capas)
+   - body::before / body::after: manchas radiales en movimiento
+   - html::after: halo rotatorio (Opción C)
 ===================================*/
 body::before,
 body::after {
   content: "";
   position: fixed;
   inset: -10%;
-  z-index: -2;
-  background: radial-gradient(1000px 700px at 10% 20%, rgba(128, 255, 234, 0.16), transparent 60%),
-              radial-gradient(900px 600px at 85% 10%, rgba(255, 150, 80, 0.12), transparent 60%),
-              radial-gradient(900px 800px at 30% 85%, rgba(134, 168, 231, 0.14), transparent 60%);
+  z-index: -3; /* capas de fondo base */
+  background:
+    radial-gradient(1000px 700px at 10% 20%, rgba(128, 255, 234, 0.16), transparent 60%),
+    radial-gradient(900px 600px at 85% 10%, rgba(209, 107, 165, 0.12), transparent 60%), /* cambia este para variar el magenta */
+    radial-gradient(900px 800px at 30% 85%, rgba(134, 168, 231, 0.14), transparent 60%);
   filter: saturate(115%);
-  animation: floatGradient 28s ease-in-out infinite alternate;
+  pointer-events: none;
+  animation: floatGradient 22s ease-in-out infinite;
+  will-change: transform, opacity;
 }
-
 body::after {
-  z-index: -3;
-  filter: blur(40px);
+  filter: blur(40px); /* bloom suave */
+  animation: floatGradientAlt 28s ease-in-out infinite;
   opacity: 0.9;
 }
 
-/* degradado extra (capa inferior) */
-html::before {
-  content: "";
-  position: fixed;
-  z-index: -4;
-  inset: 0;
-  background: linear-gradient(135deg, rgba(8, 12, 20, 0.95), rgba(12, 16, 26, 0.95)),
-              radial-gradient(1200px 900px at 70% 60%, rgba(126, 232, 250, 0.08), transparent 70%);
-  pointer-events: none;
-}
-
-/* Animación suave del fondo */
-@keyframes floatGradient {
-  0%   { transform: translate3d(0,0,0) scale(1); }
-  50%  { transform: translate3d(-1.5%, 1.5%, 0) scale(1.02); }
-  100% { transform: translate3d(1.5%, -1.5%, 0) scale(1); }
-}
-
-/* Respeta reduced-motion */
-@media (prefers-reduced-motion: reduce) {
-  body::before, body::after { animation: none; }
-}
-
-/* ================================
-   Halo dinámico rotatorio
-===================================*/
-
-/* Aseguramos orden de capas del fondo */
-body::before, 
-body::after { 
-  z-index: -3; 
-}
-body::after { 
-  filter: blur(40px); 
-}
-
-/* Nueva capa de halo rotatorio */
+/* Halo rotatorio vistoso (Opción C) */
 html::after {
   content: "";
   position: fixed;
   inset: -10%;
-  z-index: -2; /* justo encima de body::before/after pero debajo del contenido */
+  z-index: -2; /* encima de las capas base, debajo del contenido */
   pointer-events: none;
-
   background:
     conic-gradient(
       from 0deg at 50% 50%,
@@ -154,23 +119,34 @@ html::after {
       rgba(255, 255, 255, 0.00) 270deg,
       rgba(255, 255, 255, 0.00) 360deg
     );
-
-  mix-blend-mode: soft-light;   /* brillo suave sobre el fondo */
+  mix-blend-mode: soft-light;
   animation: spinHalo 22s linear infinite;
-  opacity: 0.65;
+  opacity: 0.55;
+  will-change: transform, opacity;
 }
 
-/* Animación del halo */
+/* Animaciones del fondo */
+@keyframes floatGradient {
+  0%   { transform: translate3d(-2%, -1.5%, 0) scale(1.00); opacity: 0.92; }
+  25%  { transform: translate3d(2.5%, -0.5%, 0) scale(1.03); opacity: 1.00; }
+  50%  { transform: translate3d(3%, 2.5%, 0)   scale(1.05); opacity: 0.94; }
+  75%  { transform: translate3d(-1.5%, 1.8%, 0) scale(1.02); opacity: 1.00; }
+  100% { transform: translate3d(-2%, -1.5%, 0) scale(1.00); opacity: 0.92; }
+}
+@keyframes floatGradientAlt {
+  0%   { transform: translate3d(2.5%, 3%, 0) scale(1.02) rotate(0.4deg); opacity: 0.9; }
+  50%  { transform: translate3d(-2.5%, -3%, 0) scale(1.06) rotate(-0.4deg); opacity: 1; }
+  100% { transform: translate3d(2.5%, 3%, 0) scale(1.02) rotate(0.4deg); opacity: 0.9; }
+}
 @keyframes spinHalo {
-  from { transform: rotate(0deg) scale(1.02); }
-  to   { transform: rotate(360deg) scale(1.02); }
+  from { transform: rotate(0deg)   scale(1.02) translateZ(0); }
+  to   { transform: rotate(360deg) scale(1.02) translateZ(0); }
 }
 
-/* Accesibilidad: sin animaciones si el usuario lo pide */
+/* Respeta reduced-motion */
 @media (prefers-reduced-motion: reduce) {
-  html::after { animation: none !important; }
+  body::before, body::after, html::after { animation: none !important; }
 }
-
 
 /* ================================
    Header
@@ -183,6 +159,8 @@ header {
     linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0) 60%),
     radial-gradient(1200px 400px at 50% -40%, rgba(214, 126, 255, 0.15), transparent 70%);
   backdrop-filter: saturate(130%) blur(6px);
+  -webkit-backdrop-filter: saturate(130%) blur(6px);
+  z-index: 1;
 }
 
 header h1 {
@@ -201,12 +179,14 @@ header p {
 }
 
 /* ================================
-   Toggle de tema
+   Toggle de tema (siempre encima)
 ===================================*/
 .toggle-theme {
   position: fixed;
   top: 1rem;
   right: 1rem;
+  z-index: 9999;            /* trae al frente */
+  pointer-events: auto;     /* garantiza interacción */
   background: linear-gradient(135deg, var(--accent-2), var(--accent-4));
   color: #0b0d12;
   border: 0;
@@ -222,25 +202,10 @@ header p {
   box-shadow: 0 14px 28px rgba(0,0,0,0.28), 0 0 0 3px rgba(128,255,234,0.25), var(--glow);
   filter: brightness(1.03);
 }
-.toggle-theme:active {
-  transform: translateY(0);
-}
+.toggle-theme:active { transform: translateY(0); }
 
-/* Asegurar que el botón quede siempre encima y clickeable */
-.toggle-theme {
-  position: fixed;
-  top: 1rem;
-  right: 1rem;
-  z-index: 9999;            /* trae al frente */
-  pointer-events: auto;     /* garantiza interacción */
-}
-
-/* Evita que encabezado/contenedores creen stacking superior accidental */
-header, .container, .sidebar, .content {
-  position: relative;
-  z-index: 1;
-}
-
+/* Evita que otros contenedores creen stacking superior accidental */
+header, .container, .sidebar, .content { position: relative; z-index: 1; }
 
 /* ================================
    Layout principal
@@ -262,12 +227,12 @@ header, .container, .sidebar, .content {
   align-self: start;
   background: var(--sidebar-bg);
   backdrop-filter: blur(8px) saturate(120%);
+  -webkit-backdrop-filter: blur(8px) saturate(120%);
   border: 1px solid var(--sidebar-border);
   border-radius: var(--radius);
   padding: 1rem;
   box-shadow: var(--shadow-soft);
 }
-
 .sidebar-title {
   font-size: 0.95rem;
   letter-spacing: 0.12em;
@@ -276,11 +241,7 @@ header, .container, .sidebar, .content {
   margin: 0 0 0.75rem 0;
 }
 
-.menu {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
+.menu { list-style: none; padding: 0; margin: 0; }
 
 /* Botón de técnica */
 .menu button {
@@ -310,9 +271,7 @@ header, .container, .sidebar, .content {
   transform: translateX(-120%);
   transition: transform 600ms ease;
 }
-.menu button:hover::after {
-  transform: translateX(100%);
-}
+.menu button:hover::after { transform: translateX(100%); }
 .menu button:hover {
   transform: translateY(-1px);
   border-color: rgba(128,255,234,0.35);
@@ -323,8 +282,7 @@ header, .container, .sidebar, .content {
   box-shadow: var(--glow), var(--ring);
   border-color: rgba(128,255,234,0.5);
 }
-
-/* Estado activo (opcional, se puede aplicar desde JS) */
+/* Estado activo aplicado desde JS */
 .menu button.active {
   border-color: rgba(128,255,234,0.6);
   background:
@@ -336,18 +294,18 @@ header, .container, .sidebar, .content {
 /* ================================
    Área de contenido
 ===================================*/
-.main {
-  min-width: 0;
-}
-
+.main { min-width: 0; }
 .content {
   background: var(--bg-card);
   backdrop-filter: blur(10px) saturate(120%);
+  -webkit-backdrop-filter: blur(10px) saturate(120%);
   border: 1px solid rgba(255,255,255,0.08);
   border-radius: var(--radius);
   padding: clamp(1rem, 2vw, 1.5rem);
   line-height: 1.68;
   box-shadow: var(--shadow-strong);
+  position: relative;
+  isolation: isolate;
 }
 
 /* Tipografía del contenido */
@@ -363,13 +321,8 @@ header, .container, .sidebar, .content {
   font-size: clamp(1.05rem, 1.3vw, 1.2rem);
   color: var(--accent-4);
 }
-.content p {
-  margin: 0.35rem 0 0.75rem;
-  color: var(--text-color);
-}
-.content ul, .content ol {
-  margin: 0.35rem 0 0.9rem 1.1rem;
-}
+.content p { margin: 0.35rem 0 0.75rem; color: var(--text-color); }
+.content ul, .content ol { margin: 0.35rem 0 0.9rem 1.1rem; }
 
 /* Código y bloques preformateados */
 pre {
@@ -387,6 +340,23 @@ code {
   border-radius: 6px;
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
 }
+
+/* Borde iluminado sutil */
+.content::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(128,255,234,0.25), rgba(134,168,231,0.2), rgba(209,107,165,0.22));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  opacity: 0.7;
+}
+.content:hover::before { animation: pulseBorder 3.2s ease-in-out infinite; }
+@keyframes pulseBorder { 0%,100% { opacity: 0.55; } 50% { opacity: 0.85; } }
 
 /* ================================
    Footer
@@ -410,10 +380,7 @@ footer {
 /* ================================
    Scrollbar (WebKit)
 ===================================*/
-*::-webkit-scrollbar {
-  width: 12px;
-  height: 12px;
-}
+*::-webkit-scrollbar { width: 12px; height: 12px; }
 *::-webkit-scrollbar-track {
   background: linear-gradient(180deg, rgba(255,255,255,0.04), transparent);
   border-radius: 10px;
@@ -445,83 +412,50 @@ footer {
 }
 
 /* ================================
-   Extras visuales (opcional)
-   Borde animado sutil para .content
+   MODO RENDIMIENTO (auto desde JS con body.perf-low)
+   - reduce efectos caros para equipos modestos
 ===================================*/
-.content {
-  position: relative;
-  isolation: isolate;
-}
-.content::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  padding: 1px; /* grosor del borde iluminado */
-  background: linear-gradient(135deg, rgba(128,255,234,0.25), rgba(134,168,231,0.2), rgba(209,107,165,0.22));
-  -webkit-mask:
-    linear-gradient(#000 0 0) content-box,
-    linear-gradient(#000 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  pointer-events: none;
-  opacity: 0.7;
-}
-
-/* Pulso muy sutil en hover */
-.content:hover::before {
-  animation: pulseBorder 3.2s ease-in-out infinite;
-}
-@keyframes pulseBorder {
-  0%, 100% { opacity: 0.55; }
-  50%      { opacity: 0.85; }
-}
-
-/* ==== Modo rendimiento: apaga/relaja efectos pesados ==== */
 body.perf-low header,
 body.perf-low .content,
 body.perf-low .sidebar {
-  /* Quita blur de fondo (caro) y baja sombras */
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
   box-shadow: 0 6px 18px rgba(0,0,0,0.25) !important;
 }
 
-/* Pseudo capas del fondo: animación más lenta y menos opacidad */
+/* Capas del fondo más suaves */
 body.perf-low::before,
 body.perf-low::after {
   animation-duration: 36s !important;
   opacity: 0.55 !important;
-  filter: none !important; /* elimina saturate/blur si lo tuvieran */
+  filter: none !important;
   will-change: transform, opacity;
 }
 
-/* Halo rotatorio (Opción C): desactívalo o hazlo sutil */
+/* Halo: desactivado o muy suave en low perf */
 body.perf-low html::after {
-  animation: none !important;   /* o "spinHalo 40s linear infinite" para muy suave */
+  animation: none !important;   /* o: spinHalo 40s linear infinite; */
   opacity: 0.25 !important;
-  mix-blend-mode: normal !important; /* blend es caro en móviles */
+  mix-blend-mode: normal !important;
 }
 
-/* Sombras y brillos más baratos en botones */
+/* Botones y glow más livianos */
 body.perf-low .toggle-theme,
 body.perf-low .menu button {
   box-shadow: 0 6px 16px rgba(0,0,0,0.28) !important;
   text-shadow: none !important;
 }
 
-/* Reduce glow y bordes animados del contenedor */
-body.perf-low .content::before {
-  display: none !important;
-}
+/* Quita borde animado del content */
+body.perf-low .content::before { display: none !important; }
 
-/* Scrollbar simple en modo rendimiento */
+/* Scrollbar simple */
 body.perf-low *::-webkit-scrollbar-thumb {
   background: rgba(128,128,128,0.5) !important;
   border: 0 !important;
 }
 
-/* Móviles: baja aún más el coste */
+/* Mobile: bajar aún más el coste */
 @media (max-width: 900px) {
   body.perf-low::after { opacity: 0.35 !important; }
   body.perf-low header { padding: 1.5rem 1rem !important; }
