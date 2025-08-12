@@ -365,3 +365,26 @@ window.addEventListener("load", () => {
   // pero si prefieres abrir una técnica por defecto, descomenta:
   // loadTopic("aspect");
 });
+
+
+// --- Performance guard: activa un modo ligero si el dispositivo es modesto ---
+(function enablePerfGuard() {
+  const mem = navigator.deviceMemory || 0; // 0 si el navegador no lo expone
+  const isLowMem = mem && mem <= 4;       // <=4 GB: tratamos como modesto
+
+  // Pequeño test de FPS (~500ms) para detectar GPUs flojas
+  let frames = 0;
+  const start = performance.now();
+  function tick(now) {
+    frames++;
+    if (now - start < 500) {
+      requestAnimationFrame(tick);
+    } else {
+      const fps = frames * 2; // 500ms -> x2
+      if (isLowMem || fps < 45) {
+        document.body.classList.add("perf-low");
+      }
+    }
+  }
+  requestAnimationFrame(tick);
+})();
