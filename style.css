@@ -476,3 +476,53 @@ footer {
   0%, 100% { opacity: 0.55; }
   50%      { opacity: 0.85; }
 }
+
+/* ==== Modo rendimiento: apaga/relaja efectos pesados ==== */
+body.perf-low header,
+body.perf-low .content,
+body.perf-low .sidebar {
+  /* Quita blur de fondo (caro) y baja sombras */
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.25) !important;
+}
+
+/* Pseudo capas del fondo: animación más lenta y menos opacidad */
+body.perf-low::before,
+body.perf-low::after {
+  animation-duration: 36s !important;
+  opacity: 0.55 !important;
+  filter: none !important; /* elimina saturate/blur si lo tuvieran */
+  will-change: transform, opacity;
+}
+
+/* Halo rotatorio (Opción C): desactívalo o hazlo sutil */
+body.perf-low html::after {
+  animation: none !important;   /* o "spinHalo 40s linear infinite" para muy suave */
+  opacity: 0.25 !important;
+  mix-blend-mode: normal !important; /* blend es caro en móviles */
+}
+
+/* Sombras y brillos más baratos en botones */
+body.perf-low .toggle-theme,
+body.perf-low .menu button {
+  box-shadow: 0 6px 16px rgba(0,0,0,0.28) !important;
+  text-shadow: none !important;
+}
+
+/* Reduce glow y bordes animados del contenedor */
+body.perf-low .content::before {
+  display: none !important;
+}
+
+/* Scrollbar simple en modo rendimiento */
+body.perf-low *::-webkit-scrollbar-thumb {
+  background: rgba(128,128,128,0.5) !important;
+  border: 0 !important;
+}
+
+/* Móviles: baja aún más el coste */
+@media (max-width: 900px) {
+  body.perf-low::after { opacity: 0.35 !important; }
+  body.perf-low header { padding: 1.5rem 1rem !important; }
+}
