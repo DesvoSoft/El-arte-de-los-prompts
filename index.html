@@ -3,39 +3,44 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Ingeniería de Prompts Profesional</title>
+  <title>Ingeniería de Prompts</title>
+  <meta name="description" content="Plataforma educativa para dominar técnicas de ingeniería de prompts: claridad, estructura, razonamiento y buenas prácticas." />
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
+  <!-- Tema -->
   <button class="toggle-theme" onclick="toggleTheme()">Cambiar Tema</button>
 
+  <!-- Encabezado -->
   <header>
     <h1>Ingeniería de Prompts Profesional</h1>
     <p>Domina el arte de diseñar prompts efectivos, claros y responsables.</p>
   </header>
 
-  <div class="container">
+  <!-- Layout principal -->
+  <div class="container" role="region" aria-label="Contenido principal">
 
-    <nav class="sidebar">
-      <div class="search">
-        <input type="text" placeholder="Buscar técnica..." oninput="filterMenu(this.value)">
-      </div>
+    <!-- Barra lateral (sin búsqueda) -->
+    <nav class="sidebar" aria-label="Técnicas de prompting">
+      <h2 class="sidebar-title" style="margin-top:0;">Técnicas</h2>
       <ul class="menu" id="menu">
-        <!-- Generado dinámicamente -->
+        <!-- Generado dinámicamente por script.js -->
       </ul>
     </nav>
 
-    <main class="main">
-      <div id="topicContent" class="content">
+    <!-- Contenido -->
+    <main class="main" id="main" tabindex="-1">
+      <article id="topicContent" class="content">
         <p>Selecciona una técnica desde el menú para ver su contenido detallado.</p>
-      </div>
+      </article>
     </main>
 
   </div>
 
+  <!-- Pie -->
   <footer>
-    &copy; 2025 Ingeniería de Prompts | Basado en el Manual Profesional de Prompt Engineering
+    &copy; 2025 DesvoSoft
   </footer>
 
   <script src="script.js"></script>
