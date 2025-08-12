@@ -88,7 +88,7 @@ body::after {
   z-index: -3; /* capas de fondo base */
   background:
     radial-gradient(1000px 700px at 10% 20%, rgba(128, 255, 234, 0.16), transparent 60%),
-    radial-gradient(900px 600px at 85% 10%, rgba(209, 107, 165, 0.12), transparent 60%), /* cambia este para variar el magenta */
+    radial-gradient(900px 600px at 85% 10%, rgba(255, 150, 80, 0.12), transparent 60%), /* cambia este para variar el magenta */
     radial-gradient(900px 800px at 30% 85%, rgba(134, 168, 231, 0.14), transparent 60%);
   filter: saturate(115%);
   pointer-events: none;
