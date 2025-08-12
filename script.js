@@ -1,139 +1,367 @@
+/* =========================================
+   Contenido educativo de técnicas
+   - Cada técnica tiene: title + html
+========================================= */
+
 const topics = {
-  aspect: `
-    <h2>ASPECT</h2>
-    <p><strong>A</strong>cción - <strong>S</strong>ujeto - <strong>P</strong>ropósito - <strong>E</strong>jemplos - <strong>C</strong>ontraints - <strong>T</strong>ono</p>
-    <p>La técnica ASPECT asegura que ningún elemento crítico falte en tu prompt. Ideal para crear instrucciones claras, completas y reutilizables.</p>
-    <ul>
-      <li><strong>Acción:</strong> ¿Qué debe hacer?</li>
-      <li><strong>Sujeto:</strong> ¿Sobre qué?</li>
-      <li><strong>Propósito:</strong> ¿Para qué se necesita?</li>
-      <li><strong>Ejemplos:</strong> Ejemplo(s) de salida esperada.</li>
-      <li><strong>Restricciones:</strong> Límites de formato, tokens, estilo.</li>
-      <li><strong>Tono:</strong> Formal, técnico, casual, etc.</li>
-    </ul>
-    <h3>Ejemplo Práctico</h3>
-    <pre>### ACCIÓN Resume<br>### SUJETO Informe financiero Q1<br>### PROPÓSITO Presentar a directivos<br>### EJEMPLO "Ingresos ↑ 12%"<br>### RESTRICCIONES ≤ 120 palabras, viñetas<br>### TONO Ejecutivo</pre>
-    <h3>Ventajas</h3>
-    <ul>
-      <li>Mejora la claridad ejecutiva</li>
-      <li>Aumenta precisión en salidas</li>
-      <li>Fácil de documentar y compartir</li>
-    </ul>
-    <h3>Variantes de Aplicación</h3>
-    <p>Se puede usar ASPECT para:</p>
-    <ul>
-      <li>Resúmenes ejecutivos</li>
-      <li>Generación de reportes</li>
-      <li>Clasificación semántica</li>
-    </ul>
-    <h3>Ejemplo Variante</h3>
-    <pre>### ACCIÓN Clasifica<br>### SUJETO Reseña de app<br>### PROPÓSITO Detectar sentimiento<br>### EJEMPLO "Me encanta" → positivo<br>### RESTRICCIONES JSON, ≤1 línea<br>### TONO Neutral</pre>
-  `,
+  aspect: {
+    title: "ASPECT",
+    html: `
+      <h2>ASPECT</h2>
+      <p><strong>A</strong>cción · <strong>S</strong>ujeto · <strong>P</strong>ropósito · <strong>E</strong>jemplos · <strong>C</strong>onstraints · <strong>T</strong>ono.</p>
+      <p>Marco para no olvidar ningún elemento crítico del prompt y mejorar consistencia.</p>
+      <h3>Plantilla</h3>
+      <pre>### ACCIÓN: &lt;qué debe hacer&gt;
+### SUJETO: &lt;sobre qué&gt;
+### PROPÓSITO: &lt;para qué&gt;
+### EJEMPLO(S): &lt;1–3 salidas esperadas&gt;
+### RESTRICCIONES: &lt;formato, longitud, estilo, tokens&gt;
+### TONO: &lt;ej. ejecutivo, docente, técnico&gt;</pre>
+      <h3>Ejemplo</h3>
+      <pre>### ACCIÓN Resume
+### SUJETO Informe financiero Q1
+### PROPÓSITO Preparar junta directiva
+### EJEMPLOS "Ingresos ↑ 12%", "Margen 34% (+2 pp)"
+### RESTRICCIONES ≤ 120 palabras, viñetas
+### TONO Ejecutivo</pre>
+      <h3>Buenas prácticas</h3>
+      <ul>
+        <li>Limita la longitud con metas claras (palabras, secciones).</li>
+        <li>Incluye <em>1–3 ejemplos</em> representativos; evita saturación.</li>
+        <li>Especifica formato (JSON/tabla/markdown) cuando sea necesario.</li>
+      </ul>
+    `
+  },
 
-  cot: `
-    <h2>Chain-of-Thought (CoT)</h2>
-    <p>Hace que el modelo razone paso a paso antes de dar una respuesta final. Es especialmente útil para tareas lógicas, matemáticas o con múltiples pasos.</p>
-    <h3>Ejemplo</h3>
-    <pre>### TAREA<br>¿Cuántos días hay entre 12-feb-2024 y 20-mar-2024?<br>### INSTRUCCIÓN<br>Razona paso a paso:<br>1. Febrero 2024 tiene 29 días (año bisiesto).<br>2. Del 12 al 29 de febrero: 17 días.<br>3. Marzo: 20 días.<br>4. Total: 17 + 20 = 37 días.</pre>
-    <p>Resultado: <code>37</code></p>
-    <h3>Cuándo Usarlo</h3>
-    <ul>
-      <li>Tareas complejas que requieren razonamiento lógico</li>
-      <li>Problemas matemáticos o científicos</li>
-      <li>Respuestas que necesitan justificación interna</li>
-    </ul>
-    <h3>Ejemplo Alternativo</h3>
-    <pre>### TAREA<br>Explica por qué un algoritmo O(n log n) puede superar a O(n) en casos pequeños.<br>### INSTRUCCIÓN<br>Razona paso a paso:<br>1. La notación Big O describe crecimiento asintótico.<br>2. Para n pequeño, las constantes afectan más que la curva.<br>3. Un algoritmo O(n) puede tener overhead mayor.<br>4. En datos pequeños, O(n log n) puede ser más rápido.</pre>
-  `,
+  cot: {
+    title: "Chain-of-Thought (CoT)",
+    html: `
+      <h2>Chain-of-Thought (CoT)</h2>
+      <p>Fomenta razonamiento paso a paso antes de la respuesta final. Útil en lógica, matemáticas y tareas multietapa.</p>
+      <h3>Ejemplo</h3>
+      <pre>### TAREA
+¿Cuántos días hay entre 12-feb-2024 y 20-mar-2024?
+### INSTRUCCIÓN
+Razona paso a paso y luego da una respuesta final al final en la forma: "Días: &lt;número&gt;".</pre>
+      <h3>Tip</h3>
+      <ul>
+        <li>Pide <em>“razona paso a paso y al final responde en una sola línea”</em> para separar proceso de salida.</li>
+        <li>En evaluaciones, puedes pedir “<em>explica tu razonamiento a alto nivel</em>” para evitar detalles excesivos.</li>
+      </ul>
+    `
+  },
 
-  layering: `
-    <h2>Prompt Layering</h2>
-    <p>Divide una tarea compleja en capas secuenciales. Cada capa resuelve una parte y pasa su salida a la siguiente.</p>
-    <h3>Ejemplo: Análisis de Feedback</h3>
-    <ol>
-      <li><strong>Capa 1:</strong> Extraer entidades clave → lista.</li>
-      <li><strong>Capa 2:</strong> Clasificar sentimientos → tabla.</li>
-      <li><strong>Capa 3:</strong> Generar informe ejecutivo → texto.</li>
-    </ol>
-    <h3>Ejemplo Avanzado</h3>
-    <pre>### CAPA 1 – EXTRAER_ENTIDADES<br>{{feedback}}<br>### CAPA 2 – CLASIFICAR_SENTIMIENTO<br>De cada entidad: positivo/negativo/neutro<br>### CAPA 3 – GENERAR_INFORME<br>Resume hallazgos en ≤120 palabras, bullet points</pre>
-    <h3>Ventajas</h3>
-    <ul>
-      <li>Menor token burst por llamada</li>
-      <li>Reutilización de capas previas</li>
-      <li>Mejor depuración y control</li>
-    </ul>
-  `,
+  layering: {
+    title: "Prompt Layering",
+    html: `
+      <h2>Prompt Layering</h2>
+      <p>Divide la tarea en capas: extracción → análisis → síntesis. Reduce errores y facilita depuración.</p>
+      <h3>Pipeline ejemplo</h3>
+      <ol>
+        <li><strong>Extraer</strong> entidades clave → lista.</li>
+        <li><strong>Clasificar</strong> sentimiento por entidad → tabla.</li>
+        <li><strong>Resumir</strong> hallazgos → informe ejecutivo.</li>
+      </ol>
+      <pre>### CAPA 1 – EXTRAER_ENTIDADES
+{{feedback}}
+### CAPA 2 – CLASIFICAR_SENTIMIENTO
+Por cada entidad: positivo/negativo/neutro
+### CAPA 3 – INFORME
+Bullets, ≤120 palabras</pre>
+      <h3>Buenas prácticas</h3>
+      <ul>
+        <li>Define entradas y salidas intermedias claras (contratos).</li>
+        <li>Valida cada capa antes de encadenar.</li>
+      </ul>
+    `
+  },
 
-  instructive: `
-    <h2>Instructive Prompting</h2>
-    <p>Se centra en normas estrictas de formato y estilo, ideal para automatización y sistemas que procesan respuestas estructuradas.</p>
-    <h3>Ejemplo JSON</h3>
-    <pre>{ "task":"classify", "subject":"{{texto}}", "labels":["positive","negative","neutral"], "constraints":{ "format":"csv", "max_tokens": 50 }}</pre>
-    <h3>Ejemplo YAML</h3>
-    <pre>steps:
+  instructive: {
+    title: "Instructive Prompting",
+    html: `
+      <h2>Instructive Prompting</h2>
+      <p>Respuestas estrictas y estructuradas para integraciones o automatizaciones.</p>
+      <h3>JSON</h3>
+      <pre>{
+  "task":"classify",
+  "subject":"{{texto}}",
+  "labels":["positive","negative","neutral"],
+  "constraints":{"format":"csv","max_tokens":120}
+}</pre>
+      <h3>YAML</h3>
+      <pre>steps:
 - extract_entities: "{{texto}}"
 - sentiment_analysis: true
 - summary:
     length: 120
     format: markdown</pre>
-    <h3>Usos Comunes</h3>
-    <ul>
-      <li>Generación de datos estructurados</li>
-      <li>Integración con pipelines de datos</li>
-      <li>Interfaces programáticas (APIs)</li>
-    </ul>
-  `,
+      <h3>Consejos</h3>
+      <ul>
+        <li>Incluye validaciones (“si no puedes, devuelve reason”).</li>
+        <li>Especifica orden de campos y tipos esperados.</li>
+      </ul>
+    `
+  },
 
-  ipr: `
-    <h2>Iterative Prompt Refinement (IPR)</h2>
-    <p>Proceso cíclico: Prompt → Resultado → Evaluación → Ajuste. Permite mejorar gradualmente los prompts hasta alcanzar el nivel deseado.</p>
-    <h3>Ejemplo Básico</h3>
-    <pre>for v in range(3):
+  ipr: {
+    title: "Iterative Prompt Refinement (IPR)",
+    html: `
+      <h2>Iterative Prompt Refinement (IPR)</h2>
+      <p>Mejora por ciclos: Prompt → Resultado → Evaluación → Ajuste.</p>
+      <h3>Plantilla</h3>
+      <pre>for v in range(3):
   out = llm(prompt)
   score = evaluator(out)
-  if score > 0.9: break
+  if score &gt;= 0.9: break
   prompt = refine(prompt, feedback=out)</pre>
-    <h3>Ejemplo Realista</h3>
-    <pre>### VERSION 1<br>Resume esto en 120 palabras.<br>### RESULTADO<br>Demasiado largo y poco claro.<br>### VERSION 2<br>Resume en ≤120 palabras, bullet points, sin opiniones.<br>### RESULTADO<br>Breve y objetivo → aceptado.</pre>
-    <h3>Métricas Útiles</h3>
-    <ul>
-      <li>Precisión factual</li>
-      <li>Relevancia temática</li>
-      <li>Número de tokens</li>
-      <li>Calidad semántica (BERTScore, BLEU)</li>
-    </ul>
-  `,
+      <h3>Indicadores</h3>
+      <ul>
+        <li>Precisión factual y cobertura.</li>
+        <li>Costo de tokens y latencia.</li>
+        <li>Consistencia de formato.</li>
+      </ul>
+      <h3>Tip</h3>
+      <p>Guarda variantes de prompt y salidas para comparar y elegir la mejor.</p>
+    `
+  },
+
+  zero_shot: {
+    title: "Zero-shot",
+    html: `
+      <h2>Zero-shot Prompting</h2>
+      <p>Instrucción directa sin ejemplos. Rápido de escribir; sensible a la ambigüedad.</p>
+      <h3>Ejemplo</h3>
+      <pre>Actúa como guía técnico y explica en ≤100 palabras qué es una API REST para principiantes.</pre>
+      <h3>Cuándo usar</h3>
+      <ul>
+        <li>Definiciones, resúmenes, tareas frecuentes.</li>
+        <li>Cuando la instrucción es inequívoca.</li>
+      </ul>
+      <h3>Riesgos</h3>
+      <p>Si notas variabilidad en el estilo o contenido, migra a Few-shot.</p>
+    `
+  },
+
+  few_shot: {
+    title: "Few-shot",
+    html: `
+      <h2>Few-shot Prompting</h2>
+      <p>Proporciona 2–5 ejemplos representativos para fijar estilo y formato.</p>
+      <h3>Ejemplo</h3>
+      <pre>### TAREA
+Clasifica reseñas en {positivo, negativo}.
+### EJEMPLOS
+"Me encantó" → positivo
+"Se dañó a los 3 días" → negativo
+### TEXTO
+"Funciona bien pero llegó tarde"</pre>
+      <h3>Consejos</h3>
+      <ul>
+        <li>Ejemplos cortos y variados; no contradigas la consigna.</li>
+        <li>Coloca el ejemplo más representativo primero.</li>
+      </ul>
+    `
+  },
+
+  role_based: {
+    title: "Role-based",
+    html: `
+      <h2>Role-based Prompting</h2>
+      <p>Define un rol para activar conocimientos, estilo y restricciones propias de ese perfil.</p>
+      <h3>Ejemplo</h3>
+      <pre>Eres un auditor de datos. Revisa el siguiente CSV y lista 3 anomalías con breve justificación (≤20 palabras cada una).</pre>
+      <h3>Tips</h3>
+      <ul>
+        <li>Incluye objetivos: “optimiza X”, “evita Y”.</li>
+        <li>Aclara límites éticos y de seguridad si aplica.</li>
+      </ul>
+    `
+  },
+
+  meta_prompting: {
+    title: "Meta-prompting",
+    html: `
+      <h2>Meta-prompting</h2>
+      <p>Pide al modelo que diseñe su plan/prompt antes de responder. Útil para problemas abiertos o poco definidos.</p>
+      <h3>Ejemplo</h3>
+      <pre>Primero, propone un plan de 3 pasos para resolver esta tarea (solo bullets).
+Luego, ejecútalo y entrega el resultado final.</pre>
+      <h3>Beneficio</h3>
+      <p>Mejor planificación y menor deriva temática.</p>
+    `
+  },
+
+  prompt_chaining: {
+    title: "Prompt Chaining",
+    html: `
+      <h2>Prompt Chaining</h2>
+      <p>Encadena prompts: la salida A alimenta el prompt B. Ideal para pipelines.</p>
+      <h3>Ejemplo</h3>
+      <pre>(A) Normaliza nombres de producto → (B) Agrupa por categoría → (C) Crea reporte con KPIs.</pre>
+      <h3>Buenas prácticas</h3>
+      <ul>
+        <li>Define formatos intermedios (JSON/CSV) consistentes.</li>
+        <li>Registra logs de cada etapa para auditoría.</li>
+      </ul>
+    `
+  },
+
+  evaluation: {
+    title: "Evaluación y Optimización",
+    html: `
+      <h2>Evaluación y Optimización</h2>
+      <p>Cómo medir efectividad de tus prompts y reducir costo.</p>
+      <h3>Métricas</h3>
+      <ul>
+        <li><strong>Calidad</strong>: precisión factual, cobertura, coherencia.</li>
+        <li><strong>Formato</strong>: cumplimiento de esquema (JSON válido).</li>
+        <li><strong>Eficiencia</strong>: tokens/latencia por tarea.</li>
+      </ul>
+      <h3>Técnicas</h3>
+      <ul>
+        <li>Validadores: “si no puedes, devuelve {"reason": "..."}”.</li>
+        <li>Compresión: pide respuestas concisas o tablas.</li>
+        <li>Plantillas reutilizables y versionadas.</li>
+      </ul>
+    `
+  },
+
+  errores_comunes: {
+    title: "Errores comunes",
+    html: `
+      <h2>Errores comunes al crear prompts</h2>
+      <ul>
+        <li><strong>Ambigüedad</strong>: no definir objetivo ni formato → <em>Solución</em>: ASPECT.</li>
+        <li><strong>Ejemplos contradictorios</strong>: Few-shot mal curado → <em>Solución</em>: filtra y ordena.</li>
+        <li><strong>Exceso de longitud</strong> que induce deriva → <em>Solución</em>: sintetiza, usa pasos.</li>
+        <li><strong>Falta de validación</strong> de salidas → <em>Solución</em>: reglas y checks.</li>
+      </ul>
+      <h3>Checklist rápido</h3>
+      <pre>[ ] Objetivo claro
+[ ] Formato definido
+[ ] 1–3 ejemplos correctos
+[ ] Restricciones de longitud/estilo
+[ ] Revisión de salidas</pre>
+    `
+  }
 };
 
+/* =========================================
+   Utilidades UI
+========================================= */
+
 function toggleTheme() {
-  const current = document.documentElement.getAttribute('data-theme');
+  const current = document.documentElement.getAttribute('data-theme') || 'dark';
   document.documentElement.setAttribute('data-theme', current === 'light' ? 'dark' : 'light');
 }
 
-function loadTopic(topic) {
+function loadTopic(key) {
   const contentDiv = document.getElementById("topicContent");
-  if (topics[topic]) {
-    contentDiv.innerHTML = topics[topic];
-  } else {
+  const item = topics[key];
+  if (!item) {
     contentDiv.innerHTML = "<p>Contenido no disponible.</p>";
+    return;
   }
+  contentDiv.innerHTML = item.html;
+
+  // Estado activo en el menú
+  document.querySelectorAll(".menu button").forEach(btn => btn.classList.remove("active"));
+  const activeBtn = document.querySelector(`.menu button[data-key="${key}"]`);
+  if (activeBtn) activeBtn.classList.add("active");
+
+  // Accesibilidad: enfocar contenido principal
+  const main = document.getElementById("main");
+  if (main) main.focus({ preventScroll: false });
+  // Scrollear arriba del contenido si es necesario
+  window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
-function filterMenu(query) {
-  query = query.toLowerCase();
+/* =========================================
+   Construcción de menú y extras
+========================================= */
+
+function buildMenu() {
   const menu = document.getElementById("menu");
+  if (!menu) return;
+
+  // Limpia
   menu.innerHTML = "";
-  Object.keys(topics).forEach(key => {
-    if (key.toLowerCase().includes(query)) {
-      menu.innerHTML += `<li><button onclick="loadTopic('${key}')">${key}</button></li>`;
-    }
+
+  // Orden de aparición sugerido
+  const order = [
+    "aspect","cot","layering","instructive","ipr",
+    "zero_shot","few_shot","role_based","meta_prompting","prompt_chaining",
+    "evaluation","errores_comunes"
+  ];
+
+  order.forEach(key => {
+    if (!topics[key]) return;
+    const btn = document.createElement("button");
+    btn.setAttribute("data-key", key);
+    btn.type = "button";
+    btn.innerText = topics[key].title;
+    btn.addEventListener("click", () => loadTopic(key));
+    menu.appendChild(document.createElement("li")).appendChild(btn);
   });
 }
 
-window.onload = () => {
-  const menu = document.getElementById("menu");
-  Object.keys(topics).forEach(key => {
-    menu.innerHTML += `<li><button onclick="loadTopic('${key}')">${key}</button></li>`;
+/* =========================================
+   Modo lectura (ocultar/mostrar sidebar)
+   - No requiere tocar HTML/CSS: inyecta estilos
+========================================= */
+
+function injectReaderStyles() {
+  const css = `
+    .reader-toggle {
+      position: fixed;
+      bottom: 1rem;
+      right: 1rem;
+      z-index: 9999;
+      border: 0;
+      border-radius: 999px;
+      padding: 0.65rem 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      background: linear-gradient(135deg, var(--accent-2), var(--accent-4));
+      color: #0b0d12;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.25);
+    }
+    .sidebar.hidden-by-reader {
+      display: none !important;
+    }
+  `;
+  const style = document.createElement("style");
+  style.id = "reader-style";
+  style.textContent = css;
+  document.head.appendChild(style);
+}
+
+function addReaderToggle() {
+  injectReaderStyles();
+
+  const btn = document.createElement("button");
+  btn.className = "reader-toggle";
+  btn.type = "button";
+  btn.title = "Modo lectura (oculta/mostrar la barra lateral)";
+  btn.textContent = "Modo lectura";
+
+  btn.addEventListener("click", () => {
+    const sidebar = document.querySelector(".sidebar");
+    if (!sidebar) return;
+    sidebar.classList.toggle("hidden-by-reader");
   });
-};
+
+  document.body.appendChild(btn);
+}
+
+/* =========================================
+   Inicio
+========================================= */
+
+window.addEventListener("load", () => {
+  buildMenu();
+  addReaderToggle();
+  // Carga inicial: deja la guía rápida que está en el HTML,
+  // pero si prefieres abrir una técnica por defecto, descomenta:
+  // loadTopic("aspect");
+});
