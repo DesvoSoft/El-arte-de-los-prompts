@@ -1,0 +1,111 @@
+[
+    {
+      "id": "aspect",
+      "title": "ASPECT",
+      "category": "Fundamentos",
+      "html": "<h2>ASPECT</h2><p><strong>A</strong>cción · <strong>S</strong>ujeto · <strong>P</strong>ropósito · <strong>E</strong>jemplos · <strong>C</strong>onstraints · <strong>T</strong>ono.</p><p>Marco simple para no olvidar elementos críticos y lograr consistencia.</p><h3>Objetivo</h3><ul><li>Convertir una necesidad difusa en una instrucción concreta.</li><li>Hacer la salida predecible y útil.</li></ul><h3>Plantilla</h3><pre>### ACCIÓN: &lt;qué&gt;\n### SUJETO: &lt;sobre qué&gt;\n### PROPÓSITO: &lt;para qué&gt;\n### EJEMPLO(S): &lt;1–3&gt;\n### RESTRICCIONES: &lt;formato, longitud, estilo&gt;\n### TONO: &lt;docente, ejecutivo, técnico&gt;</pre><h3>Ejemplo</h3><pre>### ACCIÓN Resume\n### SUJETO Informe Q1\n### PROPÓSITO Junta directiva\n### EJEMPLOS \"Ingresos ↑12%\", \"Margen 34%\"\n### RESTRICCIONES ≤120 palabras, viñetas\n### TONO Ejecutivo</pre><h3>Errores comunes</h3><ul><li>Propósito ausente → salidas genéricas.</li><li>Ejemplos contradictorios → confunden el estilo.</li></ul><h3>Checklist</h3><pre>[ ] Objetivo claro\n[ ] 1–3 ejemplos\n[ ] Formato/longitud\n[ ] Tono definido</pre>"
+    },
+    {
+      "id": "cot",
+      "title": "Chain-of-Thought (CoT)",
+      "category": "Fundamentos",
+      "html": "<h2>Chain-of-Thought (CoT)</h2><p>Fomenta razonamiento paso a paso antes de la respuesta final. Útil en lógica, matemáticas y tareas multietapa.</p><h3>Ejemplo</h3><pre>### TAREA\n¿Cuántos días hay entre 12-feb-2024 y 20-mar-2024?\n### INSTRUCCIÓN\nRazona paso a paso y al final responde: \"Días: &lt;número&gt;\".</pre><h3>Buenas prácticas</h3><ul><li>Separa el proceso de la salida final.</li><li>Si la tarea es simple, pide “alto nivel” para evitar verbosidad.</li></ul><h3>Variantes</h3><ul><li><em>Plan-and-solve:</em> primero plan, luego ejecución.</li><li><em>Self-check:</em> añade una mini verificación al final.</li></ul>"
+    },
+    {
+      "id": "layering",
+      "title": "Prompt Layering",
+      "category": "Fundamentos",
+      "html": "<h2>Prompt Layering</h2><p>Divide la tarea en capas: extracción → análisis → síntesis. Facilita depuración y control.</p><h3>Pipeline</h3><ol><li><strong>Extraer</strong> entidades → lista</li><li><strong>Clasificar</strong> sentimiento → tabla</li><li><strong>Resumir</strong> hallazgos → informe</li></ol><pre>CAPA1: entidades({{feedback}})\nCAPA2: sentimiento por entidad\nCAPA3: informe ≤120 palabras</pre><h3>Tips</h3><ul><li>Define contratos (entradas/salidas) entre capas, p.ej. JSON.</li><li>Valida cada capa antes de encadenar.</li></ul>"
+    },
+    {
+      "id": "instructive",
+      "title": "Instructive Prompting",
+      "category": "Fundamentos",
+      "html": "<h2>Instructive Prompting</h2><p>Respuestas estrictas y estructuradas para integraciones o automatizaciones.</p><h3>JSON</h3><pre>{\n  \"task\": \"classify\",\n  \"subject\": \"{{texto}}\",\n  \"labels\": [\"positive\",\"negative\",\"neutral\"],\n  \"constraints\": {\"format\": \"csv\", \"max_tokens\": 120}\n}</pre><h3>YAML</h3><pre>steps:\n- extract_entities: \"{{texto}}\"\n- sentiment_analysis: true\n- summary:\n    length: 120\n    format: markdown</pre><h3>Validación</h3><pre>Si no puedes cumplir, devuelve:\n{\"ok\": false, \"reason\": \"...\"}</pre>"
+    },
+    {
+      "id": "ipr",
+      "title": "Iterative Prompt Refinement (IPR)",
+      "category": "Optimización",
+      "html": "<h2>Iterative Prompt Refinement (IPR)</h2><p>Mejora por ciclos: Prompt → Resultado → Evaluación → Ajuste.</p><h3>Pseudocódigo</h3><pre>for v in range(3):\n  out = llm(prompt)\n  score = evaluator(out)\n  if score >= 0.9: break\n  prompt = refine(prompt, feedback=out)</pre><h3>Métricas</h3><ul><li>Precisión factual / cobertura</li><li>Tokens / latencia</li><li>Consistencia de formato</li></ul><h3>Tip</h3><p>Versiona prompts y compara resultados para elegir el mejor.</p>"
+    },
+    {
+      "id": "zero_shot",
+      "title": "Zero-shot",
+      "category": "Fundamentos",
+      "html": "<h2>Zero-shot Prompting</h2><p>Instrucción directa sin ejemplos. Rápido pero sensible a ambigüedad.</p><h3>Ejemplo</h3><pre>Explica en ≤100 palabras qué es una API REST para principiantes.</pre><h3>Cuándo usar</h3><ul><li>Definiciones, resúmenes, tareas simples</li><li>Instrucciones inequívocas</li></ul><h3>Riesgo</h3><p>Alta variabilidad → si ocurre, migra a Few-shot.</p>"
+    },
+    {
+      "id": "few_shot",
+      "title": "Few-shot",
+      "category": "Fundamentos",
+      "html": "<h2>Few-shot Prompting</h2><p>Proporciona 2–5 ejemplos representativos para fijar estilo y formato.</p><h3>Ejemplo</h3><pre>### TAREA\nClasifica reseñas en {positivo, negativo}.\n### EJEMPLOS\n\"Me encantó\" → positivo\n\"Se dañó a los 3 días\" → negativo\n### TEXTO\n\"Funciona bien pero llegó tarde\"</pre><h3>Consejos</h3><ul><li>Ejemplos cortos y diversos</li><li>Ordena: más representativo primero</li></ul>"
+    },
+    {
+      "id": "role_based",
+      "title": "Role-based",
+      "category": "Fundamentos",
+      "html": "<h2>Role-based Prompting</h2><p>Define un rol para activar conocimientos, estilo y restricciones del perfil.</p><h3>Ejemplo</h3><pre>Eres auditor de datos. Revisa el CSV y lista 3 anomalías (≤20 palabras c/u) con breve justificación.</pre><h3>Tips</h3><ul><li>Incluye objetivos (\"optimiza X\", \"evita Y\").</li><li>Especifica límites éticos si aplica.</li></ul>"
+    },
+    {
+      "id": "meta_prompting",
+      "title": "Meta-prompting",
+      "category": "Avanzadas",
+      "html": "<h2>Meta-prompting</h2><p>Pide al modelo que proponga su plan/prompt antes de responder: mejor planificación, menos deriva.</p><h3>Ejemplo</h3><pre>1) Propón un plan de 3 pasos (solo bullets).\n2) Ejecútalo y entrega el resultado final.</pre>"
+    },
+    {
+      "id": "prompt_chaining",
+      "title": "Prompt Chaining",
+      "category": "Avanzadas",
+      "html": "<h2>Prompt Chaining</h2><p>Encadena prompts: salida A → prompt B. Útil para pipelines.</p><h3>Ejemplo</h3><pre>(A) Normaliza nombres → (B) Agrupa categorías → (C) Reporte con KPIs</pre><h3>Buenas prácticas</h3><ul><li>Formatos intermedios consistentes (JSON/CSV)</li><li>Logs por etapa para auditoría</li></ul>"
+    },
+    {
+      "id": "evaluation",
+      "title": "Evaluación y Optimización",
+      "category": "Optimización",
+      "html": "<h2>Evaluación y Optimización</h2><p>Mide y mejora la efectividad del prompt con indicadores y reglas.</p><h3>Métricas</h3><ul><li><strong>Calidad</strong>: precisión, cobertura, coherencia</li><li><strong>Formato</strong>: cumplimiento de esquema (JSON válido)</li><li><strong>Eficiencia</strong>: tokens/latencia</li></ul><h3>Técnicas</h3><ul><li>Validador: {\"ok\":true} o {\"ok\":false,\"reason\":\"...\"}</li><li>Respuestas concisas o tablas</li><li>Plantillas versionadas</li></ul>"
+    },
+    {
+      "id": "errores_comunes",
+      "title": "Errores comunes",
+      "category": "Optimización",
+      "html": "<h2>Errores comunes al crear prompts</h2><ul><li><strong>Ambigüedad:</strong> objetivo/formato difusos → usa ASPECT</li><li><strong>Ejemplos contradictorios:</strong> curado deficiente → selecciona y ordena</li><li><strong>Exceso de longitud:</strong> induce deriva → sintetiza</li><li><strong>Sin validación:</strong> resultados frágiles → agrega checks</li></ul><h3>Checklist</h3><pre>[ ] Objetivo claro\n[ ] Formato definido\n[ ] 1–3 ejemplos correctos\n[ ] Restricciones de longitud/estilo\n[ ] Revisión de salidas</pre>"
+    },
+    {
+      "id": "ai_premisas_alarmismo",
+      "title": "IA — Premisas del alarmismo",
+      "category": "Seguridad y Ética de IA",
+      "html": "<h2>IA — Premisas del alarmismo</h2><p>Resumen de las 4 premisas típicas del enfoque de “riesgo existencial” (útil para comprender el marco del debate):</p><ol><li>Superinteligencia cercana</li><li>Problema de alineación</li><li>Dificultad de fijar valores</li><li>Riesgo de actuar contra la humanidad</li></ol><p>Recurso para introducir el tema y distinguir hipótesis de evidencia.</p>"
+    },
+    {
+      "id": "ai_critica_gobernanza",
+      "title": "IA — Crítica y gobernanza",
+      "category": "Seguridad y Ética de IA",
+      "html": "<h2>IA — Crítica y gobernanza</h2><p>Mueve el foco de “alinear IA” a <strong>gobernanza humana</strong> y al mal uso por personas/organizaciones. Considera la inteligencia como <em>distribuida</em>, no un único agente.</p><ul><li>Riesgo no binario → evaluación proporcional</li><li>Instituciones, normas y responsabilidad</li><li>Transparencia y rendición de cuentas</li></ul><p>Conecta con prácticas de prompting responsable.</p>"
+    },
+    {
+      "id": "ai_escenarios",
+      "title": "IA — Escenarios para debatir",
+      "category": "Seguridad y Ética de IA",
+      "html": "<h2>IA — Escenarios para debatir</h2><ul><li><strong>Paperclip maximizer:</strong> objetivos mal definidos</li><li><strong>“Humanos sedados”:</strong> pérdida de agencia</li><li><strong>Armas autónomas:</strong> escalamiento de conflictos</li><li><strong>Desinformación masiva:</strong> manipulación social</li></ul><p><em>Actividad:</em> ¿qué controles técnicos y de gobernanza implementarías?</p>"
+    },
+    {
+      "id": "ai_referencias",
+      "title": "IA — Referencias clave",
+      "category": "Seguridad y Ética de IA",
+      "html": "<h2>IA — Referencias clave</h2><ul><li>Hawking, Musk — advertencias y popularización del riesgo</li><li>Yudkowsky, Bostrom — argumentos de riesgo extremo</li><li>Chalmers — perspectivas filosóficas</li></ul><p>Usa esta lista como guía de lectura y contexto histórico.</p>"
+    },
+    {
+      "id": "ai_contrapuntos",
+      "title": "IA — ¿Dónde puede fallar el argumento?",
+      "category": "Seguridad y Ética de IA",
+      "html": "<h2>IA — ¿Dónde puede fallar el argumento?</h2><ul><li>Horizonte temporal incierto</li><li>Alineación mediante aprendizaje de preferencias</li><li>Límites físicos/económicos al “intelecto imparable”</li></ul><p>Preguntas guía para análisis crítico y discusión en clase.</p>"
+    },
+    {
+      "id": "ai_bottom_line",
+      "title": "IA — Bottom line práctico",
+      "category": "Seguridad y Ética de IA",
+      "html": "<h2>IA — Bottom line práctico</h2><ul><li>Distingue lo técnico (prompting) de lo moral/político</li><li>Prioriza gobernanza y alfabetización pública</li><li>Prompts responsables: minimiza sesgos/daños</li></ul><h3>Checklist de cierre</h3><pre>[ ] Objetivos y límites claros\n[ ] Consideración de impactos\n[ ] Transparencia en supuestos</pre>"
+    }
+  ]
+  
