@@ -32,9 +32,76 @@
     <!-- Contenido -->
     <main class="main" id="main" tabindex="-1">
       <article id="topicContent" class="content">
-        <p>Selecciona una técnica desde el menú para ver su contenido detallado.</p>
+        <h2>Guía rápida de técnicas de prompting</h2>
+        <p>Antes de explorar el menú, aquí tienes un resumen práctico de cada técnica. Ábrela para ver cuándo usarla, su objetivo y un mini-ejemplo.</p>
+    
+        <details>
+          <summary><strong>ASPECT</strong> — Estructura completa del prompt</summary>
+          <p><em>Cuándo usar:</em> cuando necesitas instrucciones claras, completas y reutilizables.</p>
+          <p><em>Objetivo:</em> no olvidar elementos clave: Acción, Sujeto, Propósito, Ejemplos, Restricciones, Tono.</p>
+          <pre>### ACCIÓN Resume · ### SUJETO Informe Q1 · ### PROPÓSITO Directivos
+    ### EJEMPLO "Ingresos ↑12%" · ### RESTRICCIONES ≤120 palabras, viñetas · ### TONO Ejecutivo</pre>
+        </details>
+    
+        <details>
+          <summary><strong>Chain-of-Thought (CoT)</strong> — Razonamiento paso a paso</summary>
+          <p><em>Cuándo usar:</em> tareas lógicas, matemáticas o con múltiples pasos.</p>
+          <p><em>Objetivo:</em> pedir al modelo que explique su proceso antes de dar la respuesta.</p>
+          <pre>### INSTRUCCIÓN
+    Razona paso a paso y luego da la respuesta final.</pre>
+        </details>
+    
+        <details>
+          <summary><strong>Prompt Layering</strong> — Capas secuenciales</summary>
+          <p><em>Cuándo usar:</em> problemas complejos que conviene dividir (extraer → clasificar → resumir).</p>
+          <p><em>Objetivo:</em> controlar mejor cada sub-tarea y depurar con facilidad.</p>
+          <pre>CAPA 1: extraer entidades → CAPA 2: sentimiento → CAPA 3: informe</pre>
+        </details>
+    
+        <details>
+          <summary><strong>Instructive Prompting</strong> — Respuestas estrictas y estructuradas</summary>
+          <p><em>Cuándo usar:</em> cuando el resultado alimenta otro sistema (CSV/JSON/YAML).</p>
+          <p><em>Objetivo:</em> formato y reglas claras para automatización.</p>
+          <pre>{ "task":"classify", "labels":["positive","negative"], "format":"csv" }</pre>
+        </details>
+    
+        <details>
+          <summary><strong>Iterative Prompt Refinement (IPR)</strong> — Mejorar por ciclos</summary>
+          <p><em>Cuándo usar:</em> si el primer resultado no cumple calidad: ajustar → reintentar.</p>
+          <p><em>Objetivo:</em> converger hacia precisión, relevancia y costo eficiente.</p>
+          <pre>V1 → evaluar → ajustar restricciones/tono/ejemplos → V2 → ...</pre>
+        </details>
+    
+        <!-- Estas secciones aparecerán completas cuando pasemos al JS -->
+        <details>
+          <summary><strong>Zero-shot</strong> — Sin ejemplos</summary>
+          <p>Instrucción precisa sin ejemplos previos. Rápido, pero sensible a ambigüedad.</p>
+        </details>
+    
+        <details>
+          <summary><strong>Few-shot</strong> — Con pocos ejemplos</summary>
+          <p>Guía la salida con 2–5 ejemplos representativos. Mejora consistencia.</p>
+        </details>
+    
+        <details>
+          <summary><strong>Role-based</strong> — Asignar un rol</summary>
+          <p>“Actúa como…” para activar conocimientos, estilos y restricciones de un perfil.</p>
+        </details>
+    
+        <details>
+          <summary><strong>Meta-prompting</strong> — Que el modelo diseñe su plan</summary>
+          <p>Pide que proponga su propio prompt/plan antes de responder. Útil para tareas abiertas.</p>
+        </details>
+    
+        <details>
+          <summary><strong>Prompt Chaining</strong> — Encadenar prompts</summary>
+          <p>Salida A → Prompt B. Ideal para pipelines (limpieza → análisis → reporte).</p>
+        </details>
+    
+        <p style="margin-top:1rem;">Cuando elijas una técnica en el menú lateral, verás ejemplos ampliados, variantes y buenas prácticas.</p>
       </article>
     </main>
+    
 
   </div>
 
