@@ -20,10 +20,22 @@
     landingHTML: ""
   };
 
+  function syncThemeToggle() {
+    const root = document.documentElement;
+    const isDark = root.getAttribute("data-theme") === "dark";
+    const button = $(".toggle-theme");
+    if (!button) return;
+    const label = isDark ? "Cambiar a tema claro" : "Cambiar a tema oscuro";
+    button.setAttribute("aria-label", label);
+    const srOnly = button.querySelector(".sr-only");
+    if (srOnly) srOnly.textContent = label;
+  }
+
   window.toggleTheme = function toggleTheme() {
     const root = document.documentElement;
     const cur = root.getAttribute("data-theme") === "dark" ? "dark" : "light";
     root.setAttribute("data-theme", cur === "light" ? "dark" : "light");
+    syncThemeToggle();
   };
 
   const hexToRgba = (hex, alpha = 1) => {
@@ -563,32 +575,6 @@
     });
   }
 
-  function setupModal() {
-    const btn = $("#evaluateBtn");
-    const modal = $("#evaluationModal");
-    if (!btn || !modal) return;
-    const close = () => {
-      modal.hidden = true;
-      modal.setAttribute("aria-hidden", "true");
-    };
-    btn.addEventListener("click", () => {
-      modal.hidden = false;
-      modal.removeAttribute("aria-hidden");
-      const firstInput = modal.querySelector("input, button");
-      firstInput?.focus();
-    });
-    modal.addEventListener("click", (event) => {
-      if (event.target === modal || event.target.hasAttribute("data-close-modal")) {
-        close();
-      }
-    });
-    document.addEventListener("keydown", (event) => {
-      if (event.key === "Escape" && !modal.hidden) {
-        close();
-      }
-    });
-  }
-
   function setupShortcuts() {
     document.addEventListener("keydown", (event) => {
       if (event.defaultPrevented || event.metaKey || event.ctrlKey || event.altKey) return;
@@ -622,8 +608,8 @@
       setupReaderToggle();
       setupCTA();
       setupCopy();
-      setupModal();
       setupShortcuts();
+      syncThemeToggle();
     } catch (error) {
       console.error(error);
       const content = $("#content");

@@ -9,7 +9,13 @@
 </head>
 <body>
   <button class="toggle-theme" type="button" aria-label="Cambiar tema" onclick="toggleTheme()">
-    <span aria-hidden="true">Cambiar tema</span>
+    <svg class="icon-sun" viewBox="0 0 24 24" role="img" aria-hidden="true">
+      <path d="M12 5.5a1 1 0 0 0 1-1V3a1 1 0 1 0-2 0v1.5a1 1 0 0 0 1 1Zm0 13a1 1 0 0 0-1 1V21a1 1 0 1 0 2 0v-1.5a1 1 0 0 0-1-1Zm6.5-6.5a1 1 0 0 0 1-1H21a1 1 0 1 0 0-2h-1.5a1 1 0 0 0-1 1 1 1 0 0 0 1 1ZM4.5 12a1 1 0 0 0 1-1 1 1 0 0 0-1-1H3a1 1 0 1 0 0 2h1.5Zm12.02 5.02a1 1 0 0 0 1.41 1.41l1.06-1.06a1 1 0 1 0-1.41-1.41l-1.06 1.06Zm-9.04-9.04a1 1 0 0 0 1.41-1.41L7.33 5.51a1 1 0 0 0-1.41 1.41l1.06 1.06Zm9.04-4.46 1.06 1.06a1 1 0 0 0 1.41-1.41L17.34 3.1a1 1 0 0 0-1.41 1.41ZM6.99 16.99l-1.06 1.06a1 1 0 0 0 1.41 1.41l1.06-1.06a1 1 0 1 0-1.41-1.41ZM12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8Z" />
+    </svg>
+    <svg class="icon-moon" viewBox="0 0 24 24" role="img" aria-hidden="true">
+      <path d="M21 12.8A9 9 0 0 1 11.2 3 7 7 0 1 0 21 12.8Z" />
+    </svg>
+    <span class="sr-only">Cambiar tema</span>
   </button>
 
   <header class="hero" role="banner">
@@ -69,7 +75,7 @@
               <h3>Profundiza con confianza</h3>
               <ul>
                 <li>Bloques expandibles con ejemplos avanzados y estudios de caso.</li>
-                <li>Modal “Evaluar mi prompt” con checklist rápida y enlaces a herramientas externas.</li>
+              <li>Recursos descargables con rúbricas y checklists complementarias.</li>
                 <li>Encuesta de cierre con iconos de caritas para recoger feedback.</li>
               </ul>
             </div>
@@ -80,32 +86,6 @@
   </div>
 
   <button id="readerToggle" class="reader-toggle" type="button" aria-pressed="false">Modo lectura</button>
-  <button id="evaluateBtn" class="evaluate-btn" type="button">Evaluar mi prompt</button>
-
-  <div id="evaluationModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" hidden>
-    <div class="modal-dialog">
-      <header class="modal-header">
-        <h2 id="modalTitle">Checklist rápida</h2>
-        <button type="button" class="modal-close" aria-label="Cerrar" data-close-modal>&times;</button>
-      </header>
-      <div class="modal-content">
-        <p>Valida tu prompt antes de ejecutarlo:</p>
-        <ul class="modal-checklist">
-          <li><input type="checkbox" id="chk-objetivo" /><label for="chk-objetivo">El objetivo está descrito en una frase accionable.</label></li>
-          <li><input type="checkbox" id="chk-contexto" /><label for="chk-contexto">Incluí contexto, formato y tono esperados.</label></li>
-          <li><input type="checkbox" id="chk-seguridad" /><label for="chk-seguridad">Consideré implicaciones éticas y de seguridad.</label></li>
-        </ul>
-        <div class="modal-links">
-          <a href="assets/checklist-sesion.md">Checklist completa de sesión</a>
-          <a href="assets/rubricas/evaluacion.csv">Rúbrica de métricas</a>
-        </div>
-      </div>
-      <footer class="modal-footer">
-        <button type="button" class="btn btn-primary" data-close-modal>Listo</button>
-      </footer>
-    </div>
-  </div>
-
   <section class="feedback" aria-labelledby="feedbackTitle">
     <h2 id="feedbackTitle">Cuéntanos cómo te fue</h2>
     <form class="feedback-form">
