@@ -2,112 +2,131 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>El Arte de los Prompts</title>
-  <meta name="description" content="Plataforma educativa para dominar técnicas de ingeniería de prompts: claridad, estructura, razonamiento y buenas prácticas." />
-  <link rel="stylesheet" href="style.css">
+  <meta name="description" content="Recorrido pedagógico para dominar técnicas de prompting: fundamentos, diseño, razonamiento, optimización y seguridad." />
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <button class="toggle-theme" type="button" aria-label="Cambiar tema" onclick="toggleTheme()">
+    <span aria-hidden="true">Cambiar tema</span>
+  </button>
 
-  <!-- Tema -->
-  <button class="toggle-theme" onclick="toggleTheme()">Cambiar Tema</button>
-
-  <!-- Encabezado -->
-  <header>
-    <h1>El Arte de los Prompts<br>Guía de Técnicas</h1>
-    <p>Domina el arte de diseñar prompts efectivos, claros y responsables.</p>
+  <header class="hero" role="banner">
+    <div class="hero-copy">
+      <p class="eyebrow">Guía progresiva</p>
+      <h1>El Arte de los Prompts</h1>
+      <p class="lead">Domina un recorrido modular que va de los fundamentos a los flujos avanzados para diseñar prompts claros, auditables y seguros.</p>
+      <div class="hero-actions">
+        <button id="ctaStart" class="btn btn-primary">Comenzar ahora</button>
+        <a class="btn btn-ghost" href="assets/resumen-ejecutivo.pdf" download>Descargar resumen PDF</a>
+      </div>
+    </div>
+    <div class="hero-cards" id="sectionCards" aria-label="Secciones principales"></div>
   </header>
 
-  <!-- Layout principal -->
-  <div class="container" role="region" aria-label="Contenido principal">
+  <button class="menu-handle" id="menuHandle" type="button" aria-expanded="false" aria-controls="sidebar">☰ Menú</button>
 
-    <!-- Barra lateral (sin búsqueda) -->
-    <nav class="sidebar" aria-label="Técnicas de prompting">
-      <h2 class="sidebar-title" style="margin-top:0;">Técnicas</h2>
-      <ul class="menu" id="menu">
-        <!-- Generado dinámicamente por script.js -->
-      </ul>
-    </nav>
+  <div class="layout" role="presentation">
+    <aside id="sidebar" class="sidebar" aria-label="Navegación principal">
+      <div class="sidebar-head">
+        <h2>Secciones</h2>
+      </div>
+      <nav>
+        <ul id="menu" class="menu" role="tree"></ul>
+      </nav>
+      <div class="sidebar-footer">
+        <p>Usa <kbd>M</kbd> para abrir/cerrar el menú y <kbd>F</kbd> para modo enfoque.</p>
+      </div>
+    </aside>
 
-    <!-- Contenido -->
-    <main class="main" id="main" tabindex="-1">
-      <article id="topicContent" class="content">
-        <h2>Guía rápida de técnicas de prompting</h2>
-        <p>Antes de explorar el menú, aquí tienes un resumen práctico de cada técnica. Ábrela para ver cuándo usarla, su objetivo y un mini-ejemplo.</p>
-    
-        <details>
-          <summary><strong>ASPECT</strong> — Estructura completa del prompt</summary>
-          <p><em>Cuándo usar:</em> cuando necesitas instrucciones claras, completas y reutilizables.</p>
-          <p><em>Objetivo:</em> no olvidar elementos clave: Acción, Sujeto, Propósito, Ejemplos, Restricciones, Tono.</p>
-          <pre>### ACCIÓN Resume · ### SUJETO Informe Q1 · ### PROPÓSITO Directivos
-    ### EJEMPLO "Ingresos ↑12%" · ### RESTRICCIONES ≤120 palabras, viñetas · ### TONO Ejecutivo</pre>
-        </details>
-    
-        <details>
-          <summary><strong>Chain-of-Thought (CoT)</strong> — Razonamiento paso a paso</summary>
-          <p><em>Cuándo usar:</em> tareas lógicas, matemáticas o con múltiples pasos.</p>
-          <p><em>Objetivo:</em> pedir al modelo que explique su proceso antes de dar la respuesta.</p>
-          <pre>### INSTRUCCIÓN
-    Razona paso a paso y luego da la respuesta final.</pre>
-        </details>
-    
-        <details>
-          <summary><strong>Prompt Layering</strong> — Capas secuenciales</summary>
-          <p><em>Cuándo usar:</em> problemas complejos que conviene dividir (extraer → clasificar → resumir).</p>
-          <p><em>Objetivo:</em> controlar mejor cada sub-tarea y depurar con facilidad.</p>
-          <pre>CAPA 1: extraer entidades → CAPA 2: sentimiento → CAPA 3: informe</pre>
-        </details>
-    
-        <details>
-          <summary><strong>Instructive Prompting</strong> — Respuestas estrictas y estructuradas</summary>
-          <p><em>Cuándo usar:</em> cuando el resultado alimenta otro sistema (CSV/JSON/YAML).</p>
-          <p><em>Objetivo:</em> formato y reglas claras para automatización.</p>
-          <pre>{ "task":"classify", "labels":["positive","negative"], "format":"csv" }</pre>
-        </details>
-    
-        <details>
-          <summary><strong>Iterative Prompt Refinement (IPR)</strong> — Mejorar por ciclos</summary>
-          <p><em>Cuándo usar:</em> si el primer resultado no cumple calidad: ajustar → reintentar.</p>
-          <p><em>Objetivo:</em> converger hacia precisión, relevancia y costo eficiente.</p>
-          <pre>V1 → evaluar → ajustar restricciones/tono/ejemplos → V2 → ...</pre>
-        </details>
-    
-        <!-- Estas secciones aparecerán completas cuando pasemos al JS -->
-        <details>
-          <summary><strong>Zero-shot</strong> — Sin ejemplos</summary>
-          <p>Instrucción precisa sin ejemplos previos. Rápido, pero sensible a ambigüedad.</p>
-        </details>
-    
-        <details>
-          <summary><strong>Few-shot</strong> — Con pocos ejemplos</summary>
-          <p>Guía la salida con 2–5 ejemplos representativos. Mejora consistencia.</p>
-        </details>
-    
-        <details>
-          <summary><strong>Role-based</strong> — Asignar un rol</summary>
-          <p>“Actúa como…” para activar conocimientos, estilos y restricciones de un perfil.</p>
-        </details>
-    
-        <details>
-          <summary><strong>Meta-prompting</strong> — Que el modelo diseñe su plan</summary>
-          <p>Pide que proponga su propio prompt/plan antes de responder. Útil para tareas abiertas.</p>
-        </details>
-    
-        <details>
-          <summary><strong>Prompt Chaining</strong> — Encadenar prompts</summary>
-          <p>Salida A → Prompt B. Ideal para pipelines (limpieza → análisis → reporte).</p>
-        </details>
-    
-        <p style="margin-top:1rem;">Cuando elijas una técnica en el menú lateral, verás ejemplos ampliados, variantes y buenas prácticas.</p>
+    <main id="main" class="main" tabindex="-1">
+      <nav class="breadcrumbs" aria-label="Breadcrumb">
+        <ol id="breadcrumbs"></ol>
+      </nav>
+      <article id="content" class="content" tabindex="-1">
+        <section class="welcome" id="welcome">
+          <h2>Recorrido guiado</h2>
+          <p>Empieza por los fundamentos, explora técnicas clave y cierra con prácticas de seguridad. Cada módulo incluye ejemplos accionables, errores comunes y recursos descargables.</p>
+          <div class="welcome-grid">
+            <div class="welcome-card">
+              <h3>Microinteracciones útiles</h3>
+              <ul>
+                <li>Tarjetas con hover e iconos ampliados para señalar clicabilidad.</li>
+                <li>Tooltips en términos destacados para consultar definiciones al instante.</li>
+                <li>Botones de copiar en prompts que muestran confirmación visual.</li>
+              </ul>
+            </div>
+            <div class="welcome-card">
+              <h3>Navegación informada</h3>
+              <ul>
+                <li>Breadcrumbs para seguir tu ruta y botones para ir a la técnica anterior o siguiente.</li>
+                <li>Acordeón lateral con técnicas relacionadas para saltar rápidamente.</li>
+                <li>Modo lectura para ocultar la barra lateral cuando necesites concentración.</li>
+              </ul>
+            </div>
+            <div class="welcome-card">
+              <h3>Profundiza con confianza</h3>
+              <ul>
+                <li>Bloques expandibles con ejemplos avanzados y estudios de caso.</li>
+                <li>Modal “Evaluar mi prompt” con checklist rápida y enlaces a herramientas externas.</li>
+                <li>Encuesta de cierre con iconos de caritas para recoger feedback.</li>
+              </ul>
+            </div>
+          </div>
+        </section>
       </article>
     </main>
-    
-
   </div>
 
-  <!-- Pie -->
-  <footer>
-    &copy; 2025 DesvoSoft
+  <button id="readerToggle" class="reader-toggle" type="button" aria-pressed="false">Modo lectura</button>
+  <button id="evaluateBtn" class="evaluate-btn" type="button">Evaluar mi prompt</button>
+
+  <div id="evaluationModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" hidden>
+    <div class="modal-dialog">
+      <header class="modal-header">
+        <h2 id="modalTitle">Checklist rápida</h2>
+        <button type="button" class="modal-close" aria-label="Cerrar" data-close-modal>&times;</button>
+      </header>
+      <div class="modal-content">
+        <p>Valida tu prompt antes de ejecutarlo:</p>
+        <ul class="modal-checklist">
+          <li><input type="checkbox" id="chk-objetivo" /><label for="chk-objetivo">El objetivo está descrito en una frase accionable.</label></li>
+          <li><input type="checkbox" id="chk-contexto" /><label for="chk-contexto">Incluí contexto, formato y tono esperados.</label></li>
+          <li><input type="checkbox" id="chk-seguridad" /><label for="chk-seguridad">Consideré implicaciones éticas y de seguridad.</label></li>
+        </ul>
+        <div class="modal-links">
+          <a href="assets/checklist-sesion.md">Checklist completa de sesión</a>
+          <a href="assets/rubricas/evaluacion.csv">Rúbrica de métricas</a>
+        </div>
+      </div>
+      <footer class="modal-footer">
+        <button type="button" class="btn btn-primary" data-close-modal>Listo</button>
+      </footer>
+    </div>
+  </div>
+
+  <section class="feedback" aria-labelledby="feedbackTitle">
+    <h2 id="feedbackTitle">Cuéntanos cómo te fue</h2>
+    <form class="feedback-form">
+      <fieldset>
+        <legend>¿Qué tan útil fue esta guía?</legend>
+        <div class="feedback-options">
+          <label><input type="radio" name="satisfaccion" value="alta" /> <span role="img" aria-label="Muy útil">😊</span></label>
+          <label><input type="radio" name="satisfaccion" value="media" /> <span role="img" aria-label="Útil">🙂</span></label>
+          <label><input type="radio" name="satisfaccion" value="baja" /> <span role="img" aria-label="Necesita mejoras">😐</span></label>
+        </div>
+      </fieldset>
+      <label class="feedback-notes">
+        Comentarios:
+        <textarea rows="3" placeholder="Comparte sugerencias o próximos temas que te interesen"></textarea>
+      </label>
+      <button type="submit" class="btn btn-secondary">Enviar feedback</button>
+    </form>
+  </section>
+
+  <footer class="footer">
+    <p>&copy; 2025 DesvoSoft · Diseñado para equipos de prompting responsables.</p>
   </footer>
 
   <script src="script.js"></script>

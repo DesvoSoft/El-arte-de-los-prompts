@@ -1,0 +1,8 @@
+{
+  "formato": "tabla",
+  "columnas": ["Criterio", "Descripción", "Estado"],
+  "validaciones": {
+    "Estado": ["Cumple", "Mejorar", "dato no disponible"]
+  },
+  "nota": "Asegúrate de justificar cada recomendación."
+}
