@@ -149,6 +149,41 @@ html::after {
 }
 
 /* ================================
+   Ajustes móviles (optimización)
+===================================*/
+@media (max-width: 768px) {
+  body::before,
+  body::after,
+  html::after {
+    display: none;
+  }
+
+  header {
+    background: var(--bg-main);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    box-shadow: none;
+  }
+
+  .toggle-theme {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
+    filter: none;
+  }
+
+  .container {
+    background: none;
+    box-shadow: none;
+  }
+
+  .content,
+  .sidebar {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    box-shadow: none;
+  }
+}
+
+/* ================================
    Header
 ===================================*/
 header {
