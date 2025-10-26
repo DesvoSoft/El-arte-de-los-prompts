@@ -56,12 +56,21 @@
   async function loadData() {
     const res = await fetch("topics.json", { cache: "no-store" });
     if (!res.ok) throw new Error("No se pudo cargar topics.json");
-    const data = await res.json();
-    if (!data || !Array.isArray(data.sections)) throw new Error("Formato inválido en topics.json");
-    state.sections = data.sections;
+
+    const raw = await res.json();
+    const hasSectionsArray = raw && Array.isArray(raw.sections);
+    const sections = hasSectionsArray ? raw.sections : Array.isArray(raw) ? raw : null;
+    if (!sections) throw new Error("Formato inválido de topics.json");
+
+    state.sections = sections.map(section => {
+      const topics = section && Array.isArray(section.topics) ? section.topics : [];
+      return { ...section, topics };
+    });
+
     state.flat = [];
     state.sections.forEach((section, sectionIndex) => {
       section.topics.forEach((topic, topicIndex) => {
+        if (!topic || typeof topic !== "object") return;
         state.flat.push({ section, topic, sectionIndex, topicIndex });
       });
     });
