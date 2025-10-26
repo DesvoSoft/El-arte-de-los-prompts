@@ -1,0 +1,5 @@
+Diagrama conceptual para Chain-of-Thought:
+- Inicio: Presentar caso y contexto.
+- Nodo 1: Solicitar razonamiento paso a paso.
+- Nodo 2: Registrar evidencia en cada paso.
+- Nodo final: Conclusión separada con la frase "En resumen".

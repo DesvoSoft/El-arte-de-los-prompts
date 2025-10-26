@@ -1,0 +1,4 @@
+Estructura sugerida para Prompt Layering:
+1. Capa de investigación: recopila datos clave y resume en 120 palabras.
+2. Capa de propuesta: transforma el resumen en un plan accionable.
+3. Capa de revisión: verifica tono, consistencia y objetivos antes de entregar.

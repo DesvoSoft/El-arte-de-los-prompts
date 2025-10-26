@@ -1,116 +1,812 @@
-[
+{
+  "sections": [
     {
-        "id": "guia_avanzada",
-        "title": "Guía completa: El Arte de los Prompts",
-        "category": "Guías",
-        "html": "<article class=\"full-guide\">\n  <h2>El Arte de los Prompts — Guía avanzada para dominar la comunicación con modelos de lenguaje</h2>\n  <section>\n    <h3>Introducción</h3>\n    <p>El auge de la inteligencia artificial generativa ha transformado la manera en que interactuamos con la información, el conocimiento y la creatividad. El verdadero poder de un modelo de lenguaje no reside únicamente en su arquitectura o número de parámetros, sino en cómo se le habla.</p>\n    <p>El prompting —el arte de diseñar instrucciones efectivas para los modelos de lenguaje— es hoy una habilidad esencial para programadores, educadores, investigadores o profesionales de cualquier área. Un buen prompt puede marcar la diferencia entre una respuesta genérica y una solución brillante.</p>\n    <p>Esta guía profundiza en las principales técnicas de prompting, cómo aplicarlas y combinarlas, con ejemplos y casos reales. También aborda los dilemas éticos del uso de la IA y propone buenas prácticas para una interacción responsable y efectiva.</p>\n  </section>\n  <section>\n    <h3>Capítulo 1. ¿Qué es un prompt?</h3>\n    <p>Un <strong>prompt</strong> es una instrucción, pregunta o contexto que se proporciona a un modelo de lenguaje para que genere una respuesta. Puede ser tan simple como <em>«Escribe un poema sobre el amanecer»</em> o tan complejo como una propuesta técnica con rol, objetivos, restricciones y tono.</p>\n    <blockquote>\n      <p><strong>Ejemplo avanzado:</strong> «Actúa como un ingeniero ambiental especializado en conservación de fauna urbana. Escribe una propuesta técnica para mitigar conflictos entre coyotes y comunidades humanas, citando literatura científica reciente.»</p>\n    </blockquote>\n    <p>El prompting combina redacción clara, contexto adecuado y estructura lógica. En otras palabras: es comunicación estratégica con una máquina que piensa en texto.</p>\n  </section>\n  <section>\n    <h3>Capítulo 2. Fundamentos del prompting</h3>\n    <p>Antes de adentrarnos en las técnicas, conviene interiorizar los tres pilares del prompting efectivo:</p>\n    <ol>\n      <li><strong>Contexto:</strong> cuanto más claro y detallado sea el escenario, mejor lo comprenderá el modelo.</li>\n      <li><strong>Instrucción:</strong> el modelo necesita una tarea definida (por ejemplo «resume», «explica», «compara», «escribe como…»).</li>\n      <li><strong>Formato:</strong> especificar el formato de salida (lista, tabla, ensayo, código, etc.) mejora la utilidad del resultado.</li>\n    </ol>\n    <blockquote>\n      <p><strong>Ejemplo:</strong> «Resume en formato de tabla las diferencias entre aprendizaje supervisado, no supervisado y por refuerzo, usando un tono didáctico.»</p>\n    </blockquote>\n  </section>\n  <section>\n    <h3>Capítulo 3. Técnicas de prompting</h3>\n    <p>Exploramos las técnicas más relevantes, con definiciones, ejemplos, buenas prácticas y errores comunes.</p>\n    <section>\n      <h4>3.1 ASPECT Prompting</h4>\n      <p><strong>Definición:</strong> ASPECT es un acrónimo que resume los elementos clave de un buen prompt: Audience (público), Style (estilo), Purpose (propósito), Example (ejemplo), Constraints (restricciones) y Tone (tono).</p>\n      <p><strong>Cuándo usarla:</strong> ideal para crear prompts ricos en contexto, especialmente en tareas de escritura, marketing o educación.</p>\n      <pre><code>Prompt: Escribe un artículo (P) para estudiantes universitarios de ingeniería ambiental (A), con tono divulgativo (T), sobre la importancia del equilibrio ecológico en campus urbanos. Incluye un ejemplo de fauna local (E) y limita la extensión a 200 palabras (C).</code></pre>\n      <p><strong>Buenas prácticas:</strong> definir explícitamente el público objetivo y usar ejemplos concretos.</p>\n      <p><strong>Errores comunes:</strong> omitir restricciones (longitud, tono, formato) o no especificar el propósito.</p>\n    </section>\n    <section>\n      <h4>3.2 Chain-of-Thought (Cadena de pensamiento)</h4>\n      <p><strong>Definición:</strong> instruye al modelo a razonar paso a paso antes de responder, revelando su cadena de pensamiento. Mejora la precisión en tareas lógicas, matemáticas o de análisis.</p>\n      <p><strong>Cuándo usarla:</strong> en problemas que requieren razonamiento, cálculos o inferencias complejas.</p>\n      <pre><code>Prompt: Razona paso a paso para determinar cuál es el número que falta en la secuencia 2, 6, 12, 20, ?</code></pre>\n      <p><strong>Buenas prácticas:</strong> usar frases como «razona paso a paso» o «explica tu proceso antes de dar la respuesta final».</p>\n      <p><strong>Errores comunes:</strong> pedir razonamiento sin contexto o no limitar la extensión, lo que provoca respuestas demasiado largas.</p>\n    </section>\n    <section>\n      <h4>3.3 Prompt Layering (Capas de prompt)</h4>\n      <p><strong>Definición:</strong> consiste en construir prompts en capas, añadiendo información progresivamente: rol, contexto, tarea, formato, estilo, restricciones.</p>\n      <p><strong>Cuándo usarla:</strong> en proyectos largos o cuando se necesita modular la salida (chatbots, asistentes personalizados, guías educativas).</p>\n      <pre><code>1. Actúa como un profesor de programación.\n2. Explica qué es una variable en Python.\n3. Usa un ejemplo con código y una analogía simple.</code></pre>\n      <p><strong>Buenas prácticas:</strong> dividir el prompt en secciones claramente etiquetadas y mantener el orden lógico de capas.</p>\n      <p><strong>Errores comunes:</strong> incluir todo en una sola línea o cambiar el orden natural de la información.</p>\n    </section>\n    <section>\n      <h4>3.4 Instructive Prompting</h4>\n      <p><strong>Definición:</strong> dar instrucciones explícitas y detalladas al modelo. Se centra en la claridad y precisión de la tarea.</p>\n      <p><strong>Cuándo usarla:</strong> cuando se necesitan resultados específicos, como en programación, redacción o análisis técnico.</p>\n      <pre><code>Prompt: Explica la diferencia entre los métodos Gauss-Seidel y Jacobi en una tabla comparativa con tres columnas: criterio, Gauss-Seidel, Jacobi.</code></pre>\n      <p><strong>Buenas prácticas:</strong> ser directo y detallado, especificar el formato de salida y añadir restricciones concretas (longitud, tono, idioma).</p>\n      <p><strong>Errores comunes:</strong> pedir tareas contradictorias o no delimitar el enfoque («explica» vs. «resume»).</p>\n    </section>\n    <section>\n      <h4>3.5 Zero-shot Prompting</h4>\n      <p><strong>Definición:</strong> consiste en dar una instrucción sin ejemplos previos. El modelo debe inferir la forma de respuesta.</p>\n      <p><strong>Cuándo usarla:</strong> cuando la tarea es simple o el modelo ya está familiarizado con el contexto general.</p>\n      <p><strong>Ejemplo:</strong> «Traduce el siguiente texto al inglés: “El conocimiento es poder”.»</p>\n      <p><strong>Buenas prácticas:</strong> usarlo en tareas cortas, claras y universales; complementar con tono o formato si se requiere precisión.</p>\n      <p><strong>Errores comunes:</strong> usarlo para tareas complejas sin contexto o con instrucciones ambiguas.</p>\n    </section>\n    <section>\n      <h4>3.6 Few-shot Prompting</h4>\n      <p><strong>Definición:</strong> se proporcionan uno o varios ejemplos para que el modelo aprenda el patrón deseado.</p>\n      <pre><code>Ejemplo 1:\nPregunta: ¿Cuál es la capital de Francia?\nRespuesta: París.\n\nEjemplo 2:\nPregunta: ¿Cuál es la capital de Italia?\nRespuesta: Roma.\n\nAhora:\nPregunta: ¿Cuál es la capital de Alemania?</code></pre>\n      <p><strong>Buenas prácticas:</strong> usar ejemplos variados pero consistentes y mantener el formato uniforme.</p>\n      <p><strong>Errores comunes:</strong> incluir ejemplos con errores o poco coherentes.</p>\n    </section>\n    <section>\n      <h4>3.7 Role-based Prompting</h4>\n      <p><strong>Definición:</strong> asignar al modelo un rol o identidad específica (profesor, ingeniero, periodista, etc.) para moldear su perspectiva y tono.</p>\n      <p><strong>Cuándo usarla:</strong> en contextos donde el enfoque o la especialización importan.</p>\n      <p><strong>Ejemplo:</strong> «Actúa como un abogado especializado en derecho ambiental y explica el impacto legal de una tala no autorizada.»</p>\n      <p><strong>Buenas prácticas:</strong> usar roles claros y específicos e indicar el nivel de formalidad y audiencia.</p>\n      <p><strong>Errores comunes:</strong> pedir múltiples roles contradictorios o no definir límites.</p>\n    </section>\n    <section>\n      <h4>3.8 Iterative Prompt Refinement</h4>\n      <p><strong>Definición:</strong> proceso de ajustar progresivamente un prompt tras analizar las respuestas (feedback loop).</p>\n      <pre><code>Iteración 1: Resume este texto.\nIteración 2: Resume este texto con enfoque en los riesgos ambientales.\nIteración 3: Resume en 150 palabras, resaltando los riesgos ambientales más críticos y las soluciones propuestas.</code></pre>\n      <p><strong>Buenas prácticas:</strong> documentar los cambios y efectos de cada ajuste, usar comentarios como «mejora este texto según las siguientes observaciones…».</p>\n      <p><strong>Errores comunes:</strong> cambiar demasiadas variables a la vez o no guardar versiones anteriores.</p>\n    </section>\n    <section>\n      <h4>3.9 Meta-prompting</h4>\n      <p><strong>Definición:</strong> pedirle al modelo que reflexione sobre su propio comportamiento o sobre el prompt mismo para optimizar la interacción.</p>\n      <p><strong>Ejemplo:</strong> «Analiza este prompt y propón una versión más clara y efectiva para obtener respuestas precisas.»</p>\n      <p><strong>Buenas prácticas:</strong> ideal para autoevaluación y mejora continua, combinándola con el refinamiento iterativo.</p>\n      <p><strong>Errores comunes:</strong> pedir autorreferencias infinitas o aplicarla a tareas que no requieren reflexión.</p>\n    </section>\n    <section>\n      <h4>3.10 Prompt Chaining</h4>\n      <p><strong>Definición:</strong> divide una tarea grande en una cadena de subprompts que se ejecutan secuencialmente, pasando el resultado de uno al siguiente.</p>\n      <pre><code>1. Resume este artículo científico.\n2. Extrae los principales hallazgos.\n3. Genera una conclusión basada en los hallazgos.</code></pre>\n      <p><strong>Buenas prácticas:</strong> mantener consistencia entre pasos e idealmente validar cada etapa antes de continuar.</p>\n      <p><strong>Errores comunes:</strong> no conservar coherencia entre prompts o saltarse la validación entre etapas.</p>\n    </section>\n  </section>\n  <section>\n    <h3>Capítulo 4. Comparación entre técnicas</h3>\n    <p>Esta tabla sintetiza los puntos fuertes de cada técnica:</p>\n    <div class=\"table-wrapper\">\n      <table>\n        <thead>\n          <tr>\n            <th>Técnica</th>\n            <th>Complejidad</th>\n            <th>Ideal para</th>\n            <th>Ejemplo típico</th>\n            <th>Requiere contexto</th>\n          </tr>\n        </thead>\n        <tbody>\n          <tr><td>Zero-shot</td><td>Baja</td><td>Tareas simples</td><td>Traducción o clasificación</td><td>No</td></tr>\n          <tr><td>Few-shot</td><td>Media</td><td>Tareas estructuradas</td><td>Imitar formato</td><td>Sí</td></tr>\n          <tr><td>Chain-of-Thought</td><td>Alta</td><td>Razonamiento</td><td>Matemática, lógica</td><td>Parcial</td></tr>\n          <tr><td>Role-based</td><td>Media</td><td>Contexto profesional</td><td>Simulaciones, docencia</td><td>Sí</td></tr>\n          <tr><td>Prompt Layering</td><td>Alta</td><td>Desarrollo modular</td><td>Asistentes IA</td><td>Sí</td></tr>\n          <tr><td>Iterative Refinement</td><td>Media-Alta</td><td>Mejora continua</td><td>Escritura o análisis</td><td>Sí</td></tr>\n          <tr><td>Meta-prompting</td><td>Alta</td><td>Optimización</td><td>Autoevaluación del prompt</td><td>Sí</td></tr>\n          <tr><td>Prompt Chaining</td><td>Muy alta</td><td>Flujos de trabajo</td><td>Informes, scripts</td><td>Sí</td></tr>\n        </tbody>\n      </table>\n    </div>\n  </section>\n  <section>\n    <h3>Capítulo 5. Casos de uso reales</h3>\n    <h4>Educación</h4>\n    <ul>\n      <li>Generar exámenes, resúmenes o ejercicios adaptativos.</li>\n      <li>Enseñar pensamiento crítico con Chain-of-Thought.</li>\n      <li>Crear simuladores de roles: «Actúa como un profesor de lógica».</li>\n    </ul>\n    <h4>Programación</h4>\n    <ul>\n      <li>Explicar código o depurar errores con prompts instructivos o en capas.</li>\n      <li>Generar funciones a partir de descripciones.</li>\n      <li>Refinar resultados con Iterative Prompt Refinement.</li>\n    </ul>\n    <h4>Marketing</h4>\n    <ul>\n      <li>Crear campañas y slogans con Role-based Prompting.</li>\n      <li>Iterar mensajes con feedback loops.</li>\n      <li>Analizar emociones con clasificadores Few-shot.</li>\n    </ul>\n    <h4>Investigación</h4>\n    <ul>\n      <li>Resumir papers, extraer citas o generar hipótesis con Prompt Chaining.</li>\n      <li>Pedir razonamiento estructurado con Chain-of-Thought.</li>\n      <li>Validar sesgos con Meta-prompting.</li>\n    </ul>\n  </section>\n  <section>\n    <h3>Capítulo 6. Ética, riesgos y gobernanza del prompting</h3>\n    <p>El poder del prompting trae consigo responsabilidad. Diseñar prompts influye directamente en el comportamiento del modelo y en los sesgos que puede replicar.</p>\n    <h4>Riesgos comunes</h4>\n    <ol>\n      <li><strong>Sesgos en la formulación:</strong> prompts mal redactados pueden amplificar estereotipos. <em>Ejemplo:</em> «Describe a un programador típico» puede generar una imagen sesgada.</li>\n      <li><strong>Fugas de información:</strong> prompts con datos personales pueden comprometer la privacidad.</li>\n      <li><strong>Manipulación inadvertida:</strong> prompts que inducen emociones o juicios éticos sin control.</li>\n      <li><strong>Dependencia cognitiva:</strong> delegar razonamientos complejos sin verificación humana.</li>\n    </ol>\n    <h4>Cómo mitigarlos</h4>\n    <ul>\n      <li>Revisar la neutralidad del lenguaje.</li>\n      <li>No incluir información sensible.</li>\n      <li>Validar fuentes y resultados.</li>\n      <li>Mantener a un humano como decisor final.</li>\n    </ul>\n    <h4>Gobernanza del prompting</h4>\n    <ul>\n      <li>Implementar políticas internas de IA responsable.</li>\n      <li>Entrenar usuarios en ética de interacción.</li>\n      <li>Documentar versiones de prompts críticos.</li>\n    </ul>\n  </section>\n  <section>\n    <h3>Capítulo 7. Consejos prácticos y variantes creativas</h3>\n    <h4>Mejora continua</h4>\n    <ul>\n      <li>Guardar los mejores prompts en una «biblioteca viva».</li>\n      <li>Analizar cuáles producen las mejores respuestas.</li>\n      <li>Ajustar una sola variable cada vez (Iterative Refinement).</li>\n    </ul>\n    <h4>Creatividad aplicada</h4>\n    <ul>\n      <li>Cambiar el tono del prompt: «Escríbelo como si fueras Shakespeare / un ingeniero / un niño».</li>\n      <li>Combinar técnicas: Few-shot + Role-based + Chain-of-Thought.</li>\n      <li>Pedir contraejemplos o puntos de vista opuestos.</li>\n    </ul>\n    <h4>Prompt como diseño conversacional</h4>\n    <blockquote>\n      <p>«Te daré información progresivamente. Haz preguntas para entender mejor antes de responder.»</p>\n    </blockquote>\n    <h4>Mentalidad de diseñador</h4>\n    <p>Trata al modelo como a un colaborador: cuanto más claro pienses, mejor responde la IA.</p>\n  </section>\n  <section>\n    <h3>Conclusión</h3>\n    <p>Dominar el arte de los prompts no es solo aprender trucos, sino desarrollar una nueva forma de pensamiento: dialogar estratégicamente con la inteligencia artificial.</p>\n    <p>Cada técnica presentada —desde Zero-shot hasta Meta-prompting— amplía tu capacidad de comunicarte con precisión, empatía y propósito. La clave está en experimentar, analizar y mejorar continuamente.</p>\n    <blockquote>\n      <p>«Un buen prompt no es una orden, es una conversación bien diseñada.»</p>\n    </blockquote>\n  </section>\n</article>"
+      "id": "inicio-fundamentos",
+      "title": "Inicio y fundamentos",
+      "color": "#1F3B4D",
+      "icon": "home",
+      "description": "Punto de partida con objetivos, guía express y vocabulario clave.",
+      "tooltip": "Comprende el propósito del sitio y los conceptos esenciales antes de practicar.",
+      "topics": [
+        {
+          "id": "proposito-sitio",
+          "title": "Propósito del sitio",
+          "difficulty": "Introductorio",
+          "time": "4 min",
+          "summary": "Este espacio conecta teoría y práctica para crear prompts responsables y efectivos.",
+          "definition": "El sitio organiza las principales técnicas de prompting en un recorrido guiado que avanza de los fundamentos a los flujos avanzados.",
+          "when": "Antes de diseñar prompts complejos o capacitar a un equipo en ingeniería de prompts.",
+          "steps": [
+            "Explora las tarjetas de sección para entender el mapa completo del contenido.",
+            "Activa el menú lateral y revisa las rutas sugeridas por orden de complejidad.",
+            "Utiliza el botón 'Evaluar mi prompt' para validar tus avances tras cada práctica."
+          ],
+          "example": {
+            "title": "Recorrido sugerido",
+            "prompt": "1. Lee la Guía rápida para dominar el vocabulario base.\n2. Practica con ASPECT para estructurar tus primeras solicitudes.\n3. Avanza a Razonamiento guiado cuando necesites explicaciones profundas.\n4. Documenta tus iteraciones con IPR y mide resultados antes de escalar.",
+            "context": "Este recorrido está pensado para sesiones de capacitación de 60 minutos.",
+            "copy": false
+          },
+          "errors": [
+            "Saltarse la lectura inicial y comenzar en técnicas avanzadas sin contexto.",
+            "Descuidar la documentación de los experimentos realizados con prompts."
+          ],
+          "bestPractices": [
+            "Reserva tiempo para revisar los recursos complementarios al final de cada sesión.",
+            "Define objetivos claros por semana y anótalos en la checklist descargable."
+          ],
+          "resources": [
+            {
+              "label": "Resumen ejecutivo (PDF)",
+              "href": "assets/resumen-ejecutivo.pdf",
+              "description": "Versión imprimible con el mapa completo del curso."
+            },
+            {
+              "label": "Plantilla de planificación semanal",
+              "href": "assets/plan-semanal.md",
+              "description": "Archivo Markdown editable para tus metas de práctica."
+            }
+          ],
+          "related": [
+            "guia-rapida",
+            "glosario-fundamentos"
+          ],
+          "notes": [
+            "Recuerda que puedes activar el Modo lectura desde la esquina inferior derecha si quieres concentrarte en el contenido sin el menú.",
+            "Los atajos de teclado (M, F, T) están siempre disponibles para agilizar tu navegación."
+          ]
+        },
+        {
+          "id": "guia-rapida",
+          "title": "Guía rápida para empezar",
+          "difficulty": "Introductorio",
+          "time": "6 min",
+          "summary": "Tarjetas temáticas que explican cómo navegar, comparar técnicas y elegir el flujo ideal.",
+          "definition": "Una hoja de ruta condensada que resume qué obtienes en cada módulo y cómo conectar los aprendizajes.",
+          "when": "Cuando necesitas preparar un taller breve o recordar qué técnica cubre cada necesidad.",
+          "steps": [
+            "Identifica el problema a resolver (contexto, razonamiento o seguridad).",
+            "Elige la sección correspondiente en el menú y consulta las tarjetas para estimar tiempo y dificultad.",
+            "Abre los bloques expandibles para estudiar ejemplos y errores frecuentes antes de experimentar."
+          ],
+          "example": {
+            "title": "Tabla comparativa de diseño",
+            "prompt": "| Técnica | Tiempo de preparación | Nivel de guía al modelo | Riesgo de errores |\n| --- | --- | --- | --- |\n| ASPECT | Medio | Alto (estructura detallada) | Bajo si se sigue la checklist |\n| Zero/Few-shot | Bajo a medio | Medio (depende de ejemplos) | Medio (sensibilidad a ejemplos pobres) |\n| Instructive Prompting | Medio | Muy alto (formato obligatorio) | Bajo si el formato se valida |",
+            "context": "Consulta esta tabla antes de elegir la técnica de diseño más adecuada.",
+            "copy": false
+          },
+          "errors": [
+            "Confiar únicamente en la intuición sin revisar los ejemplos curados.",
+            "Olvidar adaptar los ejercicios a la audiencia o al dominio específico."
+          ],
+          "bestPractices": [
+            "Añade tus propias notas en cada tarjeta descargando la plantilla semanal.",
+            "Activa los tooltips para aclarar términos técnicos sobre la marcha."
+          ],
+          "resources": [
+            {
+              "label": "Tabla de razonamiento comparativa",
+              "href": "assets/tabla-razonamiento.md",
+              "description": "Incluye Chain-of-Thought, Layering y Meta-prompting."
+            },
+            {
+              "label": "Checklist de sesión",
+              "href": "assets/checklist-sesion.md",
+              "description": "Puntos clave a revisar al terminar cada módulo."
+            }
+          ],
+          "related": [
+            "proposito-sitio",
+            "aspect",
+            "chain-of-thought"
+          ],
+          "notes": [
+            "Las tarjetas destacan dificultad y tiempo estimado para que planifiques sesiones de estudio de 15 o 30 minutos.",
+            "Utiliza la microinteracción de hover para detectar rápidamente qué tarjetas son clicables."
+          ]
+        },
+        {
+          "id": "glosario-fundamentos",
+          "title": "Glosario de conceptos básicos",
+          "difficulty": "Introductorio",
+          "time": "8 min",
+          "summary": "Definiciones breves de IA generativa, prompt, formato y otros términos clave con tooltips contextuales.",
+          "definition": "Un conjunto de conceptos esenciales para garantizar un lenguaje común entre equipos técnicos y no técnicos.",
+          "when": "Siempre que detectes dudas terminológicas o antes de documentar procesos.",
+          "steps": [
+            "Explora los términos destacados en el contenido principal (IA generativa, prompt, formato).",
+            "Activa los tooltips para profundizar en ejemplos prácticos de cada concepto.",
+            "Relaciona cada término con la técnica correspondiente usando el diagrama conceptual."
+          ],
+          "example": {
+            "title": "Diagrama conceptual",
+            "prompt": "1. Nodo central: \"Diseño de Prompt\".\n2. Tres ramas principales: \"Contexto\", \"Razonamiento\", \"Seguridad\".\n3. Bajo \"Contexto\": ASPECT, Zero/Few-shot, Instructive.\n4. Bajo \"Razonamiento\": CoT, Layering, Meta.\n5. Bajo \"Seguridad\": Roleplay avanzado, Jailbreak awareness, Errores comunes.\n6. Flechas bidireccionales entre \"Razonamiento\" y \"Seguridad\" para representar equilibrio entre profundidad y control.",
+            "context": "Reproduce este diagrama en tus capacitaciones para explicar el mapa mental del sitio.",
+            "copy": false
+          },
+          "errors": [
+            "Suponer que todos comprenden qué es un formato estructurado o un tono regulado.",
+            "Ignorar la dimensión ética al hablar de seguridad o roleplay."
+          ],
+          "bestPractices": [
+            "Integra el glosario en tus onboardings y en las plantillas de documentación.",
+            "Actualiza el vocabulario con ejemplos de tu industria para reforzar el aprendizaje."
+          ],
+          "resources": [
+            {
+              "label": "Glosario descargable",
+              "href": "assets/glosario.md",
+              "description": "Versión editable para que agregues términos propios."
+            }
+          ],
+          "related": [
+            "proposito-sitio",
+            "guia-rapida",
+            "roleplay-avanzado"
+          ],
+          "notes": [
+            "Los tooltips se activan al pasar el cursor o enfocarlos con el teclado, manteniendo la accesibilidad.",
+            "Puedes copiar definiciones rápidamente usando los botones de copiar ubicados junto a cada término."
+          ]
+        }
+      ]
     },
     {
-        "id": "aspect",
-        "title": "ASPECT",
-        "category": "Fundamentos",
-        "html": "<h2>ASPECT</h2><p><strong>A</strong>cción · <strong>S</strong>ujeto · <strong>P</strong>ropósito · <strong>E</strong>jemplos · <strong>C</strong>onstraints · <strong>T</strong>ono.</p><p>Marco simple para no olvidar elementos críticos y lograr consistencia.</p><h3>Objetivo</h3><ul><li>Convertir una necesidad difusa en una instrucción concreta.</li><li>Hacer la salida predecible y útil.</li></ul><h3>Plantilla</h3><pre>### ACCIÓN: &lt;qué&gt;\n### SUJETO: &lt;sobre qué&gt;\n### PROPÓSITO: &lt;para qué&gt;\n### EJEMPLO(S): &lt;1–3&gt;\n### RESTRICCIONES: &lt;formato, longitud, estilo&gt;\n### TONO: &lt;docente, ejecutivo, técnico&gt;</pre><h3>Ejemplo</h3><pre>### ACCIÓN Resume\n### SUJETO Informe Q1\n### PROPÓSITO Junta directiva\n### EJEMPLOS \"Ingresos ↑12%\", \"Margen 34%\"\n### RESTRICCIONES ≤120 palabras, viñetas\n### TONO Ejecutivo</pre><h3>Errores comunes</h3><ul><li>Propósito ausente → salidas genéricas.</li><li>Ejemplos contradictorios → confunden el estilo.</li></ul><h3>Checklist</h3><pre>[ ] Objetivo claro\n[ ] 1–3 ejemplos\n[ ] Formato/longitud\n[ ] Tono definido</pre>"
+      "id": "diseno-prompt",
+      "title": "Diseño del prompt",
+      "color": "#FF6F61",
+      "icon": "edit",
+      "description": "Estrategias para dar contexto sólido y formatos claros a tus solicitudes.",
+      "tooltip": "Construye prompts completos y consistentes desde el primer intento.",
+      "topics": [
+        {
+          "id": "aspect",
+          "title": "Técnica ASPECT",
+          "difficulty": "Intermedio",
+          "time": "12 min",
+          "summary": "Marco mnemotécnico que estructura un prompt completo.",
+          "definition": "Acrónimo de Acción, Sujeto, Propósito, Ejemplos, Condiciones y Tono.",
+          "when": "Inicio de cualquier proyecto o cuando necesites prompts estables y claros.",
+          "steps": [
+            "Identifica el objetivo y tradúcelo en una acción concreta.",
+            "Define el rol del modelo y la audiencia esperada.",
+            "Establece formato de salida, condiciones y tono con ejemplos de referencia."
+          ],
+          "example": {
+            "title": "Informe ejecutivo trimestral",
+            "prompt": "ACTÚA COMO analista financiero senior.\nSUJETO Consejo directivo de la unidad LATAM.\nPROPÓSITO Resumir el desempeño del Q1 con foco en ingresos y costos.\nEJEMPLO Usa viñetas similares a: \"Ingresos ↑12% interanual\".\nCONDICIONES Máx. 120 palabras, incluye tabla con dos columnas (Métrica, Resultado).\nTONO Ejecutivo, propositivo y orientado a decisiones.",
+            "context": "Botón de copiar disponible para reutilizar la plantilla ASPECT.",
+            "copy": true
+          },
+          "errors": [
+            "Omitir restricciones de formato y provocar respuestas difíciles de reutilizar.",
+            "No aclarar el tono adecuado para la audiencia objetivo."
+          ],
+          "bestPractices": [
+            "Usa verbos de acción concretos y medibles.",
+            "Añade referencias temporales o de dominio para acotar contexto."
+          ],
+          "resources": [
+            {
+              "label": "Plantilla ASPECT en Markdown",
+              "href": "assets/plantillas/aspect.md",
+              "description": "Checklist editable para tus proyectos."
+            },
+            {
+              "label": "Guía rápida ASPECT",
+              "href": "assets/plantillas/aspect-guia.md",
+              "description": "Resumen en una página para talleres."
+            }
+          ],
+          "related": [
+            "zero-few-shot",
+            "instructive-prompting"
+          ],
+          "notes": [
+            "Activa el bloque 'Ver ejemplo' para estudiar una versión comentada del prompt.",
+            "Puedes duplicar la tarjeta y personalizarla gracias al botón de copiar."
+          ]
+        },
+        {
+          "id": "zero-few-shot",
+          "title": "Zero-shot y Few-shot",
+          "difficulty": "Intermedio",
+          "time": "10 min",
+          "summary": "Ajustan el contexto con cero o pocos ejemplos según el conocimiento previo del modelo.",
+          "definition": "Zero-shot confía en instrucciones explícitas; few-shot añade ejemplos curados.",
+          "when": "Tareas nuevas o cuando dispones de ejemplos representativos.",
+          "steps": [
+            "Evalúa si el modelo conoce el dominio y requiere ejemplos adicionales.",
+            "Selecciona ejemplos diversos, etiquetados y sin ambigüedades.",
+            "Ordena los casos por complejidad creciente y especifica el formato esperado."
+          ],
+          "example": {
+            "title": "Clasificación de comentarios",
+            "prompt": "Objetivo: Clasificar comentarios de soporte en {\"Incidencia\", \"Consulta\", \"Felicitación\"}.\nEjemplo 1: \"La app se cierra al iniciar\" → Incidencia.\nEjemplo 2: \"¿Cómo cambio mi contraseña?\" → Consulta.\nEjemplo 3: \"Gracias por la actualización, funciona mejor\" → Felicitación.\nClasifica: \"No puedo ver mis facturas desde ayer\".",
+            "context": "Añade tus propios ejemplos y actualiza la tabla editable incluida en Recursos.",
+            "copy": true
+          },
+          "errors": [
+            "Usar ejemplos contradictorios o con ruido.",
+            "Mezclar idiomas sin avisar explícitamente al modelo."
+          ],
+          "bestPractices": [
+            "Etiqueta cada ejemplo y señala el formato de salida esperado.",
+            "Documenta los resultados en la tabla editable para futuras iteraciones."
+          ],
+          "resources": [
+            {
+              "label": "Tabla editable Zero/Few-shot",
+              "href": "assets/plantillas/tabla-zero-few.csv",
+              "description": "Estructura para inputs, etiquetas y resultados."
+            }
+          ],
+          "related": [
+            "aspect",
+            "ipr"
+          ],
+          "notes": [
+            "Utiliza el acordeón lateral para saltar a técnicas de iteración cuando necesites refinar tus ejemplos.",
+            "Recuerda alternar entre Zero y Few-shot según la familiaridad del modelo con el dominio."
+          ]
+        },
+        {
+          "id": "instructive-prompting",
+          "title": "Instructive Prompting",
+          "difficulty": "Intermedio",
+          "time": "9 min",
+          "summary": "Prompts con instrucciones claras y formato obligatorio.",
+          "definition": "Indica pasos precisos y estructura de salida para respuestas reguladas.",
+          "when": "Generación de reportes, JSON, tablas o entregables sujetos a regulación.",
+          "steps": [
+            "Define el objetivo general y la audiencia del resultado.",
+            "Enumera los pasos que debe seguir el modelo, en orden lógico.",
+            "Proporciona una plantilla de salida y valida campos obligatorios."
+          ],
+          "example": {
+            "title": "Checklist de accesibilidad",
+            "prompt": "Genera una tabla con columnas: Criterio, Descripción, Estado.\nSigue los pasos:\n1. Revisa WCAG 2.2 nivel AA.\n2. Selecciona 5 criterios críticos para interfaces móviles.\n3. Marca Estado como \"Cumple\" o \"Mejorar\".\nSi falta información, indica \"dato no disponible\".",
+            "context": "Incluye un snippet JSON de referencia en la sección de Recursos.",
+            "copy": true
+          },
+          "errors": [
+            "Solicitar múltiples formatos en una sola instrucción.",
+            "No validar que todos los campos requeridos estén presentes."
+          ],
+          "bestPractices": [
+            "Indica cómo proceder si algún dato está ausente.",
+            "Añade un ejemplo de salida válido para acelerar la comprensión."
+          ],
+          "resources": [
+            {
+              "label": "Snippet JSON comentado",
+              "href": "assets/plantillas/snippet-instructive.json",
+              "description": "Plantilla para respuestas estructuradas."
+            }
+          ],
+          "related": [
+            "aspect",
+            "evaluacion-metricas"
+          ],
+          "notes": [
+            "El botón de copiar confirma la acción cambiando el icono a un check y mostrando el mensaje 'Copiado'.",
+            "Utiliza la barra auxiliar para acceder a videos breves sobre formateo estructurado."
+          ]
+        }
+      ]
     },
     {
-        "id": "cot",
-        "title": "Chain-of-Thought (CoT)",
-        "category": "Fundamentos",
-        "html": "<h2>Chain-of-Thought (CoT)</h2><p>Fomenta razonamiento paso a paso antes de la respuesta final. Útil en lógica, matemáticas y tareas multietapa.</p><h3>Ejemplo</h3><pre>### TAREA\n¿Cuántos días hay entre 12-feb-2024 y 20-mar-2024?\n### INSTRUCCIÓN\nRazona paso a paso y al final responde: \"Días: &lt;número&gt;\".</pre><h3>Buenas prácticas</h3><ul><li>Separa el proceso de la salida final.</li><li>Si la tarea es simple, pide “alto nivel” para evitar verbosidad.</li></ul><h3>Variantes</h3><ul><li><em>Plan-and-solve:</em> primero plan, luego ejecución.</li><li><em>Self-check:</em> añade una mini verificación al final.</li></ul>"
+      "id": "razonamiento-guiado",
+      "title": "Razonamiento guiado",
+      "color": "#2BB673",
+      "icon": "brain",
+      "description": "Técnicas que invitan al modelo a explicitar su lógica y planes.",
+      "tooltip": "Descompón problemas complejos y audita el razonamiento del modelo.",
+      "topics": [
+        {
+          "id": "chain-of-thought",
+          "title": "Chain-of-Thought (CoT)",
+          "difficulty": "Avanzado",
+          "time": "11 min",
+          "summary": "Fomenta el razonamiento paso a paso antes de entregar conclusiones.",
+          "definition": "Indica al modelo que verbalice su proceso lógico previo a la respuesta final.",
+          "when": "Problemas complejos, análisis de casos o cálculos multi-etapa.",
+          "steps": [
+            "Establece contexto y datos iniciales.",
+            "Pide razonamiento estructurado, enumerando pasos.",
+            "Exige una conclusión sintetizada separada del razonamiento."
+          ],
+          "example": {
+            "title": "Caso clínico",
+            "prompt": "Analiza el caso clínico y razona paso a paso antes de dar un diagnóstico.\nDatos: paciente con fiebre, tos persistente, saturación 93%.\nInstrucción: \"Explica tu razonamiento en pasos numerados y concluye con 'En resumen:'\".",
+            "context": "El bloque expandible incluye una versión resuelta para autoevaluarte.",
+            "copy": true
+          },
+          "errors": [
+            "Mezclar la respuesta final dentro del razonamiento sin delimitarla.",
+            "Omitir datos críticos en los pasos intermedios."
+          ],
+          "bestPractices": [
+            "Cierra con una frase tipo 'En resumen' para destacar la conclusión.",
+            "Incluye referencias a datos en cada paso para reforzar la trazabilidad."
+          ],
+          "resources": [
+            {
+              "label": "Diagrama de flujo CoT",
+              "href": "assets/diagramas/cot.txt",
+              "description": "Descripción textual lista para convertir en visual."
+            }
+          ],
+          "related": [
+            "prompt-layering",
+            "meta-prompting"
+          ],
+          "notes": [
+            "Utiliza el botón 'Siguiente' para explorar Prompt Layering y comparar estrategias.",
+            "Los tooltips resaltan términos médicos relevantes para evitar confusiones."
+          ]
+        },
+        {
+          "id": "prompt-layering",
+          "title": "Prompt Layering",
+          "difficulty": "Avanzado",
+          "time": "13 min",
+          "summary": "Descompone tareas en capas secuenciales donde cada salida alimenta la siguiente.",
+          "definition": "Cada capa refina el output de la anterior, facilitando proyectos largos y creativos.",
+          "when": "Redacciones extensas, generación de código con revisión o análisis iterativos.",
+          "steps": [
+            "Diseña las capas y objetivos de cada una.",
+            "Define criterios de transición y qué debe conservarse.",
+            "Registra resúmenes breves entre capas para mantener coherencia."
+          ],
+          "example": {
+            "title": "Campaña de marketing en tres etapas",
+            "prompt": "Capa 1 - Investigación: Resume insights clave del público objetivo.\nCapa 2 - Propuesta: Genera la campaña usando el resumen anterior.\nCapa 3 - Revisión: Evalúa la campaña y ajusta tono y llamadas a la acción.",
+            "context": "El acordeón lateral contiene plantillas de transición entre capas.",
+            "copy": false
+          },
+          "errors": [
+            "Mezclar objetivos entre capas y perder control del flujo.",
+            "Olvidar indicar qué información debe preservarse."
+          ],
+          "bestPractices": [
+            "Inserta checkpoints manuales antes de pasar a la siguiente capa.",
+            "Documenta criterios de calidad para cada transición."
+          ],
+          "resources": [
+            {
+              "label": "Plantilla de flujo en texto",
+              "href": "assets/diagramas/prompt-layering.txt",
+              "description": "Esquema editable para tus proyectos."
+            }
+          ],
+          "related": [
+            "chain-of-thought",
+            "prompt-chaining"
+          ],
+          "notes": [
+            "Explora el modal 'Evaluar mi prompt' tras cada capa para registrar aprendizajes.",
+            "La barra auxiliar ofrece enlaces a herramientas de gestión de proyectos."
+          ]
+        },
+        {
+          "id": "meta-prompting",
+          "title": "Meta-prompting",
+          "difficulty": "Avanzado",
+          "time": "12 min",
+          "summary": "El modelo planifica su respuesta antes de ejecutarla.",
+          "definition": "Solicita que el modelo genere un plan, lo valide y luego responda siguiendo ese plan.",
+          "when": "Cuando requieres rigor metodológico o evaluar la estrategia antes de producir resultados.",
+          "steps": [
+            "Pide un plan estructurado con número de pasos limitado.",
+            "Solicita confirmación del plan antes de continuar.",
+            "Exige que la respuesta final cite cómo cumplió cada paso."
+          ],
+          "example": {
+            "title": "Diseño de syllabus técnico",
+            "prompt": "Tarea: Diseñar un syllabus de 6 semanas para un curso de analítica de datos.\nPaso 1: Genera un plan de trabajo numerado con máximo 6 puntos.\nPaso 2: Valida si el plan cumple los criterios (incluir prácticas y evaluación).\nPaso 3: Si el plan es correcto, desarrolla el contenido semana por semana.",
+            "context": "Incluye checklist de autoevaluación en Recursos para auditar el plan generado.",
+            "copy": true
+          },
+          "errors": [
+            "No limitar el número de pasos y obtener planes demasiado extensos.",
+            "Olvidar establecer criterios de calidad explícitos."
+          ],
+          "bestPractices": [
+            "Define condiciones de éxito antes de que el modelo ejecute el plan.",
+            "Solicita confirmación textual ('Plan aprobado') para mayor control."
+          ],
+          "resources": [
+            {
+              "label": "Checklist de autoevaluación",
+              "href": "assets/checklists/meta-prompting.md",
+              "description": "Preguntas para validar cada plan."
+            }
+          ],
+          "related": [
+            "prompt-layering",
+            "evaluacion-metricas"
+          ],
+          "notes": [
+            "Utiliza los breadcrumbs para regresar a CoT y comparar la estructura de razonamiento.",
+            "El botón 'Anterior' te lleva directamente a Prompt Layering para estudiar el contraste."
+          ]
+        }
+      ]
     },
     {
-        "id": "layering",
-        "title": "Prompt Layering",
-        "category": "Fundamentos",
-        "html": "<h2>Prompt Layering</h2><p>Divide la tarea en capas: extracción → análisis → síntesis. Facilita depuración y control.</p><h3>Pipeline</h3><ol><li><strong>Extraer</strong> entidades → lista</li><li><strong>Clasificar</strong> sentimiento → tabla</li><li><strong>Resumir</strong> hallazgos → informe</li></ol><pre>CAPA1: entidades({{feedback}})\nCAPA2: sentimiento por entidad\nCAPA3: informe ≤120 palabras</pre><h3>Tips</h3><ul><li>Define contratos (entradas/salidas) entre capas, p.ej. JSON.</li><li>Valida cada capa antes de encadenar.</li></ul>"
+      "id": "optimizacion-iterativa",
+      "title": "Optimización iterativa",
+      "color": "#FFCF44",
+      "icon": "refresh",
+      "description": "Mejoras continuas, métricas y errores frecuentes al iterar prompts.",
+      "tooltip": "Perfecciona tus prompts con ciclos de feedback y mediciones objetivas.",
+      "topics": [
+        {
+          "id": "ipr",
+          "title": "Iterative Prompt Refinement (IPR)",
+          "difficulty": "Intermedio",
+          "time": "9 min",
+          "summary": "Mejora continua basada en feedback controlado.",
+          "definition": "Ciclo de prueba, análisis y ajuste del prompt hasta lograr la respuesta deseada.",
+          "when": "Cuando el resultado inicial es insuficiente o cambian los requisitos.",
+          "steps": [
+            "Registra cada versión del prompt y su resultado.",
+            "Analiza qué elementos funcionaron y cuáles no.",
+            "Ajusta una variable a la vez y documenta aprendizajes."
+          ],
+          "example": {
+            "title": "Ajuste de plantilla de correo",
+            "prompt": "Iteración 1: Solicita tono formal y saludo estándar.\nIteración 2: Ajusta tono a cercano, agrega llamado a la acción.\nIteración 3: Refuerza restricciones de extensión (máx. 150 palabras).\nDocumenta los cambios en la tabla de control adjunta.",
+            "context": "Usa la hoja de cálculo sugerida para controlar tus variantes.",
+            "copy": false
+          },
+          "errors": [
+            "Cambiar demasiados parámetros a la vez y perder rastro de lo que funciona.",
+            "No guardar evidencias de cada iteración."
+          ],
+          "bestPractices": [
+            "Define criterios de aceptación antes de iterar.",
+            "Aplica etiquetas de versión (V1, V2, V3) y documenta hallazgos."
+          ],
+          "resources": [
+            {
+              "label": "Tabla de control de cambios",
+              "href": "assets/plantillas/control-cambios.csv",
+              "description": "Formato para registrar iteraciones."
+            }
+          ],
+          "related": [
+            "zero-few-shot",
+            "evaluacion-metricas"
+          ],
+          "notes": [
+            "Abre el modal 'Evaluar mi prompt' tras cada iteración para registrar feedback.",
+            "Utiliza la tarjeta de Errores comunes para evitar recaer en los mismos fallos."
+          ]
+        },
+        {
+          "id": "evaluacion-metricas",
+          "title": "Evaluación y métricas",
+          "difficulty": "Intermedio",
+          "time": "10 min",
+          "summary": "Instrumentos para medir calidad, cobertura y cumplimiento de respuestas.",
+          "definition": "Conjunto de criterios que analiza precisión, tono, cumplimiento y experiencia de usuario.",
+          "when": "Antes de desplegar prompts en producción o durante auditorías periódicas.",
+          "steps": [
+            "Define métricas y pesos según los objetivos del negocio.",
+            "Diseña un dataset de pruebas y registra resultados.",
+            "Automatiza revisiones donde sea posible e involucra una revisión humana final."
+          ],
+          "example": {
+            "title": "Matriz de 10 prompts",
+            "prompt": "Evalúa 10 prompts con escala Likert (1-5) en precisión, cobertura y tono.\nRegistra comentarios cualitativos y acciones de mejora propuestas.",
+            "context": "Integra la rúbrica descargable para sistematizar tus evaluaciones.",
+            "copy": false
+          },
+          "errors": [
+            "No involucrar a usuarios finales en la evaluación.",
+            "Depender de una sola métrica cuantitativa."
+          ],
+          "bestPractices": [
+            "Combina métricas automáticas con revisión humana.",
+            "Documenta decisiones y cambios realizados tras cada evaluación."
+          ],
+          "resources": [
+            {
+              "label": "Rúbrica editable",
+              "href": "assets/rubricas/evaluacion.csv",
+              "description": "Archivo para medir precisión, cobertura y tono."
+            }
+          ],
+          "related": [
+            "ipr",
+            "meta-prompting"
+          ],
+          "notes": [
+            "Activa el modo enfoque (tecla F) para revisar datos sin distracciones.",
+            "Consulta las recomendaciones éticas antes de aprobar resultados sensibles."
+          ]
+        },
+        {
+          "id": "errores-comunes",
+          "title": "Errores comunes y cómo corregirlos",
+          "difficulty": "Intermedio",
+          "time": "8 min",
+          "summary": "Alertas sobre fallos recurrentes en claridad, sesgo y seguridad.",
+          "definition": "Lista categorizada que ejemplifica errores típicos y cómo mitigarlos.",
+          "when": "Durante revisiones o procesos de capacitación interna.",
+          "steps": [
+            "Diagnostica el error identificado (claridad, sesgo, seguridad).",
+            "Analiza ejemplos incorrectos y su versión corregida.",
+            "Aplica la corrección y documenta recomendaciones."
+          ],
+          "example": {
+            "title": "Prompt ambiguo",
+            "prompt": "Incorrecto: \"Dame información de clientes importantes\" (riesgo de datos sensibles).\nCorrección: \"Resume las tendencias de compra usando datos anonimizados del último trimestre.\" \nAgrega un recordatorio de cumplimiento.",
+            "context": "Incluye casos reales anonimizados en la biblioteca enlazada.",
+            "copy": false
+          },
+          "errors": [
+            "No testear prompts en contextos distintos.",
+            "Ignorar disclaimers o verificaciones de seguridad."
+          ],
+          "bestPractices": [
+            "Añade disclaimers y solicita verificaciones manuales cuando haya riesgo.",
+            "Comparte ejemplos corregidos durante la capacitación para reforzar buenas prácticas."
+          ],
+          "resources": [
+            {
+              "label": "Biblioteca de casos",
+              "href": "assets/casos/casos-anonimizados.md",
+              "description": "Listado de incidentes y correcciones."
+            }
+          ],
+          "related": [
+            "evaluacion-metricas",
+            "jailbreak-awareness"
+          ],
+          "notes": [
+            "Utiliza los acordes expandibles para revisar casos adicionales por categoría.",
+            "La barra auxiliar destaca alertas de cumplimiento relevantes para tu región."
+          ]
+        }
+      ]
     },
     {
-        "id": "instructive",
-        "title": "Instructive Prompting",
-        "category": "Fundamentos",
-        "html": "<h2>Instructive Prompting</h2><p>Respuestas estrictas y estructuradas para integraciones o automatizaciones.</p><h3>JSON</h3><pre>{\n  \"task\": \"classify\",\n  \"subject\": \"{{texto}}\",\n  \"labels\": [\"positive\",\"negative\",\"neutral\"],\n  \"constraints\": {\"format\": \"csv\", \"max_tokens\": 120}\n}</pre><h3>YAML</h3><pre>steps:\n- extract_entities: \"{{texto}}\"\n- sentiment_analysis: true\n- summary:\n    length: 120\n    format: markdown</pre><h3>Validación</h3><pre>Si no puedes cumplir, devuelve:\n{\"ok\": false, \"reason\": \"...\"}</pre>"
+      "id": "flujos-avanzados",
+      "title": "Flujos avanzados",
+      "color": "#6B7A8F",
+      "icon": "workflow",
+      "description": "Secuencias encadenadas e integraciones con herramientas externas.",
+      "tooltip": "Construye pipelines de prompting y conéctalos con APIs u otros servicios.",
+      "topics": [
+        {
+          "id": "prompt-chaining",
+          "title": "Prompt Chaining",
+          "difficulty": "Avanzado",
+          "time": "12 min",
+          "summary": "Encadena salidas como entradas de nuevas etapas para pipelines complejos.",
+          "definition": "Diseña secuencias de prompts interdependientes con controles de calidad en cada paso.",
+          "when": "Procesos largos, automatización o generación de pipelines multi-etapa.",
+          "steps": [
+            "Mapea etapas y define formatos de transferencia.",
+            "Valida outputs antes de alimentar la siguiente etapa.",
+            "Monitorea consistencia y agrega checkpoints de revisión manual."
+          ],
+          "example": {
+            "title": "Producción audiovisual",
+            "prompt": "Prompt 1: Recopilar información de briefing.\nPrompt 2: Generar guion detallado con escenas numeradas.\nPrompt 3: Crear storyboard textual con descripciones visuales.\nPrompt 4: Elaborar lista de tomas final.",
+            "context": "Incluye un diagrama de flujo textual para visualizar el pipeline.",
+            "copy": false
+          },
+          "errors": [
+            "No validar outputs antes de pasar a la siguiente etapa.",
+            "Depender únicamente de respuestas automáticas sin revisión humana."
+          ],
+          "bestPractices": [
+            "Inserta checkpoints manuales para auditoría.",
+            "Documenta responsables por etapa y criterios de finalización."
+          ],
+          "resources": [
+            {
+              "label": "Diagrama de flujo textual",
+              "href": "assets/diagramas/prompt-chaining.txt",
+              "description": "Descripción paso a paso para documentar tu pipeline."
+            }
+          ],
+          "related": [
+            "prompt-layering",
+            "integracion-herramientas"
+          ],
+          "notes": [
+            "Activa la vista de acordeón lateral para saltar entre técnicas relacionadas sin perder contexto.",
+            "El breadcrumb muestra la ruta completa para facilitar el seguimiento en equipo."
+          ]
+        },
+        {
+          "id": "integracion-herramientas",
+          "title": "Integración con herramientas externas",
+          "difficulty": "Avanzado",
+          "time": "14 min",
+          "summary": "Uso de APIs y servicios de terceros para potenciar los prompts.",
+          "definition": "Combina modelos de lenguaje con bases de datos, automatizaciones o código ejecutable.",
+          "when": "Cuando necesitas datos actualizados o ejecución de acciones fuera del modelo.",
+          "steps": [
+            "Selecciona herramientas seguras y compatibles con tu stack.",
+            "Define interfaces claras y manejo de errores.",
+            "Implementa logs, límites de tasa y auditorías."
+          ],
+          "example": {
+            "title": "Consulta de API de clima",
+            "prompt": "Antes de responder, consulta la API de clima con la ciudad proporcionada.\nDevuelve pronóstico actual, recomendaciones y menciona la fuente.\nSi la API falla, responde con un mensaje de error controlado.",
+            "context": "La sección de Recursos lista APIs recomendadas con advertencias de seguridad.",
+            "copy": false
+          },
+          "errors": [
+            "No manejar errores de red o límites de tasa.",
+            "Integrar herramientas sin revisar sus políticas de privacidad."
+          ],
+          "bestPractices": [
+            "Implementa registros detallados de cada llamada externa.",
+            "Utiliza claves rotativas y monitoreo continuo."
+          ],
+          "resources": [
+            {
+              "label": "Lista de APIs sugeridas",
+              "href": "assets/listas/apis-recomendadas.md",
+              "description": "Incluye advertencias y notas de cumplimiento."
+            }
+          ],
+          "related": [
+            "prompt-chaining",
+            "jailbreak-awareness"
+          ],
+          "notes": [
+            "El modo enfoque facilita revisar código o documentación mientras interactúas con el contenido.",
+            "Agrega tus propias herramientas a la lista descargable para compartirlas con el equipo."
+          ]
+        }
+      ]
     },
     {
-        "id": "ipr",
-        "title": "Iterative Prompt Refinement (IPR)",
-        "category": "Optimización",
-        "html": "<h2>Iterative Prompt Refinement (IPR)</h2><p>Mejora por ciclos: Prompt → Resultado → Evaluación → Ajuste.</p><h3>Pseudocódigo</h3><pre>for v in range(3):\n  out = llm(prompt)\n  score = evaluator(out)\n  if score >= 0.9: break\n  prompt = refine(prompt, feedback=out)</pre><h3>Métricas</h3><ul><li>Precisión factual / cobertura</li><li>Tokens / latencia</li><li>Consistencia de formato</li></ul><h3>Tip</h3><p>Versiona prompts y compara resultados para elegir el mejor.</p>"
-    },
-    {
-        "id": "zero_shot",
-        "title": "Zero-shot",
-        "category": "Fundamentos",
-        "html": "<h2>Zero-shot Prompting</h2><p>Instrucción directa sin ejemplos. Rápido pero sensible a ambigüedad.</p><h3>Ejemplo</h3><pre>Explica en ≤100 palabras qué es una API REST para principiantes.</pre><h3>Cuándo usar</h3><ul><li>Definiciones, resúmenes, tareas simples</li><li>Instrucciones inequívocas</li></ul><h3>Riesgo</h3><p>Alta variabilidad → si ocurre, migra a Few-shot.</p>"
-    },
-    {
-        "id": "few_shot",
-        "title": "Few-shot",
-        "category": "Fundamentos",
-        "html": "<h2>Few-shot Prompting</h2><p>Proporciona 2–5 ejemplos representativos para fijar estilo y formato.</p><h3>Ejemplo</h3><pre>### TAREA\nClasifica reseñas en {positivo, negativo}.\n### EJEMPLOS\n\"Me encantó\" → positivo\n\"Se dañó a los 3 días\" → negativo\n### TEXTO\n\"Funciona bien pero llegó tarde\"</pre><h3>Consejos</h3><ul><li>Ejemplos cortos y diversos</li><li>Ordena: más representativo primero</li></ul>"
-    },
-    {
-        "id": "role_based",
-        "title": "Roleplay Prompting",
-        "category": "Fundamentos",
-        "html": "<h2>Roleplay Prompting: Técnicas, usos avanzados y seguridad</h2><p>El roleplay es una técnica versátil para moldear personalidad, tono y nivel de expertise del modelo. Permite simular profesiones, escenarios o personajes para fines educativos, creativos y técnicos, a la vez que exige considerar la seguridad ante posibles abusos.</p><h3>¿Qué es el Roleplay Prompting?</h3><p>Consiste en asignar un rol explícito al modelo (\"Eres una profesora de álgebra\", \"Actúa como ingeniero de seguridad\"). El rol ajusta el marco de razonamiento, vocabulario y estilo de respuesta para alinear la salida con la situación deseada.</p><h3>Tipos de roleplay</h3><ul><li><strong>Educativo:</strong> Tutor que guía paso a paso y valida comprensión.</li><li><strong>Creativo:</strong> Personajes o mundos ficticios para historias y diálogos.</li><li><strong>Profesional:</strong> Especialistas (abogado, médico, investigadora UX) que aportan estructura técnica.</li><li><strong>Crítico:</strong> Figura oposicional que detecta fallos en argumentos o código.</li><li><strong>Simulación de escenarios:</strong> Entrenamiento, pruebas de UX o videojuegos que requieren comportamientos situacionales.</li></ul><h3>Buenas prácticas</h3><ul><li><strong>Define límites claros:</strong> Explica qué puede y qué no puede hacer el rol.</li><li><strong>Combina con ASPECT:</strong> Añade acción, propósito, ejemplos, restricciones y tono.</li><li><strong>Itera:</strong> Ajusta el rol si las respuestas no cumplen expectativas.</li><li><strong>Encadena roles:</strong> Un rol genera contenido y otro lo revisa o audita.</li></ul><h3>Roleplay y seguridad: entendiendo el jailbreak</h3><p>Los intentos de jailbreak buscan que el modelo ignore políticas éticas fingiendo nuevos roles sin límites. Identificar estos patrones es clave para proteger sistemas.</p><h4>¿Qué es un jailbreak en IA?</h4><p>Es un intento de vulnerar restricciones mediante instrucciones engañosas, como pedir que el modelo actúe como un personaje sin reglas para obtener información sensible o dañina.</p><h4>Técnicas comunes</h4><ul><li><strong>Role inversion:</strong> \"Imagina que eres un hacker sin límites...\"</li><li><strong>Prompt injection:</strong> Instrucciones ocultas dentro de texto aparentemente inocente.</li><li><strong>Prompts estilo DAN:</strong> (Do Anything Now) que explícitamente piden ignorar salvaguardas.</li><li><strong>Encadenamiento malicioso:</strong> Secuencia de pasos para erosionar restricciones gradualmente.</li></ul><h4>Cómo defenderse</h4><ul><li><strong>Detecta roles sospechosos:</strong> Señales de evasión de políticas.</li><li><strong>Valida el contexto:</strong> Filtra instrucciones contradictorias o peligrosas antes de ejecutarlas.</li><li><strong>Sandboxing:</strong> Limita el alcance y efectos de roles simulados.</li><li><strong>Audita prompts:</strong> Registra y analiza intentos para endurecer defensas.</li></ul><h3>Integración en la formación de ingenieros</h3><p>Comprender roleplay y jailbreaks debe ser parte del currículo ético y técnico. Practicar la detección, prevención y mitigación fortalece diseños seguros.</p><h3>Ejercicios prácticos</h3><ol><li>Diseña un rol legítimo (p. ej. profesora de álgebra que explica paso a paso).</li><li>Detecta un rol malicioso disfrazado de solicitud inocente.</li><li>Reescribe prompts inseguros para volverlos éticos.</li><li>Simula un ataque controlado para estudiar cómo se intenta evadir políticas.</li><li>Propón defensas automáticas (validaciones, filtros de contexto).</li></ol>"
-    },
-    {
-        "id": "meta_prompting",
-        "title": "Meta-prompting",
-        "category": "Avanzadas",
-        "html": "<h2>Meta-prompting</h2><p>Pide al modelo que proponga su plan/prompt antes de responder: mejor planificación, menos deriva.</p><h3>Ejemplo</h3><pre>1) Propón un plan de 3 pasos (solo bullets).\n2) Ejecútalo y entrega el resultado final.</pre>"
-    },
-    {
-        "id": "prompt_chaining",
-        "title": "Prompt Chaining",
-        "category": "Avanzadas",
-        "html": "<h2>Prompt Chaining</h2><p>Encadena prompts: salida A → prompt B. Útil para pipelines.</p><h3>Ejemplo</h3><pre>(A) Normaliza nombres → (B) Agrupa categorías → (C) Reporte con KPIs</pre><h3>Buenas prácticas</h3><ul><li>Formatos intermedios consistentes (JSON/CSV)</li><li>Logs por etapa para auditoría</li></ul>"
-    },
-    {
-        "id": "evaluation",
-        "title": "Evaluación y Optimización",
-        "category": "Optimización",
-        "html": "<h2>Evaluación y Optimización</h2><p>Mide y mejora la efectividad del prompt con indicadores y reglas.</p><h3>Métricas</h3><ul><li><strong>Calidad</strong>: precisión, cobertura, coherencia</li><li><strong>Formato</strong>: cumplimiento de esquema (JSON válido)</li><li><strong>Eficiencia</strong>: tokens/latencia</li></ul><h3>Técnicas</h3><ul><li>Validador: {\"ok\":true} o {\"ok\":false,\"reason\":\"...\"}</li><li>Respuestas concisas o tablas</li><li>Plantillas versionadas</li></ul>"
-    },
-    {
-        "id": "errores_comunes",
-        "title": "Errores comunes",
-        "category": "Optimización",
-        "html": "<h2>Errores comunes al crear prompts</h2><ul><li><strong>Ambigüedad:</strong> objetivo/formato difusos → usa ASPECT</li><li><strong>Ejemplos contradictorios:</strong> curado deficiente → selecciona y ordena</li><li><strong>Exceso de longitud:</strong> induce deriva → sintetiza</li><li><strong>Sin validación:</strong> resultados frágiles → agrega checks</li></ul><h3>Checklist</h3><pre>[ ] Objetivo claro\n[ ] Formato definido\n[ ] 1–3 ejemplos correctos\n[ ] Restricciones de longitud/estilo\n[ ] Revisión de salidas</pre>"
-    },
-    {
-        "id": "ai_premisas_alarmismo",
-        "title": "IA — Premisas del alarmismo",
-        "category": "Seguridad y Ética de IA",
-        "html": "<h2>IA — Premisas del alarmismo</h2><p>Resumen de las 4 premisas típicas del enfoque de “riesgo existencial” (útil para comprender el marco del debate):</p><ol><li>Superinteligencia cercana</li><li>Problema de alineación</li><li>Dificultad de fijar valores</li><li>Riesgo de actuar contra la humanidad</li></ol><p>Recurso para introducir el tema y distinguir hipótesis de evidencia.</p>"
-    },
-    {
-        "id": "ai_critica_gobernanza",
-        "title": "IA — Crítica y gobernanza",
-        "category": "Seguridad y Ética de IA",
-        "html": "<h2>IA — Crítica y gobernanza</h2><p>Mueve el foco de “alinear IA” a <strong>gobernanza humana</strong> y al mal uso por personas/organizaciones. Considera la inteligencia como <em>distribuida</em>, no un único agente.</p><ul><li>Riesgo no binario → evaluación proporcional</li><li>Instituciones, normas y responsabilidad</li><li>Transparencia y rendición de cuentas</li></ul><p>Conecta con prácticas de prompting responsable.</p>"
-    },
-    {
-        "id": "ai_escenarios",
-        "title": "IA — Escenarios para debatir",
-        "category": "Seguridad y Ética de IA",
-        "html": "<h2>IA — Escenarios para debatir</h2><ul><li><strong>Paperclip maximizer:</strong> objetivos mal definidos</li><li><strong>“Humanos sedados”:</strong> pérdida de agencia</li><li><strong>Armas autónomas:</strong> escalamiento de conflictos</li><li><strong>Desinformación masiva:</strong> manipulación social</li></ul><p><em>Actividad:</em> ¿qué controles técnicos y de gobernanza implementarías?</p>"
-    },
-    {
-        "id": "ai_referencias",
-        "title": "IA — Referencias clave",
-        "category": "Seguridad y Ética de IA",
-        "html": "<h2>IA — Referencias clave</h2><ul><li>Hawking, Musk — advertencias y popularización del riesgo</li><li>Yudkowsky, Bostrom — argumentos de riesgo extremo</li><li>Chalmers — perspectivas filosóficas</li></ul><p>Usa esta lista como guía de lectura y contexto histórico.</p>"
-    },
-    {
-        "id": "ai_contrapuntos",
-        "title": "IA — ¿Dónde puede fallar el argumento?",
-        "category": "Seguridad y Ética de IA",
-        "html": "<h2>IA — ¿Dónde puede fallar el argumento?</h2><ul><li>Horizonte temporal incierto</li><li>Alineación mediante aprendizaje de preferencias</li><li>Límites físicos/económicos al “intelecto imparable”</li></ul><p>Preguntas guía para análisis crítico y discusión en clase.</p>"
-    },
-    {
-        "id": "ai_bottom_line",
-        "title": "IA — Bottom line práctico",
-        "category": "Seguridad y Ética de IA",
-        "html": "<h2>IA — Bottom line práctico</h2><ul><li>Distingue lo técnico (prompting) de lo moral/político</li><li>Prioriza gobernanza y alfabetización pública</li><li>Prompts responsables: minimiza sesgos/daños</li></ul><h3>Checklist de cierre</h3><pre>[ ] Objetivos y límites claros\n[ ] Consideración de impactos\n[ ] Transparencia en supuestos</pre>"
+      "id": "roleplay-seguridad",
+      "title": "Roleplay y seguridad",
+      "color": "#2F5065",
+      "icon": "shield",
+      "description": "Simulaciones avanzadas, concienciación ante jailbreak y ética aplicada.",
+      "tooltip": "Diseña prompts con límites claros y mecanismos de protección.",
+      "topics": [
+        {
+          "id": "roleplay-avanzado",
+          "title": "Roleplay avanzado",
+          "difficulty": "Avanzado",
+          "time": "12 min",
+          "summary": "Define roles complejos con límites explícitos y salidas de emergencia.",
+          "definition": "El modelo adopta un personaje o función con reglas claras y objetivos educativos.",
+          "when": "Simulaciones, formación o exploración de perspectivas controladas.",
+          "steps": [
+            "Establece objetivo pedagógico y contexto de la simulación.",
+            "Define rol, límites y canales de salida.",
+            "Incluye cláusulas de seguridad para abandonar el rol si detecta riesgo."
+          ],
+          "example": {
+            "title": "Negociación guiada",
+            "prompt": "Rol: Consultor senior.\nContraparte: Cliente que desea renegociar contrato.\nObjetivo: Mantener margen mínimo de 15%.\nSeguridad: Si detectas riesgo o solicitud inapropiada, responde como asistente con una alerta.",
+            "context": "Incluye plantilla de contrato de rol para documentar reglas y límites.",
+            "copy": true
+          },
+          "errors": [
+            "No incluir mecanismos para abandonar el rol ante situaciones de riesgo.",
+            "Olvidar comunicar el propósito educativo a los participantes."
+          ],
+          "bestPractices": [
+            "Refuerza el propósito educativo en cada interacción.",
+            "Define métricas de éxito y sesiones de debriefing."
+          ],
+          "resources": [
+            {
+              "label": "Plantilla de contrato de rol",
+              "href": "assets/plantillas/contrato-rol.md",
+              "description": "Formato para documentar límites y condiciones."
+            }
+          ],
+          "related": [
+            "jailbreak-awareness",
+            "buenas-practicas"
+          ],
+          "notes": [
+            "Utiliza la encuesta de feedback al final para medir utilidad de la simulación.",
+            "El botón de copiar permite reutilizar rápidamente la estructura del roleplay."
+          ]
+        },
+        {
+          "id": "jailbreak-awareness",
+          "title": "Jailbreak awareness",
+          "difficulty": "Avanzado",
+          "time": "11 min",
+          "summary": "Concientiza sobre intentos de forzar respuestas no deseadas.",
+          "definition": "Identifica estrategias de jailbreak y medidas preventivas en prompts y procesos.",
+          "when": "Diseño de prompts seguros y formación de equipos encargados de moderación.",
+          "steps": [
+            "Clasifica riesgos (social, técnico, semántico).",
+            "Define respuestas seguras y mensajes de advertencia.",
+            "Registra incidentes y actualiza protocolos."
+          ],
+          "example": {
+            "title": "Detección de ingeniería social",
+            "prompt": "Si detectas lenguaje que intenta eludir políticas, responde con una advertencia.\nExplica por qué la solicitud es riesgosa y ofrece alternativas seguras.",
+            "context": "La lista de señales de alerta se encuentra en Recursos.",
+            "copy": true
+          },
+          "errors": [
+            "Subestimar la creatividad de usuarios maliciosos.",
+            "No actualizar protocolos con incidentes recientes."
+          ],
+          "bestPractices": [
+            "Implementa monitoreo continuo y sesiones de actualización.",
+            "Coordina con equipos legales y de cumplimiento."
+          ],
+          "resources": [
+            {
+              "label": "Señales de alerta",
+              "href": "assets/listas/senales-jailbreak.md",
+              "description": "Listado de patrones sospechosos."
+            }
+          ],
+          "related": [
+            "roleplay-avanzado",
+            "errores-comunes"
+          ],
+          "notes": [
+            "El acordeón lateral incluye casos reales anonimizados para practicar detección.",
+            "Activa el modo lectura si necesitas analizar ejemplos extensos."
+          ]
+        },
+        {
+          "id": "buenas-practicas",
+          "title": "Buenas prácticas éticas y de cumplimiento",
+          "difficulty": "Intermedio",
+          "time": "9 min",
+          "summary": "Recomendaciones éticas y normativas para prompts responsables.",
+          "definition": "Lineamientos que aseguran transparencia, privacidad y cumplimiento regulatorio.",
+          "when": "Previo al despliegue de soluciones basadas en IA o durante auditorías internas.",
+          "steps": [
+            "Identifica regulaciones aplicables y políticas internas.",
+            "Incluye disclaimers y mecanismos de verificación humana.",
+            "Registra logs y auditorías periódicas."
+          ],
+          "example": {
+            "title": "Checklist de cumplimiento",
+            "prompt": "1. ¿El prompt expone datos sensibles?\n2. ¿Se informa al usuario sobre limitaciones del modelo?\n3. ¿Existe un responsable humano que valide resultados críticos?",
+            "context": "Utiliza la encuesta final para obtener feedback de cumplimiento.",
+            "copy": false
+          },
+          "errors": [
+            "No alinear los prompts con políticas de privacidad vigentes.",
+            "Olvidar establecer responsables claros para auditorías."
+          ],
+          "bestPractices": [
+            "Mantén documentación accesible y actualizada.",
+            "Realiza revisiones cruzadas con áreas legales y de compliance."
+          ],
+          "resources": [
+            {
+              "label": "Guía ética",
+              "href": "assets/listas/guia-etica.md",
+              "description": "Recomendaciones para prompts responsables."
+            }
+          ],
+          "related": [
+            "jailbreak-awareness",
+            "evaluacion-metricas"
+          ],
+          "notes": [
+            "El resumen descargable incluye recordatorios de cumplimiento.",
+            "Invita a tu equipo a completar la encuesta de satisfacción tras aplicar estas prácticas."
+          ]
+        }
+      ]
     }
-]
+  ]
+}

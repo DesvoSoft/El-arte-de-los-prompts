@@ -1,0 +1,10 @@
+Diagrama de flujo para Prompt Chaining:
+1. Definir objetivo final.
+2. Prompt 1: Recopilar información.
+3. ¿Información completa?
+   - No: Solicitar aclaraciones y volver a Prompt 1.
+   - Sí: Continuar a Prompt 2.
+4. Prompt 2: Generar propuesta.
+5. Revisión manual.
+6. Prompt 3: Ajustar formato.
+7. Entregar resultado.

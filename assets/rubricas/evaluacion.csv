@@ -1,0 +1,4 @@
+Prompt,Precisión,Cobertura,Tono,Comentarios
+Prompt 1,4,3,5,"Cumple parcialmente, ajustar ejemplos"
+Prompt 2,5,5,4,"Listo para producción"
+Prompt 3,3,4,3,"Requiere revisión de tono"
