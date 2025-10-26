@@ -28,7 +28,7 @@ Su objetivo es ayudarte a **redactar prompts más claros y efectivos**, maximiza
 | **Instructive Prompting**             | Instrucciones estrictas para salidas con formato estructurado.                           |
 | **Iterative Prompt Refinement (IPR)** | Mejora progresiva de prompts con ciclos de feedback.                                     |
 | **Zero-shot / Few-shot**              | Estrategias con cero o pocos ejemplos para guiar salidas.                                |
-| **Role-based**                        | Asignar un rol específico para contextualizar la respuesta.                              |
+| **Roleplay Prompting**                        | Moldea roles, límites y defensas ante posibles jailbreaks.                              |
 | **Meta-prompting**                    | El modelo crea su propio plan antes de responder.                                        |
 | **Prompt Chaining**                   | Encadenar prompts para flujos de trabajo más largos.                                     |
 | **Evaluación y Optimización**         | Medir y mejorar la efectividad del prompt.                                               |
