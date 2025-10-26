@@ -10,6 +10,7 @@ Su objetivo es ayudarte a **redactar prompts más claros y efectivos**, maximiza
 ## Características Principales
 
 * **Colección completa de técnicas** — Desde fundamentos como ASPECT y CoT, hasta estrategias avanzadas como Prompt Chaining o Meta-prompting.
+* **Guía completa integrada** — Accede a la nueva sección "Guías" con la versión extendida de <em>El Arte de los Prompts</em>, ideal para lecturas profundas.
 * **Interfaz moderna con degradados animados** — Diseño atractivo y enfocado en la lectura.
 * **Modo claro/oscuro** — Cambia el tema con un solo clic.
 * **Responsive** — Se adapta perfectamente a móviles, tablets y escritorio.
