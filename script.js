@@ -95,27 +95,21 @@
 
   // ---------- Modo lectura ----------
   function addReaderToggle() {
-    const css = `
-      .reader-toggle{
-        position:fixed;bottom:1rem;right:1rem;z-index:9999;border:0;border-radius:999px;
-        padding:.65rem .95rem;font-weight:600;cursor:pointer;
-        background:linear-gradient(135deg,var(--accent-2),var(--accent-4));
-        color:#0b0d12;box-shadow:0 10px 20px rgba(0,0,0,.25)
-      }
-      .sidebar.hidden-by-reader{display:none!important}
-    `;
-    const style = document.createElement("style");
-    style.textContent = css;
-    document.head.appendChild(style);
-
     const btn = document.createElement("button");
     btn.className = "reader-toggle";
     btn.type = "button";
-    btn.title = "Modo lectura (oculta/mostrar la barra lateral)";
+    btn.title = "Modo lectura (oculta la barra lateral)";
     btn.textContent = "Modo lectura";
+    btn.setAttribute("aria-pressed", "false");
     btn.addEventListener("click", () => {
       const sb = $(".sidebar");
-      if (sb) sb.classList.toggle("hidden-by-reader");
+      const isActive = document.body.classList.toggle("reader-mode");
+      btn.setAttribute("aria-pressed", String(isActive));
+      btn.textContent = isActive ? "Salir de modo lectura" : "Modo lectura";
+      btn.title = isActive
+        ? "Salir de modo lectura (muestra la barra lateral)"
+        : "Modo lectura (oculta la barra lateral)";
+      if (sb) sb.classList.toggle("hidden-by-reader", isActive);
     });
     document.body.appendChild(btn);
   }
