@@ -33,7 +33,7 @@
 
   window.toggleTheme = function toggleTheme() {
     const root = document.documentElement;
-    const cur = root.getAttribute("data-theme") === "dark" ? "dark" : "light";
+    const cur = root.getAttribute("data-theme") || "light";
     root.setAttribute("data-theme", cur === "light" ? "dark" : "light");
     syncThemeToggle();
   };
@@ -66,13 +66,21 @@
   };
 
   async function loadData() {
-    const res = await fetch("topics.json", { cache: "no-store" });
-    if (!res.ok) throw new Error("No se pudo cargar topics.json");
+    try {
+      const res = await fetch("topics.json");
+      if (!res.ok) throw new Error(`HTTP ${res.status}: ${res.statusText}`);
 
-    const raw = await res.json();
-    const hasSectionsArray = raw && Array.isArray(raw.sections);
-    const sections = hasSectionsArray ? raw.sections : Array.isArray(raw) ? raw : null;
-    if (!sections) throw new Error("Formato inválido de topics.json");
+      const raw = await res.json();
+      const hasSectionsArray = raw && Array.isArray(raw.sections);
+      const sections = hasSectionsArray ? raw.sections : Array.isArray(raw) ? raw : null;
+      if (!sections) throw new Error("Formato inválido de topics.json");
+
+      return sections;
+    } catch (error) {
+      console.error("Failed to load topics data:", error);
+      throw new Error(`No se pudo cargar topics.json: ${error.message}`);
+    }
+  }
 
     state.sections = sections.map(section => {
       const topics = section && Array.isArray(section.topics) ? section.topics : [];
@@ -119,7 +127,23 @@
       const button = document.createElement("button");
       button.type = "button";
       button.className = "btn btn-ghost btn-link";
-      button.innerHTML = 'Explorar <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7" /></svg>';
+      
+      const textNode = document.createTextNode("Explorar ");
+      button.appendChild(textNode);
+      
+      const arrowSvg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+      arrowSvg.setAttribute("viewBox", "0 0 24 24");
+      arrowSvg.setAttribute("fill", "none");
+      arrowSvg.setAttribute("stroke", "currentColor");
+      arrowSvg.setAttribute("stroke-width", "1.8");
+      arrowSvg.setAttribute("stroke-linecap", "round");
+      arrowSvg.setAttribute("stroke-linejoin", "round");
+      
+      const arrowPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
+      arrowPath.setAttribute("d", "M5 12h14M13 5l7 7-7 7");
+      arrowSvg.appendChild(arrowPath);
+      button.appendChild(arrowSvg);
+      
       button.addEventListener("click", () => loadTopic(section.topics[0]?.id));
 
       card.appendChild(heading);
@@ -564,13 +588,19 @@
       const text = btn.dataset.copy || "";
       navigator.clipboard?.writeText(text).then(() => {
         btn.classList.add("copied");
-        btn.textContent = "Copiado";
+        const originalText = btn.textContent;
+        btn.textContent = "✓ Copiado";
         setTimeout(() => {
           btn.classList.remove("copied");
-          btn.textContent = "Copiar prompt";
-        }, 1600);
-      }).catch(() => {
-        btn.textContent = "Intenta nuevamente";
+          btn.textContent = originalText;
+        }, 2000);
+      }).catch((error) => {
+        console.error("Clipboard copy failed:", error);
+        const originalText = btn.textContent;
+        btn.textContent = "✗ Error al copiar";
+        setTimeout(() => {
+          btn.textContent = originalText;
+        }, 2000);
       });
     });
   }
@@ -601,7 +631,21 @@
     try {
       const content = $("#content");
       if (content) state.landingHTML = content.innerHTML;
-      await loadData();
+      
+      const sections = await loadData();
+      state.sections = sections.map(section => {
+        const topics = section && Array.isArray(section.topics) ? section.topics : [];
+        return { ...section, topics };
+      });
+
+      state.flat = [];
+      state.sections.forEach((section, sectionIndex) => {
+        section.topics.forEach((topic, topicIndex) => {
+          if (!topic || typeof topic !== "object") return;
+          state.flat.push({ section, topic, sectionIndex, topicIndex });
+        });
+      });
+      
       buildHeroCards();
       buildMenu();
       setupMenuHandle();
@@ -611,9 +655,17 @@
       setupShortcuts();
       syncThemeToggle();
     } catch (error) {
-      console.error(error);
+      console.error("Application initialization failed:", error);
       const content = $("#content");
-      if (content) content.innerHTML = "<p>No se pudo cargar el contenido. Revisa <code>topics.json</code>.</p>";
+      if (content) {
+        content.innerHTML = `
+          <div class="error-message">
+            <h2>Error al cargar el contenido</h2>
+            <p>No se pudo cargar topics.json. Error: ${error.message}</p>
+            <p>Por favor, verifica que el archivo exista y tenga el formato correcto.</p>
+          </div>
+        `;
+      }
     }
   });
 })();

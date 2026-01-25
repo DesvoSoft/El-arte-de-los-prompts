@@ -46,6 +46,23 @@ html, body {
   height: 100%;
 }
 
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 6px;
+  background: var(--color-base);
+  color: white;
+  padding: 8px;
+  text-decoration: none;
+  border-radius: 4px;
+  z-index: 1000;
+  transition: top 0.3s;
+}
+
+.skip-link:focus {
+  top: 6px;
+}
+
 body {
   font-family: var(--font-body);
   background: var(--color-surface);
@@ -890,15 +907,11 @@ button {
   }
 
   .reader-toggle {
-    bottom: 1rem;
+    bottom: 4rem;
     right: auto;
     left: 50%;
     transform: translateX(-50%);
     margin-bottom: 0.5rem;
-  }
-
-  .reader-toggle {
-    bottom: 4rem;
   }
 }
 
