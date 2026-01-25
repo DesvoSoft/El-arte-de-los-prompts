@@ -167,12 +167,10 @@
       sectionItem.dataset.sectionId = section.id;
       sectionItem.style.borderColor = hexToRgba(section.color, 0.35);
 
-      const headerBtn = document.createElement("button");
-      headerBtn.type = "button";
-      headerBtn.className = "menu-section-header";
-      headerBtn.dataset.tooltip = section.tooltip;
-      headerBtn.style.color = section.color;
-      headerBtn.setAttribute("aria-expanded", index === 0 ? "true" : "false");
+      const headerDiv = document.createElement("div");
+      headerDiv.className = "menu-section-header";
+      headerDiv.dataset.tooltip = section.tooltip;
+      headerDiv.style.color = section.color;
 
       const icon = document.createElement("span");
       icon.className = "icon";
@@ -182,14 +180,13 @@
       const label = document.createElement("span");
       label.textContent = section.title;
 
-      headerBtn.appendChild(icon);
-      headerBtn.appendChild(label);
-      headerBtn.addEventListener("click", () => toggleSection(sectionItem));
+      headerDiv.appendChild(icon);
+      headerDiv.appendChild(label);
 
       const sublist = document.createElement("ul");
       sublist.className = "menu-sublist";
       sublist.setAttribute("role", "group");
-      sublist.hidden = index !== 0;
+      sublist.hidden = false;
 
       section.topics.forEach((topic) => {
         const item = document.createElement("li");
@@ -205,7 +202,7 @@
         sublist.appendChild(item);
       });
 
-      sectionItem.appendChild(headerBtn);
+      sectionItem.appendChild(headerDiv);
       sectionItem.appendChild(sublist);
       frag.appendChild(sectionItem);
     });
