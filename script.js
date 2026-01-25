@@ -623,6 +623,174 @@
     });
   }
 
+  function setupQuickNavigation() {
+    const navButtons = $$(".nav-btn");
+    navButtons.forEach(btn => {
+      btn.addEventListener("click", () => {
+        navButtons.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        const section = btn.dataset.section;
+        // Smooth scroll to section
+        const target = document.getElementById(section);
+        if (target) {
+          target.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      });
+    });
+  }
+
+  function setupSearch() {
+    const searchInput = $(".search-input");
+    const searchBtn = $(".search-btn");
+    
+    const performSearch = (query) => {
+      if (!query) return;
+      
+      const results = state.flat.filter(entry => 
+        entry.topic.title.toLowerCase().includes(query.toLowerCase()) ||
+        entry.topic.summary.toLowerCase().includes(query.toLowerCase()) ||
+        entry.topic.definition.toLowerCase().includes(query.toLowerCase())
+      );
+      
+      displaySearchResults(results, query);
+    };
+    
+    searchBtn?.addEventListener("click", () => {
+      performSearch(searchInput.value);
+    });
+    
+    searchInput?.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") {
+        performSearch(searchInput.value);
+      }
+    });
+  }
+
+  function displaySearchResults(results, query) {
+    const content = $("#content");
+    if (!content) return;
+    
+    if (results.length === 0) {
+      content.innerHTML = `
+        <div class="search-no-results">
+          <h2>No se encontraron resultados</h2>
+          <p>No hay técnicas que coincidan con "${query}".</p>
+          <button class="btn btn-secondary" onclick="renderLanding()">Volver al inicio</button>
+        </div>
+      `;
+      return;
+    }
+    
+    let resultsHTML = `
+      <div class="search-results">
+        <h2>Resultados de búsqueda: "${query}"</h2>
+        <p>Se encontraron ${results.length} ${results.length === 1 ? 'técnica' : 'técnicas'}</p>
+        <div class="results-grid">
+    `;
+    
+    results.forEach(entry => {
+      resultsHTML += `
+        <div class="result-card" onclick="loadTopic('${entry.topic.id}')">
+          <div class="result-header">
+            <h3>${entry.topic.title}</h3>
+            <div class="result-meta">
+              <span class="difficulty">${entry.topic.difficulty}</span>
+              <span class="time">${entry.topic.time}</span>
+            </div>
+          </div>
+          <p class="result-summary">${entry.topic.summary}</p>
+          <div class="result-section">
+            <span style="color: ${entry.section.color}">${entry.section.title}</span>
+          </div>
+        </div>
+      `;
+    });
+    
+    resultsHTML += `
+        </div>
+      </div>
+    `;
+    
+    content.innerHTML = resultsHTML;
+    content.classList.add("technique-view");
+  }
+
+  function updateProgressStats() {
+    const totalTopics = state.flat.length;
+    const completedTopics = localStorage.getItem('completedTopics') ? JSON.parse(localStorage.getItem('completedTopics')).length : 0;
+    const progressPercentage = Math.round((completedTopics / totalTopics) * 100);
+    
+    const progressCircle = $(".progress-circle");
+    const progressText = $(".progress-text");
+    const progressNumber = $$(`.progress-number`)[1];
+    
+    if (progressCircle) {
+      progressCircle.style.background = `conic-gradient(var(--color-accent) ${progressPercentage * 3.6}deg, var(--color-accent) 0deg, var(--color-surface-alt) 0deg)`;
+    }
+    
+    if (progressText) progressText.textContent = `${progressPercentage}%`;
+    if (progressNumber) progressNumber.textContent = completedTopics;
+  }
+
+  function markTopicCompleted(topicId) {
+    const completedTopics = localStorage.getItem('completedTopics') ? JSON.parse(localStorage.getItem('completedTopics')) : [];
+    
+    if (!completedTopics.includes(topicId)) {
+      completedTopics.push(topicId);
+      localStorage.setItem('completedTopics', JSON.stringify(completedTopics));
+      updateProgressStats();
+      
+      // Show completion celebration
+      showCompletionNotification();
+    }
+  }
+
+  function showCompletionNotification() {
+    const notification = document.createElement("div");
+    notification.className = "completion-notification";
+    notification.innerHTML = `
+      <div class="notification-content">
+        <span class="notification-icon">🎉</span>
+        <div class="notification-text">
+          <strong>¡Técnica completada!</strong>
+          <p>Has dominado otro aspecto del arte de los prompts</p>
+        </div>
+        <button class="notification-close" onclick="this.parentElement.parentElement.remove()">×</button>
+      </div>
+    `;
+    
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+      notification.remove();
+    }, 5000);
+  }
+
+  function enhanceTopicView(topicId) {
+    const entry = findTopic(topicId);
+    if (!entry) return;
+    
+    // Add completion tracking
+    const existingCompleteBtn = $(".complete-topic-btn");
+    if (existingCompleteBtn) return;
+    
+    const content = $("#content");
+    const completeBtn = document.createElement("button");
+    completeBtn.className = "btn btn-success complete-topic-btn";
+    completeBtn.innerHTML = `
+      <span>✅</span>
+      <span>Marcar como completada</span>
+    `;
+    
+    completeBtn.addEventListener("click", () => {
+      markTopicCompleted(topicId);
+      completeBtn.textContent = "✓ Completada";
+      completeBtn.disabled = true;
+    });
+    
+    content?.appendChild(completeBtn);
+  }
+
   window.addEventListener("load", async () => {
     try {
       const content = $("#content");
@@ -638,6 +806,19 @@
       setupCopy();
       setupShortcuts();
       syncThemeToggle();
+      
+      // New educational features
+      setupQuickNavigation();
+      setupSearch();
+      updateProgressStats();
+      
+      // Enhance existing topic loading
+      const originalLoadTopic = window.loadTopic;
+      window.loadTopic = function(topicId) {
+        originalLoadTopic(topicId);
+        setTimeout(() => enhanceTopicView(topicId), 100);
+      };
+      
     } catch (error) {
       console.error("Application initialization failed:", error);
       const content = $("#content");

@@ -20,19 +20,189 @@
   </button>
 
   <header class="hero" role="banner">
-    <div class="hero-copy">
-      <p class="eyebrow">Guía progresiva</p>
-      <h1>El Arte de los Prompts</h1>
-      <p class="lead">Domina un recorrido modular que va de los fundamentos a los flujos avanzados para diseñar prompts claros, auditables y seguros.</p>
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span>🎓</span>
+        <span>Recurso Educativo Premium</span>
+      </div>
+      <h1 class="hero-title">
+        <span class="title-gradient">El Arte de los Prompts</span>
+        <span class="title-subtitle">Guía Definitiva para Dominar la Ingeniería de Prompts</span>
+      </h1>
+      <p class="hero-description">
+        Transforma tu comunicación con IA mediante técnicas avanzadas de prompting. 
+        Desde fundamentos básicos hasta estrategias expertas, esta guía completa 
+        te proporcionará el conocimiento para crear prompts efectivos, seguros y profesionales.
+      </p>
+      <div class="hero-stats">
+        <div class="stat-item">
+          <span class="stat-number">12+</span>
+          <span class="stat-label">Técnicas Profesionales</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">50+</span>
+          <span class="stat-label">Ejemplos Prácticos</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">100%</span>
+          <span class="stat-label">Aplicable</span>
+        </div>
+      </div>
       <div class="hero-actions">
-        <button id="ctaStart" class="btn btn-primary">Comenzar ahora</button>
-        <a class="btn btn-ghost" href="assets/resumen-ejecutivo.pdf" download>Descargar resumen PDF</a>
+        <button id="ctaStart" class="btn btn-primary btn-large">
+          <span>🚀</span>
+          <span>Comenzar Aprendizaje</span>
+        </button>
+        <a class="btn btn-ghost btn-large" href="assets/resumen-ejecutivo.pdf" download>
+          <span>📄</span>
+          <span>Descargar Guía PDF</span>
+        </a>
       </div>
     </div>
-    <div class="hero-cards" id="sectionCards" aria-label="Secciones principales"></div>
+    <div class="hero-visual">
+      <div class="floating-elements">
+        <div class="float-element float-1">🤖</div>
+        <div class="float-element float-2">💡</div>
+        <div class="float-element float-3">🎯</div>
+        <div class="float-element float-4">⚡</div>
+      </div>
+      <div class="hero-pattern"></div>
+    </div>
   </header>
 
-  <button class="menu-handle" id="menuHandle" type="button" aria-expanded="false" aria-controls="sidebar">☰ Menú</button>
+  <!-- Quick Navigation Bar -->
+  <nav class="quick-nav" role="navigation" aria-label="Navegación rápida">
+    <div class="nav-container">
+      <div class="nav-sections">
+        <button class="nav-btn active" data-section="fundamentals">
+          <span>📚</span>
+          <span>Fundamentos</span>
+        </button>
+        <button class="nav-btn" data-section="techniques">
+          <span>🛠️</span>
+          <span>Técnicas</span>
+        </button>
+        <button class="nav-btn" data-section="advanced">
+          <span>🚀</span>
+          <span>Avanzado</span>
+        </button>
+        <button class="nav-btn" data-section="security">
+          <span>🔒</span>
+          <span>Seguridad</span>
+        </button>
+      </div>
+      <div class="nav-search">
+        <input type="search" placeholder="Buscar técnicas..." class="search-input" />
+        <button class="search-btn" aria-label="Buscar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"/>
+            <path d="M21 21l-4.35-4.35"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Learning Progress -->
+  <section class="learning-progress" aria-label="Progreso de aprendizaje">
+    <div class="progress-container">
+      <div class="progress-info">
+        <h2>Tu Progreso de Aprendizaje</h2>
+        <p>Trackea tu avance mientras dominas cada técnica</p>
+      </div>
+      <div class="progress-stats">
+        <div class="progress-item">
+          <div class="progress-circle" data-progress="0">
+            <span class="progress-text">0%</span>
+          </div>
+          <span class="progress-label">Completado</span>
+        </div>
+        <div class="progress-item">
+          <span class="progress-number">0</span>
+          <span class="progress-label">Técnicas Dominadas</span>
+        </div>
+        <div class="progress-item">
+          <span class="progress-number">0</span>
+          <span class="progress-label">Horas de Práctica</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Educational Sections -->
+  <section class="educational-sections" role="main">
+    <div class="section-container">
+      <!-- Fundamentals Section -->
+      <section class="edu-section fundamentals" id="fundamentals">
+        <div class="section-header">
+          <div class="section-icon">📚</div>
+          <div class="section-info">
+            <h2>Fundamentos del Prompting</h2>
+            <p>Conceptos esenciales que forman la base de la ingeniería de prompts</p>
+          </div>
+          <div class="section-progress">
+            <div class="progress-bar">
+              <div class="progress-fill" style="width: 0%"></div>
+            </div>
+            <span class="progress-text">0%</span>
+          </div>
+        </div>
+        <div class="section-content">
+          <div class="learning-path">
+            <div class="path-item">
+              <div class="path-number">1</div>
+              <div class="path-content">
+                <h3>Introducción a los LLM</h3>
+                <p>Comprende cómo funcionan los modelos de lenguaje grande</p>
+                <div class="path-meta">
+                  <span class="duration">15 min</span>
+                  <span class="difficulty">Principiante</span>
+                </div>
+              </div>
+            </div>
+            <div class="path-item">
+              <div class="path-number">2</div>
+              <div class="path-content">
+                <h3>Anatomía de un Prompt Efectivo</h3>
+                <p>Elementos clave que componen un prompt de calidad</p>
+                <div class="path-meta">
+                  <span class="duration">20 min</span>
+                  <span class="difficulty">Principiante</span>
+                </div>
+              </div>
+            </div>
+            <div class="path-item">
+              <div class="path-number">3</div>
+              <div class="path-content">
+                <h3>Principios de Comunicación Clara</h3>
+                <p>Cómo expresar tus intenciones de manera efectiva</p>
+                <div class="path-meta">
+                  <span class="duration">25 min</span>
+                  <span class="difficulty">Intermedio</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Featured Techniques -->
+      <section class="featured-techniques">
+        <div class="featured-header">
+          <h2>Técnicas Destacadas</h2>
+          <p>Las estrategias más efectivas para resultados inmediatos</p>
+        </div>
+        <div class="techniques-grid" id="sectionCards" aria-label="Técnicas destacadas">
+          <!-- Cards will be dynamically generated here -->
+        </div>
+      </section>
+    </div>
+  </section>
+
+  <button class="menu-handle" id="menuHandle" type="button" aria-expanded="false" aria-controls="sidebar">
+    <span class="menu-icon">☰</span>
+    <span class="menu-text">Menú</span>
+  </button>
 
   <div class="layout" role="presentation">
     <aside id="sidebar" class="sidebar" aria-label="Navegación principal">
