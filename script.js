@@ -75,25 +75,24 @@
       const sections = hasSectionsArray ? raw.sections : Array.isArray(raw) ? raw : null;
       if (!sections) throw new Error("Formato inválido de topics.json");
 
-      return sections;
+      state.sections = sections.map(section => {
+        const topics = section && Array.isArray(section.topics) ? section.topics : [];
+        return { ...section, topics };
+      });
+
+      state.flat = [];
+      state.sections.forEach((section, sectionIndex) => {
+        section.topics.forEach((topic, topicIndex) => {
+          if (!topic || typeof topic !== "object") return;
+          state.flat.push({ section, topic, sectionIndex, topicIndex });
+        });
+      });
+
+      return state.sections;
     } catch (error) {
       console.error("Failed to load topics data:", error);
       throw new Error(`No se pudo cargar topics.json: ${error.message}`);
     }
-  }
-
-    state.sections = sections.map(section => {
-      const topics = section && Array.isArray(section.topics) ? section.topics : [];
-      return { ...section, topics };
-    });
-
-    state.flat = [];
-    state.sections.forEach((section, sectionIndex) => {
-      section.topics.forEach((topic, topicIndex) => {
-        if (!topic || typeof topic !== "object") return;
-        state.flat.push({ section, topic, sectionIndex, topicIndex });
-      });
-    });
   }
 
   function buildHeroCards() {
@@ -632,19 +631,7 @@
       const content = $("#content");
       if (content) state.landingHTML = content.innerHTML;
       
-      const sections = await loadData();
-      state.sections = sections.map(section => {
-        const topics = section && Array.isArray(section.topics) ? section.topics : [];
-        return { ...section, topics };
-      });
-
-      state.flat = [];
-      state.sections.forEach((section, sectionIndex) => {
-        section.topics.forEach((topic, topicIndex) => {
-          if (!topic || typeof topic !== "object") return;
-          state.flat.push({ section, topic, sectionIndex, topicIndex });
-        });
-      });
+      await loadData();
       
       buildHeroCards();
       buildMenu();
