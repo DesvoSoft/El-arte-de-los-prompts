@@ -1,86 +1,67 @@
 # El Arte de los Prompts
 
-**El Arte de los Prompts** es una página web educativa para aprender, explorar y practicar técnicas de *prompt* aplicadas a Modelos de Lenguaje de Gran Escala (LLMs).
-Su objetivo es ayudarte a **redactar prompts más claros y efectivos**, maximizando el potencial de la IA generativa.
+**El Arte de los Prompts** es una plataforma de referencia técnica para dominar la ingeniería de prompts y context engineering. Documentación profesional con técnicas probadas, patrones reutilizables y consideraciones de seguridad para uso en producción.
 
-> Ideal para estudiantes, desarrolladores, creadores de contenido y cualquier persona que utilice IA en su día a día.
-
----
-
-## Características Principales
-
-* **Colección completa de técnicas** — Desde fundamentos como ASPECT y CoT, hasta estrategias avanzadas como Prompt Chaining o Meta-prompting.
-* **Guía completa integrada** — Accede a la nueva sección "Guías" con la versión extendida de <em>El Arte de los Prompts</em>, ideal para lecturas profundas.
-* **Interfaz moderna con degradados animados** — Diseño atractivo y enfocado en la lectura.
-* **Modo claro/oscuro** — Cambia el tema con un solo clic.
-* **Responsive** — Se adapta perfectamente a móviles, tablets y escritorio.
-* **Fácil de expandir** — Solo edita `topics` en `script.js` para añadir o modificar técnicas.
-* **Modo lectura** — Oculta la barra lateral para concentrarte en el contenido.
+> Destinado a desarrolladores, ingenieros de prompts y profesionales que integran IA en fluxos de trabajo reales.
 
 ---
 
-## Técnicas Disponibles
+## Características
 
-| Técnica                               | Descripción breve                                                                        |
-| ------------------------------------- | ---------------------------------------------------------------------------------------- |
-| **ASPECT**                            | Estructura de prompt basada en Acción, Sujeto, Propósito, Ejemplos, Restricciones, Tono. |
-| **Chain-of-Thought (CoT)**            | Razonamiento paso a paso para resolver problemas complejos.                              |
-| **Prompt Layering**                   | División de tareas en capas secuenciales para mayor control.                             |
-| **Instructive Prompting**             | Instrucciones estrictas para salidas con formato estructurado.                           |
-| **Iterative Prompt Refinement (IPR)** | Mejora progresiva de prompts con ciclos de feedback.                                     |
-| **Zero-shot / Few-shot**              | Estrategias con cero o pocos ejemplos para guiar salidas.                                |
-| **Roleplay Prompting**                        | Moldea roles, límites y defensas ante posibles jailbreaks.                              |
-| **Meta-prompting**                    | El modelo crea su propio plan antes de responder.                                        |
-| **Prompt Chaining**                   | Encadenar prompts para flujos de trabajo más largos.                                     |
-| **Evaluación y Optimización**         | Medir y mejorar la efectividad del prompt.                                               |
-| **Errores Comunes**                   | Qué evitar al redactar prompts y cómo corregirlo.                                        |
+- **Colección estructurada de técnicas** — Desde fundamentos como ASPECT y CoT, hasta estrategias avanzadas como Prompt Chaining y Meta-prompting
+- **Documentación técnica completa** — Cada técnica incluye definición, cuándo usarla, pasos clave, ejemplos descargables y errores comunes
+- **Diseño editorial sobrio** — Interfaz limpia inspirada en documentación de Stripe/Vercel/Linear
+- **Modo claro/oscuro** — Tema switch discreto con atajo de teclado (T)
+- **Responsive** — Adaptado a móvil, tablet y escritorio
+- **Modo lectura** — Oculta navegación lateral para concentración
+- **Sistema de progreso** — Guarda tu avance localmente
+- **Búsqueda integrada** — Encuentra técnicas por nombre o contenido
+
+---
+
+## Técnicas Documentadas
+
+| Técnica | Descripción |
+| ------- | --------- |
+| **ASPECT** | Estructura: Acción, Sujeto, Propósito, Ejemplos, Restricciones, Tono |
+| **Chain-of-Thought (CoT)** | Razonamiento paso a paso para problemas complejos |
+| **Prompt Layering** | División en capas secuenciales para mayor control |
+| **Instructive Prompting** | Instrucciones estrictas para salidas estructuradas |
+| **Iterative Prompt Refinement** | Mejora progresiva con ciclos de feedback |
+| **Zero-shot / Few-shot** | Estrategias con cero o pocos ejemplos |
+| **Roleplay Prompting** | Moldeado de roles con límites y defensas |
+| **Meta-prompting** | El modelo crea su propio plan antes de responder |
+| **Prompt Chaining** | Encadenado de prompts para flujos largos |
+| **Seguridad** | Consideraciones y mitigaciones para producción |
 
 ---
 
 ## Uso
 
-La página está disponible en **GitHub Pages**:
+Disponible en **GitHub Pages**:
 
-🔗 **[Abrir sitio](https://desvosoft.github.io/El-arte-de-los-prompts/)**
+**[Abrir sitio](https://desvosoft.github.io/El-arte-de-los-prompts/)**
 
-O bien, clona o descarga este repositorio y abre `index.html` en tu navegador favorito.
+O clonar localmente:
 
 ```bash
-git clone https://github.com/usuario/Tecnicas-de-promptear.git
-cd Tecnicas-de-promptear
-# abrir index.html en tu navegador
+git clone https://github.com/DesvoSoft/El-arte-de-los-prompts.git
+cd El-arte-de-los-prompts
+# abrir index.html en navegador
 ```
 
-<!-- ---
+---
 
-## ✅ Cómo Contribuir
+## Atajos de Teclado
 
-¿Tienes nuevas técnicas o mejoras para la interfaz? Tu aporte es bienvenido:
+| Tecla | Acción |
+| ---- | ------ |
+| `M` | Abrir/cerrar menú lateral |
+| `F` | Activar modo enfoque |
+| `T` | Cambiar tema |
 
-1. Haz **fork** de este repositorio.
-2. Crea una nueva rama:
+---
 
-   ```bash
-   git checkout -b feature/nueva-tecnica
-   ```
-3. Realiza tus cambios y confirma:
+## Licencia
 
-   ```bash
-   git commit -m "Agrega técnica X"
-   ```
-4. Envía tu rama:
-
-   ```bash
-   git push origin feature/nueva-tecnica
-   ```
-5. Abre un **Pull Request** describiendo tu mejora. -->
-
-<!-- ---
-
-## 📈 Posibles Mejoras Futuras
-
-* Guardar preferencias de tema con `localStorage`.
-* Soporte multilenguaje.
-* Ejecución en vivo de prompts mediante API de LLMs.
-* Sistema de búsqueda por palabras clave.
-* Descarga de ejemplos en formato Markdown o JSON. -->
+&copy; 2025 DesvoSoft

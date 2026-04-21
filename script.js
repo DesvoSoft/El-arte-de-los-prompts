@@ -25,10 +25,7 @@
     const isDark = root.getAttribute("data-theme") === "dark";
     const button = $(".toggle-theme");
     if (!button) return;
-    const label = isDark ? "Cambiar a tema claro" : "Cambiar a tema oscuro";
-    button.setAttribute("aria-label", label);
-    const srOnly = button.querySelector(".sr-only");
-    if (srOnly) srOnly.textContent = label;
+    button.setAttribute("aria-label", isDark ? "Cambiar a tema claro" : "Cambiar a tema oscuro");
   }
 
   window.toggleTheme = function toggleTheme() {
@@ -90,7 +87,7 @@
 
       return state.sections;
     } catch (error) {
-      console.error("Failed to load topics data:", error);
+      console.error("Error al cargar datos:", error);
       throw new Error(`No se pudo cargar topics.json: ${error.message}`);
     }
   }
@@ -103,46 +100,40 @@
     state.sections.forEach((section) => {
       const card = document.createElement("article");
       card.className = "hero-card";
-      card.style.background = `linear-gradient(135deg, ${hexToRgba(section.color, 0.92)}, ${hexToRgba(section.color, 0.72)})`;
-      card.style.borderColor = hexToRgba(section.color, 0.65);
-
-      const iconWrap = document.createElement("div");
-      iconWrap.className = "icon";
-      iconWrap.appendChild(createIcon(section.icon, "#FFFFFF"));
+      card.style.borderLeftColor = hexToRgba(section.color, 0.8);
+      card.style.borderLeftWidth = "3px";
 
       const heading = document.createElement("h3");
+      const iconWrap = document.createElement("span");
+      iconWrap.className = "icon";
+      iconWrap.appendChild(createIcon(section.icon, section.color));
       heading.appendChild(iconWrap);
-      const titleSpan = document.createElement("span");
-      titleSpan.textContent = section.title;
-      heading.appendChild(titleSpan);
+      heading.appendChild(document.createTextNode(section.title));
 
       const description = document.createElement("p");
       description.textContent = section.description;
 
       const meta = document.createElement("div");
       meta.className = "meta";
-      meta.textContent = `${section.topics.length} módulos prácticos`;
+      meta.textContent = `${section.topics.length} módulos`;
 
       const button = document.createElement("button");
       button.type = "button";
-      button.className = "btn btn-ghost btn-link";
-      
-      const textNode = document.createTextNode("Explorar ");
-      button.appendChild(textNode);
+      button.className = "btn-link";
+      button.textContent = "Explorar ";
       
       const arrowSvg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
       arrowSvg.setAttribute("viewBox", "0 0 24 24");
       arrowSvg.setAttribute("fill", "none");
       arrowSvg.setAttribute("stroke", "currentColor");
-      arrowSvg.setAttribute("stroke-width", "1.8");
+      arrowSvg.setAttribute("stroke-width", "2");
       arrowSvg.setAttribute("stroke-linecap", "round");
       arrowSvg.setAttribute("stroke-linejoin", "round");
-      
       const arrowPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
       arrowPath.setAttribute("d", "M5 12h14M13 5l7 7-7 7");
       arrowSvg.appendChild(arrowPath);
       button.appendChild(arrowSvg);
-      
+
       button.addEventListener("click", () => loadTopic(section.topics[0]?.id));
 
       card.appendChild(heading);
@@ -165,7 +156,7 @@
       sectionItem.className = "menu-section";
       sectionItem.setAttribute("role", "treeitem");
       sectionItem.dataset.sectionId = section.id;
-      sectionItem.style.borderColor = hexToRgba(section.color, 0.35);
+      sectionItem.setAttribute("aria-expanded", "true");
 
       const headerDiv = document.createElement("div");
       headerDiv.className = "menu-section-header";
@@ -174,7 +165,6 @@
 
       const icon = document.createElement("span");
       icon.className = "icon";
-      icon.style.background = hexToRgba(section.color, 0.18);
       icon.appendChild(createIcon(section.icon, section.color));
 
       const label = document.createElement("span");
@@ -186,7 +176,6 @@
       const sublist = document.createElement("ul");
       sublist.className = "menu-sublist";
       sublist.setAttribute("role", "group");
-      sublist.hidden = false;
 
       section.topics.forEach((topic) => {
         const item = document.createElement("li");
@@ -268,19 +257,6 @@
   function createBadge(iconPath, text) {
     const badge = document.createElement("span");
     badge.className = "badge";
-    if (iconPath) {
-      const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-      svg.setAttribute("viewBox", "0 0 24 24");
-      svg.setAttribute("fill", "none");
-      svg.setAttribute("stroke", "currentColor");
-      svg.setAttribute("stroke-width", "1.8");
-      svg.setAttribute("stroke-linecap", "round");
-      svg.setAttribute("stroke-linejoin", "round");
-      const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-      path.setAttribute("d", iconPath);
-      svg.appendChild(path);
-      badge.appendChild(svg);
-    }
     badge.appendChild(document.createTextNode(text));
     return badge;
   }
@@ -311,8 +287,8 @@
 
     const meta = document.createElement("div");
     meta.className = "technique-meta";
-    meta.appendChild(createBadge("M12 20v-4M12 4V2M4 12H2m20 0h-2", `Dificultad: ${topic.difficulty}`));
-    meta.appendChild(createBadge("M3 8h18M3 16h18", `Tiempo estimado: ${topic.time}`));
+    meta.appendChild(createBadge(null, `Dificultad: ${topic.difficulty}`));
+    meta.appendChild(createBadge(null, `Tiempo: ${topic.time}`));
 
     header.appendChild(title);
     header.appendChild(summary);
@@ -369,7 +345,7 @@
       copyBtn.type = "button";
       copyBtn.className = "copy-btn";
       copyBtn.dataset.copy = topic.example.prompt;
-      copyBtn.textContent = "Copiar prompt";
+      copyBtn.textContent = "Copiar";
       copyWrapper.appendChild(copyBtn);
     }
     const pre = document.createElement("pre");
@@ -433,7 +409,7 @@
         li.appendChild(link);
         if (res.description) {
           const meta = document.createElement("small");
-          meta.textContent = ` · ${res.description}`;
+          meta.textContent = ` — ${res.description}`;
           li.appendChild(meta);
         }
         list.appendChild(li);
@@ -461,12 +437,10 @@
     }
 
     if (topic.related?.length) {
-      const relatedDetails = document.createElement("details");
+      const relatedDetails = document.createElement("div");
       relatedDetails.className = "aside-card";
-      relatedDetails.open = true;
-      const summary = document.createElement("summary");
-      summary.textContent = "Técnicas relacionadas";
-      const list = document.createElement("div");
+      const summaryRelated = document.createElement("h3");
+      summaryRelated.textContent = "Técnicas relacionadas";
       const relatedList = document.createElement("div");
       relatedList.className = "related-list";
       topic.related.forEach(id => {
@@ -478,9 +452,8 @@
         btn.addEventListener("click", () => loadTopic(id));
         relatedList.appendChild(btn);
       });
-      list.appendChild(relatedList);
-      relatedDetails.appendChild(summary);
-      relatedDetails.appendChild(list);
+      relatedDetails.appendChild(summaryRelated);
+      relatedDetails.appendChild(relatedList);
       aside.appendChild(relatedDetails);
     }
 
@@ -492,11 +465,11 @@
     const prevBtn = document.createElement("button");
     prevBtn.type = "button";
     prevBtn.className = "btn btn-secondary";
-    prevBtn.textContent = "Técnica anterior";
+    prevBtn.textContent = "Anterior";
     const nextBtn = document.createElement("button");
     nextBtn.type = "button";
-    nextBtn.className = "btn btn-primary";
-    nextBtn.textContent = "Siguiente técnica";
+    nextBtn.className = "btn btn-secondary";
+    nextBtn.textContent = "Siguiente";
 
     const index = state.flat.findIndex(item => item.topic.id === topic.id);
     const prev = state.flat[index - 1];
@@ -506,12 +479,14 @@
       prevBtn.addEventListener("click", () => loadTopic(prev.topic.id));
     } else {
       prevBtn.disabled = true;
+      prevBtn.style.opacity = "0.5";
     }
 
     if (next) {
       nextBtn.addEventListener("click", () => loadTopic(next.topic.id));
     } else {
       nextBtn.disabled = true;
+      nextBtn.style.opacity = "0.5";
     }
 
     nav.appendChild(prevBtn);
@@ -563,7 +538,7 @@
     btn.addEventListener("click", () => {
       const isActive = document.body.classList.toggle("reader-mode");
       btn.setAttribute("aria-pressed", String(isActive));
-      btn.textContent = isActive ? "Salir de modo lectura" : "Modo lectura";
+      btn.textContent = isActive ? "Salir de lectura" : "Modo lectura";
       sidebar?.classList.toggle("hidden", isActive);
     });
   }
@@ -585,17 +560,16 @@
       navigator.clipboard?.writeText(text).then(() => {
         btn.classList.add("copied");
         const originalText = btn.textContent;
-        btn.textContent = "✓ Copiado";
+        btn.textContent = "Copiado";
         setTimeout(() => {
           btn.classList.remove("copied");
           btn.textContent = originalText;
         }, 2000);
       }).catch((error) => {
-        console.error("Clipboard copy failed:", error);
-        const originalText = btn.textContent;
-        btn.textContent = "✗ Error al copiar";
+        console.error("Error al copiar:", error);
+        btn.textContent = "Error";
         setTimeout(() => {
-          btn.textContent = originalText;
+          btn.textContent = "Copiar";
         }, 2000);
       });
     });
@@ -630,7 +604,6 @@
         navButtons.forEach(b => b.classList.remove("active"));
         btn.classList.add("active");
         const section = btn.dataset.section;
-        // Smooth scroll to section
         const target = document.getElementById(section);
         if (target) {
           target.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -672,123 +645,89 @@
     
     if (results.length === 0) {
       content.innerHTML = `
-        <div class="search-no-results">
-          <h2>No se encontraron resultados</h2>
-          <p>No hay técnicas que coincidan con "${query}".</p>
+        <div class="welcome">
+          <h2>Sin resultados</h2>
+          <p>No se encontraron técnicas para "${query}".</p>
           <button class="btn btn-secondary" onclick="renderLanding()">Volver al inicio</button>
         </div>
       `;
       return;
     }
     
-    let resultsHTML = `
-      <div class="search-results">
-        <h2>Resultados de búsqueda: "${query}"</h2>
-        <p>Se encontraron ${results.length} ${results.length === 1 ? 'técnica' : 'técnicas'}</p>
-        <div class="results-grid">
-    `;
+    let html = `<div class="welcome"><h2>Resultados: "${query}"</h2>`;
+    html += `<p>${results.length} ${results.length === 1 ? 'técnica encontrada' : 'técnicas encontradas'}</p>`;
+    html += '<div class="welcome-grid">';
     
     results.forEach(entry => {
-      resultsHTML += `
-        <div class="result-card" onclick="loadTopic('${entry.topic.id}')">
-          <div class="result-header">
-            <h3>${entry.topic.title}</h3>
-            <div class="result-meta">
-              <span class="difficulty">${entry.topic.difficulty}</span>
-              <span class="time">${entry.topic.time}</span>
-            </div>
-          </div>
-          <p class="result-summary">${entry.topic.summary}</p>
-          <div class="result-section">
-            <span style="color: ${entry.section.color}">${entry.section.title}</span>
-          </div>
+      html += `
+        <div class="welcome-card" onclick="loadTopic('${entry.topic.id}')">
+          <h3>${entry.topic.title}</h3>
+          <p>${entry.topic.summary}</p>
+          <small>${entry.section.title}</small>
         </div>
       `;
     });
     
-    resultsHTML += `
-        </div>
-      </div>
-    `;
-    
-    content.innerHTML = resultsHTML;
+    html += '</div></div>';
+    content.innerHTML = html;
     content.classList.add("technique-view");
   }
 
   function updateProgressStats() {
     const totalTopics = state.flat.length;
-    const completedTopics = localStorage.getItem('completedTopics') ? JSON.parse(localStorage.getItem('completedTopics')).length : 0;
-    const progressPercentage = Math.round((completedTopics / totalTopics) * 100);
-    
-    const progressCircle = $(".progress-circle");
-    const progressText = $(".progress-text");
-    const progressNumber = $$(`.progress-number`)[1];
-    
-    if (progressCircle) {
-      progressCircle.style.background = `conic-gradient(var(--color-accent) ${progressPercentage * 3.6}deg, var(--color-accent) 0deg, var(--color-surface-alt) 0deg)`;
+    let completedTopics = [];
+    try {
+      completedTopics = localStorage.getItem('completedTopics') ? JSON.parse(localStorage.getItem('completedTopics')) : [];
+    } catch (e) {
+      completedTopics = [];
     }
+    const count = Array.isArray(completedTopics) ? completedTopics.length : 0;
+    const progressPercentage = totalTopics > 0 ? Math.round((count / totalTopics) * 100) : 0;
+    
+    const progressText = $(".progress-text");
+    const progressNumbers = $$(".progress-number");
     
     if (progressText) progressText.textContent = `${progressPercentage}%`;
-    if (progressNumber) progressNumber.textContent = completedTopics;
+    if (progressNumbers[0]) progressNumbers[0].textContent = count;
   }
 
   function markTopicCompleted(topicId) {
-    const completedTopics = localStorage.getItem('completedTopics') ? JSON.parse(localStorage.getItem('completedTopics')) : [];
+    let completedTopics = [];
+    try {
+      completedTopics = localStorage.getItem('completedTopics') ? JSON.parse(localStorage.getItem('completedTopics')) : [];
+    } catch (e) {
+      completedTopics = [];
+    }
     
     if (!completedTopics.includes(topicId)) {
       completedTopics.push(topicId);
       localStorage.setItem('completedTopics', JSON.stringify(completedTopics));
       updateProgressStats();
-      
-      // Show completion celebration
-      showCompletionNotification();
     }
-  }
-
-  function showCompletionNotification() {
-    const notification = document.createElement("div");
-    notification.className = "completion-notification";
-    notification.innerHTML = `
-      <div class="notification-content">
-        <span class="notification-icon">🎉</span>
-        <div class="notification-text">
-          <strong>¡Técnica completada!</strong>
-          <p>Has dominado otro aspecto del arte de los prompts</p>
-        </div>
-        <button class="notification-close" onclick="this.parentElement.parentElement.remove()">×</button>
-      </div>
-    `;
-    
-    document.body.appendChild(notification);
-    
-    setTimeout(() => {
-      notification.remove();
-    }, 5000);
   }
 
   function enhanceTopicView(topicId) {
     const entry = findTopic(topicId);
     if (!entry) return;
     
-    // Add completion tracking
     const existingCompleteBtn = $(".complete-topic-btn");
     if (existingCompleteBtn) return;
     
     const content = $("#content");
     const completeBtn = document.createElement("button");
-    completeBtn.className = "btn btn-success complete-topic-btn";
-    completeBtn.innerHTML = `
-      <span>✅</span>
-      <span>Marcar como completada</span>
-    `;
+    completeBtn.className = "btn btn-secondary complete-topic-btn";
+    completeBtn.textContent = "Marcar como completada";
     
     completeBtn.addEventListener("click", () => {
       markTopicCompleted(topicId);
-      completeBtn.textContent = "✓ Completada";
+      completeBtn.textContent = "Completada";
       completeBtn.disabled = true;
     });
     
-    content?.appendChild(completeBtn);
+    const navButtons = $(".nav-buttons");
+    if (navButtons && navButtons.parentNode === content) {
+      content.insertBefore(completeBtn, navButtons);
+    }
   }
 
   window.addEventListener("load", async () => {
@@ -807,12 +746,10 @@
       setupShortcuts();
       syncThemeToggle();
       
-      // New educational features
       setupQuickNavigation();
       setupSearch();
       updateProgressStats();
       
-      // Enhance existing topic loading
       const originalLoadTopic = window.loadTopic;
       window.loadTopic = function(topicId) {
         originalLoadTopic(topicId);
@@ -820,14 +757,13 @@
       };
       
     } catch (error) {
-      console.error("Application initialization failed:", error);
+      console.error("Error de inicialización:", error);
       const content = $("#content");
       if (content) {
         content.innerHTML = `
-          <div class="error-message">
-            <h2>Error al cargar el contenido</h2>
-            <p>No se pudo cargar topics.json. Error: ${error.message}</p>
-            <p>Por favor, verifica que el archivo exista y tenga el formato correcto.</p>
+          <div class="welcome">
+            <h2>Error al cargar</h2>
+            <p>No se pudo cargar topics.json. Verifica que el archivo exista.</p>
           </div>
         `;
       }
