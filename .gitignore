@@ -1,0 +1,15 @@
+# Context Engineering source (educational reference only)
+context-engineering/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log

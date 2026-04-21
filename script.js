@@ -20,6 +20,41 @@
     landingHTML: ""
   };
 
+  function createParticles() {
+    const container = $("#particles");
+    if (!container) return;
+    const particleCount = 30;
+    for (let i = 0; i < particleCount; i++) {
+      const particle = document.createElement("div");
+      particle.className = "particle";
+      particle.style.left = Math.random() * 100 + "%";
+      particle.style.animationDelay = Math.random() * 20 + "s";
+      particle.style.animationDuration = (15 + Math.random() * 15) + "s";
+      particle.style.opacity = 0.1 + Math.random() * 0.3;
+      const size = 1 + Math.random() * 3;
+      particle.style.width = size + "px";
+      particle.style.height = size + "px";
+      container.appendChild(particle);
+    }
+  }
+
+  function animateCounters() {
+    const counters = $$(".stat-number[data-count]");
+    counters.forEach(counter => {
+      const target = parseInt(counter.dataset.count, 10);
+      const duration = 1500;
+      const start = performance.now();
+      const animate = (now) => {
+        const elapsed = now - start;
+        const progress = Math.min(elapsed / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        counter.textContent = Math.round(target * eased);
+        if (progress < 1) requestAnimationFrame(animate);
+      };
+      requestAnimationFrame(animate);
+    });
+  }
+
   function syncThemeToggle() {
     const root = document.documentElement;
     const isDark = root.getAttribute("data-theme") === "dark";
@@ -732,6 +767,8 @@
 
   window.addEventListener("load", async () => {
     try {
+      createParticles();
+      
       const content = $("#content");
       if (content) state.landingHTML = content.innerHTML;
       
@@ -749,6 +786,8 @@
       setupQuickNavigation();
       setupSearch();
       updateProgressStats();
+      
+      setTimeout(animateCounters, 300);
       
       const originalLoadTopic = window.loadTopic;
       window.loadTopic = function(topicId) {
