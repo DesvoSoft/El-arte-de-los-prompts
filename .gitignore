@@ -1,6 +1,9 @@
 # Context Engineering source (educational reference only)
 context-engineering/
 
+# AI agent documents (project context, roadmap, checklists)
+.ai/
+
 # OS files
 .DS_Store
 Thumbs.db
