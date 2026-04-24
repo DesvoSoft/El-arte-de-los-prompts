@@ -13,3 +13,11 @@ Thumbs.db
 
 # Logs
 *.log
+
+# GSD/Vibecoding docs (planning, agents, research)
+assets/**/*.md
+*.md
+
+# Backups and research files
+investigacion.pdf
+topics-backup.json
