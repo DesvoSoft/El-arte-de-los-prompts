@@ -23,54 +23,41 @@
   };
 
   function createParticles() {
-    const container = $("#particles");
+    const container = document.getElementById("particles");
     if (!container) return;
-    const colors = ["#8b5cf6", "#3b82f6", "#10b981", "#60a5fa", "#34d399"];
-    const particleCount = 80;
-    for (let i = 0; i < particleCount; i++) {
-      const particle = document.createElement("div");
-      particle.className = "particle";
-      particle.style.left = Math.random() * 100 + "%";
-      particle.style.animationDelay = Math.random() * 20 + "s";
-      particle.style.animationDuration = (15 + Math.random() * 15) + "s";
-      particle.style.opacity = 0.15 + Math.random() * 0.3;
-      particle.style.background = colors[Math.floor(Math.random() * colors.length)];
-      const size = 1 + Math.random() * 4;
-      particle.style.width = size + "px";
-      particle.style.height = size + "px";
-      container.appendChild(particle);
+    const colors = ["#3b82f6", "#10b981", "#60a5fa", "#34d399"];
+    for (let i = 0; i < 80; i++) {
+      const p = document.createElement("div");
+      p.className = "particle";
+      p.style.left = Math.random() * 100 + "%";
+      p.style.top = Math.random() * 100 + "%";
+      p.style.background = colors[Math.floor(Math.random() * colors.length)];
+      p.style.width = (1 + Math.random() * 3) + "px";
+      p.style.height = p.style.width;
+      p.style.opacity = 0.2 + Math.random() * 0.4;
+      p.style.animationDuration = (15 + Math.random() * 10) + "s";
+      p.style.animationDelay = Math.random() * 20 + "s";
+      container.appendChild(p);
     }
   }
 
   function initTheme() {
     const root = document.documentElement;
-    const btn = document.querySelector(".toggle-theme");
-    const icon = btn?.querySelector(".theme-icon");
-    const isDark = localStorage.getItem("theme") === "dark" || !localStorage.getItem("theme");
-    if (isDark) {
-      root.setAttribute("data-theme", "dark");
-      if (icon) icon.textContent = "☾";
-    } else {
-      root.setAttribute("data-theme", "light");
-      if (icon) icon.textContent = "☀";
-    }
+    const saved = localStorage.getItem("theme");
+    const isDark = saved === "dark" || !saved;
+    root.setAttribute("data-theme", isDark ? "dark" : "light");
+    const icon = document.querySelector(".theme-icon");
+    if (icon) icon.textContent = isDark ? "☾" : "☀";
   }
 
   window.toggleTheme = function() {
     const root = document.documentElement;
-    const btn = document.querySelector(".toggle-theme");
-    const icon = btn?.querySelector(".theme-icon");
-    const isDark = root.getAttribute("data-theme") !== "light";
-    
-    if (isDark) {
-      root.setAttribute("data-theme", "light");
-      localStorage.setItem("theme", "light");
-      if (icon) icon.textContent = "☀";
-    } else {
-      root.setAttribute("data-theme", "dark");
-      localStorage.setItem("theme", "dark");
-      if (icon) icon.textContent = "☾";
-    }
+    const current = root.getAttribute("data-theme");
+    const next = current === "dark" ? "light" : "dark";
+    root.setAttribute("data-theme", next);
+    localStorage.setItem("theme", next);
+    const icon = document.querySelector(".theme-icon");
+    if (icon) icon.textContent = next === "dark" ? "☾" : "☀";
   };
 
   function animateCounters() {

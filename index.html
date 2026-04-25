@@ -19,16 +19,21 @@
 <body>
   <div class="particles" id="particles"></div>
   
+  <button class="toggle-theme" type="button" aria-label="Cambiar tema" onclick="toggleTheme()">
+    <span class="theme-icon">☾</span>
+  </button>
+
   <header class="hero" role="banner">
+    <div class="hero-bg-pattern"></div>
     <div class="hero-content">
       <div class="hero-badge">Referencia Técnica</div>
       <h1 class="hero-title">
         <span class="title-line">El Arte de</span>
-        <span class="title-accent">los Prompts</span>
+        <span class="title-line title-accent">los Prompts</span>
       </h1>
       <p class="hero-subtitle">
-        Ingeniería de prompts y context engineering para profesionales. 
-        Técnicas documentadas, patrones probados y seguridad en producción.
+        Guía de referencia para dominar la ingeniería de prompts y el context engineering. 
+        Documentación técnica con ejemplos prácticos, patrones probados y consideraciones de seguridad.
       </p>
       <div class="hero-stats">
         <div class="stat-item">
@@ -45,136 +50,71 @@
         </div>
       </div>
       <div class="hero-actions">
-        <a href="content.html" class="btn btn-primary">
+        <button id="ctaStart" class="btn btn-primary">
           <span>Explorar Técnicas</span>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M5 12h14M13 5l7 7-7 7"/>
           </svg>
-        </a>
+        </button>
       </div>
     </div>
   </header>
 
   <nav class="quick-nav" role="navigation" aria-label="Navegación principal">
     <div class="nav-container">
-      <div class="nav-logo">
-        <span class="logo-text">El Arte de los Prompts</span>
-      </div>
-      <div class="nav-links">
-        <a href="#secciones">Secciones</a>
-        <a href="#about">Acerca de</a>
-        <a href="content.html">Contenido</a>
+      <div class="nav-sections">
+        <button class="nav-btn" data-section="fundamentos">Fundamentos</button>
+        <button class="nav-btn" data-section="tecnicas">Técnicas</button>
+        <button class="nav-btn" data-section="rag">RAG</button>
+        <button class="nav-btn" data-section="agentes">Agentes</button>
+        <button class="nav-btn" data-section="seguridad">Seguridad</button>
       </div>
     </div>
   </nav>
 
-  <section id="secciones" class="quick-access">
-    <h2 class="section-title">Explora las Secciones</h2>
-    <div class="quick-access-grid">
-      <a href="content.html?section=fundamentos" class="quick-card">
-        <div class="quick-icon" style="background: rgba(139, 92, 246, 0.15); color: #8b5cf6;">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-            <path d="M9.5 4a3.5 3.5 0 0 0-3.5 3.5v9a3.5 3.5 0 0 0 3.5 3.5H10V4.5A.5.5 0 0 0 9.5 4z"/>
-          </svg>
-        </div>
-        <h3>Fundamentos</h3>
-        <p>Conceptos esenciales sobre cómo los LLMs procesan información y el contexto crítico.</p>
-      </a>
-      
-      <a href="content.html?section=tecnicas" class="quick-card">
-        <div class="quick-icon" style="background: rgba(59, 130, 246, 0.15); color: #3b82f6;">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-            <path d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/>
-          </svg>
-        </div>
-        <h3>Técnicas de Prompting</h3>
-        <p>Anatomía de prompts, Chain-of-Thought, Zero-shot y más patrones efectivos.</p>
-      </a>
-      
-      <a href="content.html?section=rag" class="quick-card">
-        <div class="quick-icon" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-            <path d="M21 21l-6-6m2-5a7 7 0 1 1-14 0 7 7 0 0 1 14 0z"/>
-          </svg>
-        </div>
-        <h3>RAG</h3>
-        <p>Retrieval-Augmented Generation, embeddings, chunking y optimización.</p>
-      </a>
-      
-      <a href="content.html?section=agentes" class="quick-card">
-        <div class="quick-icon" style="background: rgba(52, 211, 153, 0.15); color: #34d399;">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-            <path d="M13 10V3L4 14h7v7l9-11h-7z"/>
-          </svg>
-        </div>
-        <h3>Agentes IA</h3>
-        <p>De Q&A a agentes autónomos. Function calling y arquitecturas agentic.</p>
-      </a>
-      
-      <a href="content.html?section=optimizacion" class="quick-card">
-        <div class="quick-icon" style="background: rgba(245, 158, 11, 0.15); color: #f59e0b;">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-            <path d="M4 4v6h6M20 20v-6h-6M5.5 18.5A8 8 0 0 0 19 13m-6-8a8 8 0 0 0-13 5"/>
-          </svg>
-        </div>
-        <h3>Optimización</h3>
-        <p>Gestión de ventana de contexto, compresión y técnicas de eficiencia.</p>
-      </a>
-      
-      <a href="content.html?section=seguridad" class="quick-card">
-        <div class="quick-icon" style="background: rgba(239, 68, 68, 0.15); color: #ef4444;">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-            <path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
-          </svg>
-        </div>
-        <h3>Seguridad</h3>
-        <p>Evaluación, debugging y protección contra prompt injection.</p>
-      </a>
+  <section class="featured-techniques" role="main">
+    <div class="featured-header">
+      <h2>Techniques</h2>
+      <p>Estrategias probadas para resultados inmediatos en producción.</p>
     </div>
+    <div class="techniques-grid" id="sectionCards" aria-label="Técnicas destacadas"></div>
   </section>
 
-  <section id="about" class="about-section">
-    <div class="about-content">
-      <h2>¿Qué es la Ingeniería de Prompts?</h2>
-      <p>
-        La ingeniería de prompts es la disciplina que estudia cómo comunicar 
-        efectivamente con modelos de lenguaje grande (LLMs) para obtener resultados 
-        predecibles, precisos y útiles.
-      </p>
-      <p>
-        Desde la creación de instrucciones básicas hasta la construcción de 
-        sistemas RAG complejos y agentes autónomos, esta plataforma documenta 
-        las técnicas y patrones que los profesionales utilizan en producción.
-      </p>
-      <div class="about-features">
-        <div class="feature">
-          <span class="feature-icon">📚</span>
-          <span>Técnicas documentadas</span>
-        </div>
-        <div class="feature">
-          <span class="feature-icon">⚡</span>
-          <span>Patrones probados</span>
-        </div>
-        <div class="feature">
-          <span class="feature-icon">🔒</span>
-          <span>Seguridad en producción</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <button class="toggle-theme" type="button" onclick="toggleTheme()">
-    <span class="theme-icon">☾</span>
+  <button class="menu-handle" id="menuHandle" type="button" aria-expanded="false" aria-controls="sidebar">
+    <span class="menu-icon"></span>
+    <span class="menu-text">Menú</span>
   </button>
 
-  <footer class="footer">
-    <div class="footer-content">
-      <p>&copy; 2025 <strong>DesvoSoft</strong>. Ingeniería de prompts para profesionales.</p>
-      <nav class="footer-nav">
-        <a href="content.html">Contenido</a>
-        <a href="#secciones">Secciones</a>
+  <div class="layout" role="presentation">
+    <aside id="sidebar" class="sidebar" aria-label="Navegación principal">
+      <div class="sidebar-head">
+        <h2>Secciones</h2>
+      </div>
+      <nav>
+        <ul id="menu" class="menu" role="tree"></ul>
       </nav>
-    </div>
+    </aside>
+
+    <main id="main" class="main" tabindex="-1">
+      <nav class="breadcrumbs" aria-label="Breadcrumb">
+        <ol id="breadcrumbs"></ol>
+      </nav>
+      <article id="content" class="content" tabindex="-1">
+        <div class="empty-state">
+          <div class="empty-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+              <path d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+            </svg>
+          </div>
+          <h2>Selecciona una técnica</h2>
+          <p>Explora las técnicas en el menú lateral o usa los enlaces rápidos arriba para comenzar.</p>
+        </div>
+      </article>
+    </main>
+  </div>
+
+  <footer class="footer">
+    <p>&copy; 2026 DesvoSoft · Ingeniería de prompts para profesionales.</p>
   </footer>
 
   <script src="script.js"></script>
