@@ -1,67 +1,134 @@
-# El Arte de los Prompts
+#   ____                                    __               
+#  / ___| ___ _ __ ___  _ __ ___   ___ _ __ | |_ ___  ___ 
+# | |   / _ \ '_ ` _ \| '_ ` _ \ / _ \ '_ \| __/ _ \/ __|
+# | |___|  __/ | | | | | | | | | |  __/ | | ||  __/(__ 
+#  \____|\___|_| |_| |_|_| |_| |_|\___|_|  _|\___\___|
+#                                                
+#  _____        __ _     _   _       
+# | ____|_   _ / _(_)___| |_| |__   
+# |  _|| | | || |_|/ __| __| '_ \  
+# | |___| |_| ||  _| (__| |_| | | | 
+# |_____\__,_||_| |___|\__|_| |_| |
+#                                   
+#  El Arte de los Prompts
+#  ===================
 
-**El Arte de los Prompts** es una plataforma de referencia técnica para dominar la ingeniería de prompts y context engineering. Documentación profesional con técnicas probadas, patrones reutilizables y consideraciones de seguridad para uso en producción.
-
-> Destinado a desarrolladores, ingenieros de prompts y profesionales que integran IA en fluxos de trabajo reales.
+**El Arte de los Prompts** es una plataforma de referencia técnica para 
+dominar la ingeniería de prompts y context engineering. Documentación 
+profesional con técnicas probadas, patrones reutilizables y seguridad.
 
 ---
 
-## Características
+## Quick View
 
-- **Colección estructurada de técnicas** — Desde fundamentos como ASPECT y CoT, hasta estrategias avanzadas como Prompt Chaining y Meta-prompting
-- **Documentación técnica completa** — Cada técnica incluye definición, cuándo usarla, pasos clave, ejemplos descargables y errores comunes
-- **Diseño editorial sobrio** — Interfaz limpia inspirada en documentación de Stripe/Vercel/Linear
-- **Modo claro/oscuro** — Tema switch discreto con atajo de teclado (T)
-- **Responsive** — Adaptado a móvil, tablet y escritorio
-- **Modo lectura** — Oculta navegación lateral para concentración
-- **Sistema de progreso** — Guarda tu avance localmente
-- **Búsqueda integrada** — Encuentra técnicas por nombre o contenido
+```
+┌─────────────────────────────────────────────────────────┐
+│  Landing (index.html)          Content (content.html)  │
+│  ──────────────────          ────────────────────────  │
+│  • Hero con estadísticas      • Sidebar con secciones  │
+│  • Grid de secciones         • Técnicas renderizadas  │
+│  • Theme toggle ☀/☾         • Búsqueda integrada      │
+│  • Partículas flotantes       • URLs ?section=id        │
+└─────────────────────────────────────────────────────────┘
+```
 
 ---
 
 ## Técnicas Documentadas
 
-| Técnica | Descripción |
-| ------- | --------- |
-| **ASPECT** | Estructura: Acción, Sujeto, Propósito, Ejemplos, Restricciones, Tono |
-| **Chain-of-Thought (CoT)** | Razonamiento paso a paso para problemas complejos |
-| **Prompt Layering** | División en capas secuenciales para mayor control |
-| **Instructive Prompting** | Instrucciones estrictas para salidas estructuradas |
-| **Iterative Prompt Refinement** | Mejora progresiva con ciclos de feedback |
-| **Zero-shot / Few-shot** | Estrategias con cero o pocos ejemplos |
-| **Roleplay Prompting** | Moldeado de roles con límites y defensas |
-| **Meta-prompting** | El modelo crea su propio plan antes de responder |
-| **Prompt Chaining** | Encadenado de prompts para flujos largos |
-| **Seguridad** | Consideraciones y mitigaciones para producción |
+| # | Sección      | Técnicas                |
+|---|--------------|------------------------|
+| 01 | Fundamentos | Contexto, Economía     |
+| 02 | Técnicas    | Anatomía, CoT, Zero    |
+| 03 | RAG         | Chunking, Re-ranking   |
+| 04 | Agentes     | Function calling      |
+| 05 | Optimización | Ventana contexto    |
+| 06 | Seguridad  | Evaluación, Debugging |
+
+> Total: **20+ técnicas** con ejemplos, pasos y mejores prácticas
 
 ---
 
-## Uso
-
-Disponible en **GitHub Pages**:
-
-**[Abrir sitio](https://desvosoft.github.io/El-arte-de-los-prompts/)**
-
-O clonar localmente:
+## Demo
 
 ```bash
+# Local
 git clone https://github.com/DesvoSoft/El-arte-de-los-prompts.git
 cd El-arte-de-los-prompts
-# abrir index.html en navegador
+# Abrir index.html en navegador
+```
+
+**Live:** https://desvosoft.github.io/El-arte-de-los-prompts/
+
+---
+
+## Stack
+
+```
+┌────────────────────────────────────────┐
+│  HTML5     │  CSS3 (embebido)  │  JS ES6+ │
+│  ─────────────────────────────────────│
+│  • No frameworks                     │
+│  • CSS embebido (aislamiento)         │
+│  • Vanilla JS                       │
+│  • topics.json para contenido       │
+└────────────────────────────────────────┘
 ```
 
 ---
 
-## Atajos de Teclado
+## Features
 
-| Tecla | Acción |
-| ---- | ------ |
-| `M` | Abrir/cerrar menú lateral |
-| `F` | Activar modo enfoque |
-| `T` | Cambiar tema |
+| Feature         | Status |
+|-----------------|--------|
+| Theme toggle    | ✓      |
+| Partículas      | ✓      |
+| Sections grid   | ✓      |
+| Dynamic menu   | ✓      |
+| URL params      | ✓      |
+| SEO ready       | ✓      |
 
 ---
 
-## Licencia
+## Architecture
 
-&copy; 2025 DesvoSoft
+```
+/
+├── index.html      # Landing page (self-contained)
+├── content.html    # Content page dinámico
+├── topics.json     # Base de técnicas
+├── README.md       # Este archivo
+└── .ai/            # Documentación interna
+    ├── PROJECT.md
+    ├── ROADMAP.md
+    ├── CHECKLIST.md
+    └─��� LOG.md
+```
+
+---
+
+## Changelog
+
+| Version | Date | Change |
+|---------|------|--------|
+| v1.0  | 2026-04 | Landing + Content pages modernos |
+| v0.x  | 2025    | Iteraciones anteriores (legacy) |
+
+---
+
+## Credits
+
+```
+         _   _   ____            _        
+  ___ __| | | | / ___| _   _ ___| | ___ _ 
+ / _ \_  | | | | \___|| | | / __| |/ / '_|
+|  __/ || | | | |___|| |_| \__ \   <| |_ 
+ \___/_||_|_| |_|____|\__,_|___/_|\_\__|
+                                        
+Created by: DesvoSoft
+Contact:   desvosoft @ github
+```
+
+---
+
+**&copy; 2026 DesvoSoft** · Ingeniería de prompts para profesionales
