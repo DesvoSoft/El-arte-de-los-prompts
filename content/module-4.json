@@ -1,0 +1,69 @@
+{
+  "module": 4,
+  "title": "Optimización del Contexto",
+  "lessons": [
+    {
+      "id": "context-window",
+      "title": "Dominando la Ventana de Contexto",
+      "difficulty": "Intermedio",
+      "time": "25 min",
+      "summary": "Estrategias para gestionar efectivamente la ventana de contexto finita.",
+      "sections": [
+        {
+          "title": "1. El Problema de la Aguja en el Pajar",
+          "content": "Un estudio groundbreaking de Google destacó un desafío crítico con ventanas de contexto grandes. Los investigadores 'escondieron' una pieza relevante de información (la 'aguja') en varios niveles de profundidad dentro de un cuerpo grande de texto irrelevante (el 'pajar') y probaron la capacidad del modelo para encontrarla.\n\n**Los hallazgos:**\n* **El rendimiento baja en el medio:** Los modelos son muy buenos recordando información al *comienzo* o *final* de la ventana de contexto. Su rendimiento baja significativamente cuando la información clave está en el *medio*.\n* **Más grande no siempre es mejor:** Aumentar la cantidad de contexto (un pajar más grande) a menudo hacía más difícil para el modelo encontrar la aguja.",
+          "strategies": [
+            "Reordenar por importancia: instrucciones críticas → contexto denso → pregunta final",
+            "Colocar información clave al inicio (primacy) y final (recency)",
+            "Evitar 'ruido' que diluya la atención del modelo"
+          ]
+        },
+        {
+          "title": "2. Estrategias para Gestiones Largas Conversaciones",
+          "content": "En un chatbot, la ventana de contexto se llena no solo con documentos recuperados, sino con el historial de conversación mismo. Necesitamos estrategias para gestionar esta 'memoria'.\n\n**A. Sliding Window Memory:**\n* Mantiene solo las últimas K turns (ej: los 10 mensajes más recientes).\n* Pros: Fácil de implementar.\n* Contras: El bot 'olvidará' abruptamente cualquier cosa más antigua.\n\n**B. Summarization Memory:**\n* Más sofisticado. A medida que la conversación crece, usas una llamada separada más económica para crear un resumencorrongo.\n* Pros: Permite al bot 'recordar' hechos clave de antes.\n* Contras: Un resumen pobre puede causar que el bot malrecuerde detalles.",
+          "examples": [
+            {
+              "title": "Código: Sliding Window",
+              "code": "# Mantener solo los últimos 5 mensajes\nmax_messages = 5\nrecent_messages = conversation_history[-max_messages:]"
+            }
+          ]
+        }
+      ],
+      "keyTakeaways": [
+        "Modelos son mejores recordando información del inicio y final.",
+        "Estrategias: Sliding Window o Summarization Memory.",
+        "Summarization Memory ofrece mejor memoria a largo plazo."
+      ]
+    },
+    {
+      "id": "contextual-compression",
+      "title": "Compresión y Distilación de Contexto",
+      "difficulty": "Avanzado",
+      "time": "30 min",
+      "summary": "Técnicas avanzadas para reducir ruido y maximizar información útil.",
+      "sections": [
+        {
+          "title": "1. El Problema: Documentos con 'Ruido'",
+          "content": "Los documentos recuperados crudos a menudo contienen mucho 'ruido' — oraciones irrelevantes, texto de boilerplate, o información redundante que no ayuda para responder la consulta específica del usuario.\n\n**Ejemplo:**\n* Consulta: '¿Cuál es la batería del modelo Pro?'\n* Chunk recuperado: 'El modelo estándar tiene 8 horas de batería. El modelo Pro viene en tres colores emocionantes: azul, negro y plata. Todos los modelos incluyen un cable USB-C...'\n\nSolo una oración es relevante. El resto es ruido que aumenta el costo de tokens y puede confuse al LLM.\n\n**Compresión Contextual** es el proceso de filtrar este ruido *antes* de que el contexto llegue al Generator costoso.",
+          "formula": "RAG → Compresión → Generator"
+        },
+        {
+          "title": "2. Implementación",
+          "content": "La forma más común es agregar un paso de 'compresión' a tu pipeline RAG, justo después de la recuperación.\n\n**Pipeline con Compresión:**\n1. Usuario pregunta\n2. Retriever obtiene documentos completos\n3. Compresor filtra solo las oraciones clave relevantes\n4. Contexto comprimido → Generador\n5. LLM genera respuesta",
+          "steps": [
+            "Recuperar documentos completos",
+            "Aplicar filtro de relevancia por sentence/segment",
+            "Extraer solo información directamente relacionada",
+            "Pasar contexto comprimido al generador"
+          ],
+          "warning": "Compresión excesiva puede perder contexto necesario."
+        }
+      ],
+      "keyTakeaways": [
+        "Documentos recuperados tienen 'ruido' innecesario.",
+        "Compresión contextual filtra antes de llegar al Generator.",
+        "Experimentar con nivel de compresión."
+      ]
+    }
+  ]
+}

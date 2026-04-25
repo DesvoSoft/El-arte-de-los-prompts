@@ -1,0 +1,89 @@
+{
+  "module": 5,
+  "title": "Agentes IA",
+  "lessons": [
+    {
+      "id": "ai-agents",
+      "title": "El Ascenso de los Agentes IA",
+      "difficulty": "Intermedio",
+      "time": "25 min",
+      "summary": "De sistemas Q&A a agentes autónomos que razonan y actúan.",
+      "sections": [
+        {
+          "title": "1. De Responder a Hacer",
+          "content": "Un sistema RAG es como un asistente de investigación de 'libro abierto'. Preguntas y encuentra la respuesta.\n\nUn **agente** es un asistente personal al que le das un **objetivo**. No solo lee los libros, sino que también puede usar un teléfono, una calculadora o un calendario para completar la tarea.\n\nEl agente sigue un camino dinámico y cíclico: **Goal → Think → Act → Observe → Think → Act** hasta que el objetivo está completo.\n\nEl **mindset agentic** es sobre darle a la IA:\n1. Un **objetivo** a lograr\n2. Un conjunto de **herramientas** que puede usar\n3. La **autonomía** para decidir qué herramientas usar, en qué orden",
+          "examples": [
+            {
+              "title": "Código: Agent Loop",
+              "code": "goal = \"Reservar vuelo a Tokio para la próxima semana\"\n\nwhile not goal_complete:\n    think()    # Razonar sobre el siguiente paso\n    action()   # Llamar API de vuelos, hotels, etc.\n    observe()  # Obtener resultado\n    # Ajustar plan si es necesario"
+            }
+          ]
+        },
+        {
+          "title": "2. Los Componentes Core del Agente",
+          "content": "**A. El Planner (El Cerebro)**\nEl LLM principal. Su trabajo es razonar sobre el objetivo y crear un plan.\n* **Descomposición:** Dividir un objetivo complejo en pasos más pequeños.\n* **Selección de herramienta:** Decidir qué herramienta disponible es adecuada.\n* **Razonamiento:** Analizar los resultados de las llamadas a ferramentas.\n\n**B. Las Tools (Las Manos)**\nUn conjunto de funciones o APIs que el agente puede invocar.\n* `buscar_vuelos(origen, destino, fecha)`\n* `enviar_email(destinatario, asunto, cuerpo)`\n* Tu RAG retriever es una herramienta: `buscar_base_conocimiento(consulta)`\n\n**C. La Memoria (El Borrador)**\nEl contexto que persiste entre pasos. Almacena:\n* El objetivo original del usuario\n* El plan de múltiples pasos\n* Los resultados de llamadas previas (Observations)"
+        }
+      ],
+      "keyTakeaways": [
+        "Agente usa LLM para razonar, planificar y usar herramientas.",
+        "Componentes: Planner, Tools, Memory.",
+        "ReAct: ciclo de Thought → Action → Observation."
+      ]
+    },
+    {
+      "id": "function-calling",
+      "title": "Function Calling y Herramientas",
+      "difficulty": "Intermedio",
+      "time": "30 min",
+      "summary": "Cómo permitir que los LLMs invoquen funciones externas.",
+      "sections": [
+        {
+          "title": "1. El Mecanismo de Function Calling",
+          "content": "Function Calling es el mecanismo que permite a un LLM solicitar una acción generando un objeto JSON que especifica el nombre de la función y sus argumentos.\n\nTu código ejecuta la función y devuelve el resultado al LLM para incorporar en su respuesta.",
+          "examples": [
+            {
+              "title": "Código: Tool Definition",
+              "code": "Funciones disponibles:\n\nget_weather(ubicación: string) → {temp: number, condiciones: string}\n\n# El modelo genera:\n{\"name\": \"get_weather\", \"arguments\": {\"ubicación\": \"Ciudad de México\"}}\n\n# Sistema ejecuta → returns {temp: 22, condiciones: \"soleado\"}\n\n# Modelo responde: 'El clima en Ciudad de México es de 22°C y soleado.'"
+            }
+          ]
+        },
+        {
+          "title": "2. Mejores Prácticas",
+          "content": "* Usar nombres descriptivos y argumentos claros.* Incluir ejemplos de uso en la descripción.\n* Siempre validar y sanitizar inputs del usuario.\n* No ejecutar funciones sin validar inputs.",
+          "warning": "Función mal descrita confunde al modelo."
+        }
+      ],
+      "keyTakeaways": [
+        "LLM genera JSON especificando función y argumentos.",
+        "Código ejecuta función, devuelve resultado.",
+        "Validar inputs antes de ejecutar."
+      ]
+    },
+    {
+      "id": "agent-architectures",
+      "title": "Arquitecturas de Agentes",
+      "difficulty": "Avanzado",
+      "time": "35 min",
+      "summary": "Patrones arquitectónicos para construir sistemas agentic.",
+      "sections": [
+        {
+          "title": "1. ReAct vs Plan-and-Execute",
+          "content": "**ReAct (Reason + Act)**\n* Pensar un paso → Ejecutar → Observar → Ajustar → Repetir\n* Dinámico y adaptativo.\n* Ventaja: Se ajusta si algo falla.\n* Desventaja: Puede ser más lento.\n\n**Plan-and-Execute**\n* Crear plan completo → Ejecutar paso 1 → Ejecutar paso 2 → ...\n* Si falla un paso, replanear desde ese punto.\n* Ventaja: Más predecible.\n* Desventaja: Menos adaptativo.",
+          "comparison": {
+            "ReAct": "Pensar un paso → Ejecutar → Observar → Ajustar → Repetir",
+            "Plan-and-Execute": "Crear plan completo → Ejecutar secuencialmente"
+          }
+        },
+        {
+          "title": "2. Patrones Adicionales",
+          "content": "**Reflection:** El agente critica su propia salida antes de dar la respuesta final.\n\n**Human-in-the-loop:** El agente pide confirmación humana antes de ejecutar actions importantes.\n\n**Multi-agent systems:** Múltiples agentes especializados colaboran. Uno puede ser 'investigador', otro 'writer', otro 'verificador'."
+        }
+      ],
+      "keyTakeaways": [
+        "ReAct para mayoría de casos.",
+        "Plan-and-Execute para tareas largas y complejas.",
+        "Implementar error handling siempre."
+      ]
+    }
+  ]
+}

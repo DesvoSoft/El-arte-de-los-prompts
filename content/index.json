@@ -1,0 +1,39 @@
+{
+  "modules": [
+    {
+      "id": 1,
+      "title": "Fundamentos del Contexto",
+      "lessons": ["what-is-context", "evolution-economics", "core-principles"]
+    },
+    {
+      "id": 2,
+      "title": "Técnicas de Prompting",
+      "lessons": ["anatomy-prompt", "zero-few-shot", "chain-of-thought"]
+    },
+    {
+      "id": 3,
+      "title": "RAG y Gestión de Conocimiento",
+      "lessons": ["intro-rag", "chunking-embeddings", "retrieval-process"]
+    },
+    {
+      "id": 4,
+      "title": "Optimización del Contexto",
+      "lessons": ["context-window", "contextual-compression"]
+    },
+    {
+      "id": 5,
+      "title": "Agentes IA",
+      "lessons": ["ai-agents", "function-calling", "agent-architectures"]
+    },
+    {
+      "id": 6,
+      "title": "Seguridad y Evaluación",
+      "lessons": ["rag-evaluation", "debugging-tracing", "security"]
+    },
+    {
+      "id": 7,
+      "title": "El Futuro del Contexto",
+      "lessons": ["multimodal", "protocols", "cwa"]
+    }
+  ]
+}

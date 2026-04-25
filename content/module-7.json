@@ -1,0 +1,91 @@
+{
+  "module": 7,
+  "title": "El Futuro del Contexto",
+  "lessons": [
+    {
+      "id": "multimodal",
+      "title": "Contexto Multimodal",
+      "difficulty": "Avanzado",
+      "time": "30 min",
+      "summary": "Modelos que procesan texto, imágenes, audio y video.",
+      "sections": [
+        {
+          "title": "1. Más Que Texto: Prompting con Imágenes",
+          "content": "Modelos state-of-the-art como GPT-4o o Gemini son inherentemente multimodales. Pueden aceptar una combinación de texto e imágenes en un solo prompt.\n\nEsto abre posibilidades completamente nuevas:\n* **Visual Q&A:** Darle al modelo una foto de tu refrigerador y preguntar '¿Qué puedo preparar para dinner?'\n* **Chart Interpretation:** Proporcionar una imagen de un gráfico de barras y preguntar '¿Cuál fue el porcentaje de incremento entre Q1 y Q2?'\n* **UI Navigation:** Mostrar al modelo un screenshot y preguntar '¿Dónde hago click para cerrar sesión?'",
+          "examples": [
+            {
+              "title": "Código: Prompt Multimodal con GPT-4o",
+              "code": "from openai import OpenAI\nclient = OpenAI()\n\n# Una imagen de un flowchart\nimage_url = \"https://www.process.st/flowchart.png\"\n\nresponse = client.chat.completions.create(\n    model=\"gpt-4o\",\n    messages=[\n        {\n            \"role\": \"user\",\n            \"content\": [\n                {\"type\": \"text\", \"text\": \"Explica este diagrama de flujo\"},\n                {\"type\": \"image_url\", \"image_url\": {\"url\": image_url}}\n            ]\n        }\n    ]\n)\nprint(response.choices[0].message.content)"
+            }
+          ]
+        },
+        {
+          "title": "2. RAG Multimodal",
+          "content": "**Multimodal RAG** puede mejorar la calidad de respuestas combinando recuperación de texto e imágenes.\n\nUn sistema podría recuperar tanto documentos de texto como imágenes relevantes, permitiendo al LLM razonar sobre ambos."
+        }
+      ],
+      "keyTakeaways": [
+        "Modelos multimodales procesan texto + imágenes en un prompt.",
+        "Aplicaciones: Visual Q&A, Charts, UI Navigation.",
+        "Considerar costos y latencia de procesamiento."
+      ]
+    },
+    {
+      "id": "protocols",
+      "title": "Protocolos Emergentes: MCP y A2A",
+      "difficulty": "Avanzado",
+      "time": "25 min",
+      "summary": "Nuevos estándares para estructurar y comunicar contexto.",
+      "sections": [
+        {
+          "title": "1. Model Context Protocol (MCP)",
+          "content": "**MCP** es un estándar abierto para estructurar y comunicar contexto a modelos IA.\n\nProporciona schema formal para bundling de:\n* System prompts\n* Queries de usuario\n* Datos recuperados\n* Definiciones de herramientas\n\n**Beneficios:**\n* Interoperabilidad entre diferentes sistemas.\n* Estructura consistente.\n* Future-proofing.",
+          "examples": [
+            {
+              "title": "Estructura MCP",
+              "code": "MCP Package:\n{\n  \"system_prompt\": \"...\",\n  \"context\": {\n    \"retrieved_docs\": [...],\n    \"user_info\": {...}\n  },\n  \"tools\": [\n    {\"name\": \"search\", \"description\": \"Buscar en base de conocimiento\"}\n  ]\n}\n\n# Cada componente tiene schema definido → interoperabilidad"
+            }
+          ]
+        },
+        {
+          "title": "2. Agent2Agent (A2A)",
+          "content": "**A2A** es un protocolo diseñado para permitir que agentes IA independientes se comuniquen y interoperen.\n\nProporciona un lenguaje compartido para que los agentes:\n* Se descubran entre sí.\n* Asignen tareas.\n* Colaboren para resolver problemas complejos."
+        }
+      ],
+      "keyTakeaways": [
+        "MCP estandariza la estructura del contexto.",
+        "A2A permite comunicación entre agentes.",
+        "Mantener awareness de developments en el espacio."
+      ]
+    },
+    {
+      "id": "cwa",
+      "title": "Context Window Architecture (CWA)",
+      "difficulty": "Avanzado",
+      "time": "35 min",
+      "summary": "Teoría unificadora: estructurar la ventana de contexto para sistemas confiables.",
+      "sections": [
+        {
+          "title": "1. Blueprint Conceptual",
+          "content": "**CWA** es un blueprint conceptual que estandariza la estructura de la ventana de contexto de un LLM.\n\nOrganiza información en capas distintas:\n1. **Instructions:** System prompt, reglas, constraints\n2. **User Context:** Profile, preferences, historical data\n3. **Task Context:** Retrieved documents, RAG results\n4. **Tools:** Available functions, descriptions\n5. **Current Query:** La pregunta actual del usuario\n6. **Output Format:** Instrucciones de cómo responder",
+          "examples": [
+            {
+              "title": "Estructura CWA",
+              "code": "VENTANA DE CONTEXTO:\n\n[CAPA 1: Instructions]\n- System prompt, reglas, constraints\n\n[CAPA 2: User Context]\n- Profile, preferences, historical data\n\n[CAPA 3: Task Context]\n- Retrieved documents, RAG results\n\n[CAPA 4: Tools]\n- Available functions\n\n[CAPA 5: Current Query]\n- User's actual question\n\n[CAPA 6: Output Format]\n- Instructions de cómo responder"
+            }
+          ]
+        },
+        {
+          "title": "2. Por Qué CWA",
+          "content": "**Beneficios:**\n* **Más confiable:** Estructura predecible.\n* **Debuggable:** Cuando algo falla, es más fácil diagnosticar.\n* **Performante:** Aprovecha los patrones naturales de atención del modelo.\n\nEl modelo presta más atención al inicio y final. Ordenar correctamente maximiza el rendimiento.",
+          "formula": "CWA = Instrucciones → Contexto → Pregunta → Formato"
+        }
+      ],
+      "keyTakeaways": [
+        "CWA estandariza la estructura de la ventana de contexto.",
+        "Capas: Instructions → User Info → Task Context → Tools → Query → Output.",
+        "Documentar CWA para el equipo y debugging."
+      ]
+    }
+  ]
+}

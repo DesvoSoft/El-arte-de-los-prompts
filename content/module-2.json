@@ -1,0 +1,120 @@
+{
+  "module": 2,
+  "title": "Técnicas de Prompting",
+  "lessons": [
+    {
+      "id": "anatomy-prompt",
+      "title": "Anatomía de un Prompt Avanzado",
+      "difficulty": "Introductorio",
+      "time": "20 min",
+      "summary": "Descomposición de los componentes de un prompt sofisticado.",
+      "sections": [
+        {
+          "title": "1. System vs. User Prompts",
+          "content": "Piensa en una interacción de IA como una obra de teatro.\n\n**El System Prompt** es la dirección de escenario dada al actor principal antes de que suba el telón. Define su personaje, motivaciones y reglas del mundo. Es una meta-instrucción persistente.\n\n**El User Prompt** es la línea de diálogo de otro actor. Es el input inmediato y transitorio.",
+          "examples": [
+            {
+              "title": "El Poder del System Prompt",
+              "code": "import openai\n\nsystem_prompt = \"Eres un detective robot sarcástico de una película noir de los 40. Respondes a regañadientes y con tono cínico.\"\nuser_prompt = \"Necesito ayuda encontrando mis llaves.\"\n\nresponse = openai.ChatCompletion.create(\n  model=\"gpt-4\",\n  messages=[\n    {\"role\": \"system\", \"content\": system_prompt},\n    {\"role\": \"user\", \"content\": user_prompt}\n  ]\n)\n# \"¿Llaves? De todos los circuitos en todos los gin joints del mundo...\"\n# Sin el system prompt, la IA daría una respuesta genérica."
+            }
+          ]
+        },
+        {
+          "title": "2. Los 3 Componentes de un System Prompt Fuerte",
+          "content": "**A. Persona: Dile a la IA *Quién* ser**\n* Persona débil: 'Sé friendly.'\n* Persona fuerte: 'Eres un maestro de química de preparatoria con pasión por hacer temas complejos fáciles y divertidos.'\n\n**B. Rules: Las Leyes Inquebrantables**\nUsa Markdown, mayúsculas (MUST, NEVER) y listas numeradas.\n\n```markdown\n# REGLAS\n1. NUNCA inventar productos o precios.\n2. Debes usar la herramienta search_products si el usuario pregunta por un producto específico.\n3. Siempre sé amable y alegre.\n```\n\n**C. Constraints: Definiendo los Límites**\n* Formato: 'Responde SOLO con un objeto JSON válido.'\n* Alcance: 'No uses información más allá del documento proporcionado.'"
+        },
+        {
+          "title": "3. De Consulta Vaga a Comando Específico",
+          "content": "La pieza final es formular tu request como un **comando**, no una pregunta.\n\n* Consulta vaga: '¿Cuáles son las diferencias entre Python y JavaScript?'\n* Comando específico: 'Crea una tabla markdown de dos columnas comparando Python y JavaScript. Incluye: Tipado, Caso de Uso Principal, y Modelo de Concurrencia.'\n\nEl comando es específico, accionable y restringe el formato de salida."
+        }
+      ],
+      "handsOn": {
+        "title": "Tarea: Diseña un Prompt para un 'Resumen de Reunión'",
+        "scenario": "Necesitas un agente de IA que tome una transcripción caótica de una reunión de equipo y la convierta en un resumen estructurado.",
+        "steps": [
+          "Define una Persona: ¿Quién es esta IA?",
+          "Instrucciones: Proceso paso a paso (identificar temas → extraer decisiones → listar action items)",
+          "Formato de salida: Tres secciones en Markdown: ## Resumen, ## Decisiones Clave, ## Action Items"
+        ]
+      },
+      "keyTakeaways": [
+        "El System Prompt establece el personaje y reglas.",
+        "El User Prompt es la tarea inmediata.",
+        "Un system prompt fuerte tiene Persona clara, Reglas y Constraints.",
+        "Formula requests como comandos específicos, no preguntas vagas."
+      ]
+    },
+    {
+      "id": "zero-few-shot",
+      "title": "Zero-shot y Few-shot Prompting",
+      "difficulty": "Introductorio",
+      "time": "15 min",
+      "summary": "Técnicas para elicitar comportamiento sin o con pocos ejemplos.",
+      "sections": [
+        {
+          "title": "1. Zero-shot Prompting",
+          "content": "**Zero-shot prompting** es cuando pides al modelo realizar una tarea sin darle *ningún* ejemplo previo.\n\n* **Cuándo usar:** Tareas simples como summary, preguntas generales, o clasificación simple.\n* **Ventaja:** Simple, rápido, usa menos tokens.\n* **Desventaja:** Menos confiable para tareas complejas. Formato inconsistente.",
+          "examples": [
+            {
+              "title": "Zero-shot Sentiment",
+              "code": "system_prompt = \"Clasifica el texto como 'Positivo', 'Negativo' o 'Neutro'.\"\nuser_text = \"El nuevo UI es un poco torpe, pero me encantan las nuevas funciones.\"\n# El formato no está garantizado."
+            }
+          ]
+        },
+        {
+          "title": "2. One-shot Prompting",
+          "content": "**One-shot prompting** es cuando proporcionas un *solo* ejemplo de la tarea. Este ejemplo ayuda a clarificar la instrucción y demuestra el **formato exacto** de salida esperado.\n\n* **Cuándo usar:** Cuando necesitas un formato específico y consistente.\n* **Ventaja:** Aumenta masivamente la confiabilidad del formato con costo mínimo de tokens.",
+          "examples": [
+            {
+              "title": "One-shot para Salida Estructurada",
+              "code": "messages = [\n  {\"role\": \"system\", \"content\": \"Clasifica como 'Positivo', 'Negativo' o 'Neutro'. Responde con solo una palabra.\"},\n  # El ejemplo\n  {\"role\": \"user\", \"content\": \"¡Me encanta el nuevo diseño!\"},\n  {\"role\": \"assistant\", \"content\": \"Positivo\"},\n  # La nueva tarea\n  {\"role\": \"user\", \"content\": \"El nuevo UI es un poco torpe, pero me encantan las funciones.\"}\n]"
+            }
+          ]
+        },
+        {
+          "title": "3. Few-shot Prompting",
+          "content": "**Few-shot prompting** es cuando proporcionas 2-5 ejemplos. Esto es poderoso para tareas complejas donde el formato de salida es específico.\n\n* **Cuándo usar:** Cuando necesitas estructura compleja, clasificación nuanceada, o tareas donde el modelo no 'conoce' el dominio.\n* **Ventaja:** Máximo control sobre formato y estilo.\n* **Desventaja:** Usa más tokens = mayor costo."
+        }
+      ],
+      "keyTakeaways": [
+        "Zero-shot: Sin ejemplos - para tareas simples.",
+        "One-shot: 1 ejemplo - para formato específico.",
+        "Few-shot: 2-5 ejemplos - para tareas complejas.",
+        "Selecciona ejemplos representativos y diversos."
+      ]
+    },
+    {
+      "id": "chain-of-thought",
+      "title": "Chain-of-Thought (CoT)",
+      "difficulty": "Intermedio",
+      "time": "25 min",
+      "summary": "Técnica de razonamiento paso a paso para mejorar precisión.",
+      "sections": [
+        {
+          "title": "1. El Concepto CoT",
+          "content": "**Chain-of-Thought (CoT)** es una técnica que mejora dramáticamente el rendimiento en tareas de razonamiento complejo.\n\nLa idea central es simple: en lugar de solo pedir la respuesta final, instruyes al modelo a **'pensar paso a paso'** y exponer su razonamiento *antes* de dar la respuesta.\n\nAl externalizar el proceso de razonamiento, el modelo es menos probable cometa errores lógicos.",
+          "formula": "Problema → Pensar paso a paso → Respuesta Final"
+        },
+        {
+          "title": "2. Aplicaciones de CoT",
+          "content": "**Matemáticas:**\n'5 + 3*4 - 2 = ?'\n→ Paso 1: 3*4 = 12\n→ Paso 2: 5 + 12 = 17\n→ Paso 3: 17 - 2 = 15\n→ Respuesta: 15\n\n**Lógica:**\n'Todos los gatos son mamíferos. Minino es un gato. ¿Es Minino mamífero?'\n→ Premisa 1: Todos los gatos son mamíferos\n→ Premisa 2: Minino es un gato\n→ Conclusión: Sí, Minino es mamífero'"
+        },
+        {
+          "title": "3. Self-Consistency",
+          "content": "**Self-Consistency** es una extensión de CoT donde generas múltiples paths de razonamiento y seleccionas la respuesta más común.\n\nEsto mejora la precisión en tareas complejas donde un solo path puede tener errores.",
+          "code": "# En lugar de una respuesta, genera múltiples\nresponses = [generate_cot() for _ in range(5)]\nanswer = most_common([r.final_answer for r in responses])"
+        },
+        {
+          "title": "4. Errores Comunes",
+          "content": "* Aplicar CoT a tareas simples que no lo necesitan.\n* Razonamiento incorrecto en los ejemplos.\n* No verificar la calidad del razonamiento."
+        }
+      ],
+      "keyTakeaways": [
+        "CoT mejora rendimiento en tareas de razonamiento.",
+        "Pedir 'pensar paso a paso' es simple pero poderoso.",
+        "Combinar con self-consistency para mayor precisión.",
+        "Verificar que el modelo siga la cadena de pensamiento."
+      ]
+    }
+  ]
+}

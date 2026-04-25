@@ -143,6 +143,39 @@
       font-family: 'SF Mono', Monaco, monospace;
       line-height: 1.6;
     }
+    .deep-dive {
+      background: rgba(59, 130, 246, 0.1);
+      border-left: 3px solid var(--accent);
+      padding: 1rem;
+      margin: 1rem 0;
+      border-radius: 0 8px 8px 0;
+    }
+    .deep-dive h3 { font-size: 0.9rem; color: var(--accent); margin-bottom: 0.5rem; }
+    .deep-dive li { margin-bottom: 0.5rem; }
+    .scenario {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem;
+      margin: 1rem 0;
+    }
+    .scenario h4 { font-size: 0.9rem; color: var(--text); margin-bottom: 0.5rem; }
+    .scenario pre { font-size: 0.8rem; white-space: pre-wrap; margin-bottom: 0.5rem; }
+    .scenario .analysis { font-size: 0.85rem; color: var(--text-muted); font-style: italic; }
+    .hands-on {
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid #10b981;
+      border-radius: 8px;
+      padding: 1.5rem;
+    }
+    .hands-on h2 { color: #10b981; }
+    .key-takeaways {
+      background: #18181b;
+      border: 1px solid #27272a;
+      border-radius: 8px;
+      padding: 1.5rem;
+    }
+    .key-takeaways li { color: #fafafa; }
 
     .empty { text-align: center; padding: 4rem 2rem; }
     .empty h2 { font-size: 1.5rem; margin-bottom: 0.5rem; }
@@ -212,6 +245,30 @@
           flatTopics.push({ section: s, topic: t });
         });
       });
+      // Load detailed lessons
+      await loadDetailedLessons();
+    }
+
+    // Detailed lessons from /content/
+    let detailedLessons = {};
+    async function loadDetailedLessons() {
+      try {
+        const idxRes = await fetch('content/index.json');
+        const idx = await idxRes.json();
+        for (const mod of idx.modules) {
+          try {
+            const modRes = await fetch('content/module-' + mod.id + '.json');
+            const modData = await modRes.json();
+            for (const lesson of modData.lessons) {
+              detailedLessons[lesson.id] = lesson;
+            }
+          } catch (e) {
+            console.log('Module ' + mod.id + ' not found');
+          }
+        }
+      } catch (e) {
+        console.log('content/index.json not found');
+      }
     }
 
     // Render menu
@@ -238,7 +295,16 @@
     // Render topic
     function renderTopic(id) {
       const entry = flatTopics.find(e => e.topic.id === id);
-      if (!entry) return;
+      if (!entry) {
+        // Fallback: try to render basic topic without detailed lesson
+        const basicTopic = flatTopics.find(e => e.topic.id === id);
+        if (basicTopic) {
+          renderBasicTopic(basicTopic.topic);
+        } else {
+          document.getElementById('main').innerHTML = '<div class="empty"><h2>Tema no encontrado</h2><p>Selecciona una técnica del menú.</p></div>';
+        }
+        return;
+      }
       const { section, topic } = entry;
       
       // Update active - use event from the click handler
@@ -247,6 +313,87 @@
         event.target.classList.add('active');
       }
 
+      // Check for detailed lesson content
+      const lesson = detailedLessons[id];
+      const main = document.getElementById('main');
+      
+      let content = `
+        <nav class="breadcrumb">
+          <a href="index.html">Inicio</a>
+          <span>/</span>
+          <span>${topic.title}</span>
+        </nav>
+        <article class="technique">
+          <h1>${topic.title}</h1>
+          <p class="summary">${topic.summary || ''}</p>
+          <div class="meta">
+            <span>${topic.difficulty || ''}</span>
+            <span>${topic.time || ''}</span>
+          </div>
+      `;
+
+      // If detailed lesson exists, render rich content
+      if (lesson && lesson.sections) {
+        for (const sec of lesson.sections) {
+          content += `<div class="section"><h2>${sec.title}</h2>`;
+          content += `<p>${sec.content}</p>`;
+          
+          if (sec.deepDive) {
+            content += `<div class="deep-dive"><h3>${sec.deepDive.title}</h3><ul>`;
+            for (const item of sec.deepDive.items) {
+              content += `<li>${item}</li>`;
+            }
+            content += `</ul></div>`;
+          }
+          
+          if (sec.examples && sec.examples.length) {
+            for (const ex of sec.examples) {
+              content += `<div class="example"><h4>${ex.title}</h4><pre>${ex.code || ex.prompt}</pre></div>`;
+            }
+          }
+          
+          if (sec.scenarios) {
+            for (const scen of sec.scenarios) {
+              content += `<div class="scenario"><h4>${scen.title}</h4><pre>${JSON.stringify(scen.code, null, 2)}</pre>`;
+              content += `<p class="analysis"><strong>Análisis:</strong> ${scen.analysis}</p></div>`;
+            }
+          }
+          
+          content += `</div>`;
+        }
+        
+        if (lesson.handsOn) {
+          content += `<div class="section hands-on"><h2>${lesson.handsOn.title}</h2><ol>`;
+          for (const step of lesson.handsOn.steps) {
+            content += `<li>${step}</li>`;
+          }
+          content += `</ol></div>`;
+        }
+        
+        if (lesson.keyTakeaways) {
+          content += `<div class="section key-takeaways"><h2>Puntos Clave</h2><ul>`;
+          for (const kt of lesson.keyTakeaways) {
+            content += `<li>${kt}</li>`;
+          }
+          content += `</ul></div>`;
+        }
+      } else {
+        // Fallback to basic fields
+        content += `${topic.definition ? `<div class="section"><h2>Definición</h2><p>${topic.definition}</p></div>` : ''}
+          ${topic.when ? `<div class="section"><h2>Cuándo usarla</h2><p>${topic.when}</p></div>` : ''}
+          ${topic.steps && topic.steps.length ? `<div class="section"><h2>Pasos</h2><ul>${topic.steps.map(s => '<li>'+s+'</li>').join('')}</ul></div>` : ''}
+          ${topic.example ? `<div class="section"><h2>Ejemplo</h2><div class="example"><h4>${topic.example.title}</h4><pre>${topic.example.prompt}</pre></div></div>` : ''}
+          ${topic.errors && topic.errors.length ? `<div class="section"><h2>Errores Comunes</h2><ul>${topic.errors.map(e => '<li>'+e+'</li>').join('')}</ul></div>` : ''}
+          ${topic.bestPractices && topic.bestPractices.length ? `<div class="section"><h2>Mejores Prácticas</h2><ul>${topic.bestPractices.map(b => '<li>'+b+'</li>').join('')}</ul></div>` : ''}
+          ${topic.related && topic.related.length ? `<div class="section"><h2>Temas Relacionados</h2><p>${topic.related.join(', ')}</p></div>` : ''}`;
+      }
+      
+      content += `</article>`;
+      main.innerHTML = content;
+    }
+
+    // Render basic topic from topics.json (fallback)
+    function renderBasicTopic(topic) {
       const main = document.getElementById('main');
       main.innerHTML = `
         <nav class="breadcrumb">
@@ -278,7 +425,12 @@
       const section = params.get('section');
       if (section) {
         const topic = flatTopics.find(t => t.topic.id === section);
-        if (topic) renderTopic(section);
+        if (topic) {
+          renderTopic(section);
+        } else {
+          // Topic not found - show empty state
+          document.getElementById('main').innerHTML = '<div class="empty"><h2>Selecciona una técnica</h2><p>Explora las secciones en el menú lateral.</p></div>';
+        }
       }
     }
 

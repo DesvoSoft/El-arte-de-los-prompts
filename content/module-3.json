@@ -1,0 +1,125 @@
+{
+  "module": 3,
+  "title": "RAG y Gestión de Conocimiento",
+  "lessons": [
+    {
+      "id": "intro-rag",
+      "title": "Introducción a RAG",
+      "difficulty": "Intermedio",
+      "time": "30 min",
+      "summary": "El patrón arquitectónico más importante en IA moderna.",
+      "sections": [
+        {
+          "title": "1. El Problema: El Examen de Libro Cerrado",
+          "content": "Imagina un estudiante increíblemente inteligente que va a tomar un examen. Hay un detalles: leyó todos los libros de la biblioteca, pero su estudio se detuvo hace un año.\n\n* **Knowledge Cutoff:** No puede responder sobre eventos recientes o nuevos descubrimientos.\n* **Conocimiento Propietario:** Nunca vio las notas privadas de tu empresa.\n* **Alucinación:** Si le preguntas algo que no sabe, podría inventar una respuesta.\n\nUn LLM por sí solo es este estudiante. Está tomando un 'examen de libro cerrado'.\n\n**RAG es el examen de libro abierto.** En lugar de solo preguntar, primero vamos a una biblioteca, encontramos los libros específicos y se los damos al estudiante.",
+          "scenarios": [
+            {
+              "title": "Sin RAG (Libro Cerrado)",
+              "code": "Usuario: '¿Quién es el CEO de Apple?'\nLLM: 'Apple fue fundada por Steve Jobs...' (puede ser información desactualizada)",
+              "analysis": "El modelo no tiene acceso a información actualizada."
+            },
+            {
+              "title": "Con RAG (Libro Abierto)",
+              "code": "1. Usuario pregunta\n2. Retriever busca en base de conocimiento\n3. Encuentra: 'Tim Cook es CEO de Apple desde 2011'\n4. Generador responde usando solo esa información",
+              "analysis": "Respuesta fundamentada con información verificable."
+            }
+          ]
+        },
+        {
+          "title": "2. Arquitectura Core: Recuperar, luego Generar",
+          "content": "Un sistema RAG tiene dos componentes principales:\n\n**A. El Retriever (El Bibliotecario)**\n* Busca y obtiene información relevante de una knowledge base.\n* No responde la pregunta, solo encuentra el material que debería contener la respuesta.\n\n**B. El Generator (El Estudiante)**\n* Sintetiza una respuesta en lenguaje natural.\n* Recibe la pregunta original + los snippets relevantes.\n* Su tarea es formular una respuesta fundamentada en el contexto proporcionado.",
+          "diagram": {
+            "title": "Flujo de una Consulta RAG",
+            "steps": [
+              "Usuario pregunta → Retriever",
+              "Knowledge Base → Retriever",
+              "Retriever → Documentos Relevantes",
+              "Documentos + Pregunta → LLM",
+              "LLM → Respuesta Sintetizada"
+            ]
+          }
+        },
+        {
+          "title": "3. Por qué RAG es Fundacional",
+          "content": "RAG es transformador por tres razones:\n\n1. **Acceso a Datos en Tiempo Real y Privados:** Puedes construir un Q&A sobre tu wiki interno, un bot de soporte que conoce tus specs de producto. El LLM no necesita ser entrenado en esos datos.\n\n2. **Reducción drástica de Alucinaciones:** Instruyendo al modelo a responder *solo* basándose en el texto proporcionado, lo fundamentamos en hechos. Regla típica: 'Si la respuesta no está en el contexto, dice: No tengo suficiente información.'\n\n3. **Verificabilidad y Confianza:** Como sabes exactamente qué documentos se recuperaron, puedes citar las fuentes. Permite a los usuarios verificar la información."
+        }
+      ],
+      "keyTakeaways": [
+        "RAG convierte examen libro cerrado → libro abierto.",
+        "Dos pasos: Retriever encuentra docs, Generator escribe respuesta.",
+        "RAG es el método primario para reducir alucinaciones."
+      ]
+    },
+    {
+      "id": "chunking-embeddings",
+      "title": "Chunking y Embeddings",
+      "difficulty": "Intermedio",
+      "time": "35 min",
+      "summary": "El pipeline de indexación: preparar documentos para búsqueda semántica.",
+      "sections": [
+        {
+          "title": "1. El Pipeline de Indexación",
+          "content": "Construir una knowledge base es como preparar una biblioteca para un asistente de investigación.\n\n**Etapa 1: Ingestión (Adquirir los Libros)**\nPrimero, recopilas todos tus documentos crudos: PDFs, archivos .txt, páginas web. Frameworks como LlamaIndex y LangChain proporcionan 'Document Loaders' que automatizan esto.\n\n**Etapa 2: Chunking (Crear Fichas de Índice)**\nNo puedes darle al asistente un libro de 500 páginas y decir 'encuentra la respuesta'. Es demasiado lento. En su lugar, creas 'fichas de índice' dividiendo el libro en fragmentos más pequeños.\n\n**Etapa 3: Embedding (Organizar por Significado)**\nNo quieres organizar estas fichas alfabéticamente. Quieres organizarlas por *tema*. Un modelo de embedding hace esto asignando coordenadas (vector) a cada ficha."
+        },
+        {
+          "title": "2. Estrategias de Chunking",
+          "content": "**A. Chunking de Tamaño Fijo**\nEl método más simple. Cortas el documento en chunks de número fijo de caracteres, a menudo con algo de overlap. Es fácil pero puede dividir oraciones.\n\n**B. Chunking Recursivo**\nEnfoque más inteligente. Intenta dividir basándose en una lista priorizada de separadores:\n1. Doble newline (párrafos)\n2. Single newline\n3. Espacios\n\nEste método mantiene oraciones relacionadas juntas.",
+          "examples": [
+            {
+              "title": "Código: Chunking Recursivo",
+              "code": "from langchain_text_splitters import RecursiveCharacterTextSplitter\n\nsplitter = RecursiveCharacterTextSplitter(\n    chunk_size=1000,\n    chunk_overlap=200\n)\nchunks = splitter.split_text(documento)\n# Ahora tienes una lista de strings, cada uno un chunk del documento original."
+            }
+          ]
+        },
+        {
+          "title": "3. Vector Embeddings: El Lenguaje del Significado",
+          "content": "Una vez que tenemos nuestros chunks, necesitamos una forma de buscar no por palabras clave, sino por **significado semántico**. Esto es la magia de los **vector embeddings**.\n\nUn **modelo de embedding** es una red neuronal que convierte un fragmento de texto en una lista de números llamada **vector**. Este vector es una representación matemática del significado del texto.\n\n* Chunks con significados similares tendrán vectores 'cercanos' en el espacio vectorial.\n* Chunks con significados diferentes estarán 'lejos'.",
+          "examples": [
+            {
+              "title": "Código: Creando Embedding con OpenAI",
+              "code": "from openai import OpenAI\nclient = OpenAI()\n\ndef get_embedding(text, model=\"text-embedding-3-small\"):\n    return client.embeddings.create(input=[text], model=model).data[0].embedding\n\nmy_chunk = \"Nuestros planes de precios están listados en el sitio web.\"\nmy_vector = get_embedding(my_chunk)\n# my_vector es una lista de números: [0.012, -0.045, ..., 0.089]\nprint(f\"Creado un vector con {len(my_vector)} dimensiones.\")"
+            }
+          ],
+          "warning": "Este vector es la clave para búsqueda semántica."
+        }
+      ],
+      "keyTakeaways": [
+        "Pipeline = Ingestar → Chunkear → Embedding.",
+        "Chunking recursivo es el mejor punto de partida.",
+        "Embeddings traducen significado a números para búsqueda."
+      ]
+    },
+    {
+      "id": "retrieval-process",
+      "title": "El Proceso de Recuperación",
+      "difficulty": "Intermedio",
+      "time": "35 min",
+      "summary": "Cómo las bases de datos vectoriales almacenan y buscan información.",
+      "sections": [
+        {
+          "title": "1. La Base de Datos Vectorial",
+          "content": "Una **base de datos vectorial** es una base de datos especializada diseñada para almacenar y buscar nuestros embeddings vectoriales.\n\nPiensa en ella como una biblioteca mágica donde los libros no están organizados alfabéticamente, sino por sus *ideas*. Todos los libros sobre 'viaje espacial' están en una esquina, todos los libros sobre 'jardinería' en otra.\n\n* **Indexing (Colocar los Libros):** Cuando agregas un nuevo chunk y su vector, la base de datos lo coloca en este 'espacio de ideas'.\n* ** Buscando (Encontrar la Audiencia Correcta):** Cuando un usuario pregunta, primero conviertes la *consulta misma* en un vector. La base de datos navega eficientemente para encontrar los 'vecinos' más similares."
+        },
+        {
+          "title": "2. Optimización de Retrieval: Más Allá de Similaridad Simple",
+          "content": "**El Problema de redundancia:**\nImagina buscar 'machine learning'. Los top 5 resultados podrían ser todos artículos introductorios definiendo el término. No es muy útil.\n\n**Maximal Marginal Relevance (MMR):**\nEstrategia más inteligente. Optimiza para dos cosas:\n1. Relevancia para la consulta.\n2. Diversidad entre los resultados.\n\nPrimero trae un gran conjunto de documentos relevantes, luego los reordena, penalizando documentos demasiado similares a los ya seleccionados.",
+          "examples": [
+            {
+              "title": "Código:Pipeline RAG con ChromaDB",
+              "code": "import chromadb\n\nchroma_client = chromadb.Client()\ncollection = chroma_client.create_collection(name='my_docs')\n\n# INDEXING\ndocuments = [\n    'El plan Pro cuesta $20 al mes.',\n    'Nuestra sede está en Ciudad de México.',\n    'La empresa fue fundada en 2015.'\n]\ncollection.add(\n    embeddings=[get_embedding(doc) for doc in documents],\n    documents=documents,\n    ids=[f'doc_{i}' for i in range(len(documents))]\n)\n\n# RETRIEVAL\nquery = '¿Cuánto cuesta la suscripción profesional?'\nquery_embedding = get_embedding(query)\nresults = collection.query(\n    query_embeddings=[query_embedding],\n    n_results=1\n)\nprint(results['documents'])\n# Output: [['El plan Pro cuesta $20 al mes.']]"
+            }
+          ]
+        },
+        {
+          "title": "3. Búsqueda Híbrida",
+          "content": "La búsqueda vectorial es poderosa, pero puede fallar cuando una consulta depende de una palabra clave específica no semántica.\n\n**Búsqueda Híbrida** combina dos técnicas:\n* **Búsqueda Vectorial (Semántica):** Encuentra documentos conceptualmente similares.\n* **Búsqueda por Palabra Clave (Literal):** Encuentra documentos que contienen los términos de búsqueda exactos.\n\nLa base de datos fusiona estos dos conjuntos de resultados para obtener lo mejor de ambos mundos."
+        }
+      ],
+      "keyTakeaways": [
+        "Una base de datos vectorial almacena y busca por proximidad semántica.",
+        "El proceso: convertir query a vector → encontrar documentos similares.",
+        "MMR optimiza para relevancia + diversidad."
+      ]
+    }
+  ]
+}
