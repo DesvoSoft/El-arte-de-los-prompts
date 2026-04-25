@@ -3,7 +3,7 @@
   "title": "Agentes IA",
   "lessons": [
     {
-      "id": "ai-agents",
+      "id": "agentes-ia",
       "title": "El Ascenso de los Agentes IA",
       "difficulty": "Intermedio",
       "time": "25 min",
@@ -60,7 +60,7 @@
       ]
     },
     {
-      "id": "agent-architectures",
+      "id": "arquitecturas-agentes",
       "title": "Arquitecturas de Agentes",
       "difficulty": "Avanzado",
       "time": "35 min",

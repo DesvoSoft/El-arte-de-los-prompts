@@ -1,9 +1,9 @@
 {
   "module": 1,
   "title": "Fundamentos del Contexto",
-  "lessons": [
+"lessons": [
     {
-      "id": "what-is-context",
+      "id": "que-es-contexto",
       "title": "¿Qué es el Contexto y Por Qué es Crítico?",
       "difficulty": "Introductorio",
       "time": "20 min",
@@ -20,8 +20,118 @@
               "**Historial de Chat:** Las turns anteriores de la conversación.",
               "**Información Recuperada (RAG):** Documentos externos o artículos recuperados en tiempo real.",
               "**Definiciones de Herramientas:** Descripciones de capacidades (APIs, funciones).",
-              "**Escenarios Ejemplo (Few-shot):** Ejemplos de pares input/output."
+              "**Escenarios de Ejemplo (Few-shot):** Ejemplos de pares input/output."
             ]
+          }
+        },
+        {
+          "title": "2. El Principio GIGO Amplificado",
+          "content": "**Garbage In, Garbage Out** es un concepto clásico. Para LLMs, está amplificado. Dar contexto pobre no solo lleva a respuestas incorrectas; puede causar **alucinaciones** - respuestas erroneous con confianza."
+        },
+        {
+          "title": "3. El Contexto como Mecanismo de Control",
+          "content": "El contexto es la palanca principal para controlar el comportamiento de la IA.\n\n* **Precisión Factual:** El conocimiento interno del LLM es estático y puede ser incorrecto.\n* **Mitigación de Sesgos:** Podemos usar contexto para contrarrestar sesgos activamente."
+        }
+      ],
+      "examples": [
+        {
+          "title": "Código: Mitigando Sesgos con Contexto",
+          "code": "# Contexto pobre\nsystem_prompt = \"Eres un gerente de contratación\"\n# Output: 'buscamos un ninja del código... él será responsable...'\n\n# Contexto engineereado\nsystem_prompt = \"\"\"\nEres un gerente de contratación para una empresa global dedicada a la diversidad.\nREGLAS:\n1. Usa lenguaje neutral de género\n2. Evita jerga excluyente\n3. Enfócate en habilidades concretas\n\"\"\"\n# Output: 'buscamos un desarrollador talentoso para unirse a nuestro equipo...'"
+        }
+      ],
+      "handsOn": {
+        "title": "Tarea: Descomponer una Falla de IA",
+        "steps": [
+          "Describe la situación: ¿Cuál era tu objetivo? ¿Qué dijiste? ¿Qué respondió la IA?",
+          "Descompón el contexto: ¿Cuál fue tu consulta? ¿Qué conocimiento le faltaba?",
+          "Engineering un mejor contexto: Reescribe el system prompt y agrega el conocimiento que habría permitido responder correctamente."
+        ]
+      },
+      "keyTakeaways": [
+        "Contexto es **todo** lo que'envías al modelo.",
+        "Contexto pobre → pobres resultados. Contexto rico → resultados precisos.",
+        "Usa el contexto para controlar precisión, tono y sesgo."
+      ]
+    },
+    {
+      "id": "evolucion-economia-contexto",
+      "title": "Evolución y Economía del Contexto",
+      "difficulty": "Intermedio",
+      "time": "25 min",
+      "summary": "Cómo se gestiona el contexto en aplicaciones reales y las realidades económicas.",
+      "sections": [
+        {
+          "title": "1. De Prompts Stateless a Context Windows Dinámicos",
+          "content": "La forma de proporcionar contexto a los modelos de IA ha evolucionado rápidamente.\n\n**Etapa 1: El Prompt Stateless**\nInicialmente, las interacciones eran **stateless**. Enviabas un prompt autocontenido y obtenías una respuesta. El modelo no tenía memoria.\n\n**Etapa 2: El Context Window Dinámico**\nLas IA conversacionales modernas usan un **context window**. Es un buffer de memoria a corto plazo que incluye el ida y vuelta reciente de la conversación.",
+          "diagram": {
+            "title": "Cómo un Chatbot 'Recuerdan'",
+            "steps": [
+              "Turno 1: Usuario pregunta. API envía solo el mensaje.",
+              "Turno 2: Usuario pregunta de seguimiento. API envía **todo el historial** más el nuevo mensaje.",
+              "El AI pudo responder porque proporcionamos el historial como contexto.",
+              "El 'context window' es el máximo de tokens permitidos."
+            ]
+          }
+        },
+        {
+          "title": "2. Entendiendo el Knowledge Cutoff",
+          "content": "Una limitación crítica de la mayoría de LLMs es el **knowledge cutoff**. El conocimiento del LLM no es una conexión directa a internet; es una instantánea de los datos en los que fue entrenado.\n\nPor ejemplo, el conocimiento de GPT-4 se cortó en late 2023. Si preguntas sobre eventos después de esa fecha, no puede darte una respuesta factual.\n\n> **Pro-Tip: Never Trust, Always Verify**\n> Nunca asumas que el modelo sabe sobre un evento específico. Si la precisión factorial es importante, la única forma de garantizarla es proporcionar los hechos tú mismo a través del contexto.",
+          "warning": "El knowledge cutoff es la razón más importante por la que el context engineering es vital."
+        },
+        {
+          "title": "3. La Economía del Contexto",
+          "content": "Engineering el contexto perfecto no es solo sobre calidad; es un balanceo entre tres cosas: **costo**, **velocidad** y **rendimiento**. Los tres están relacionados con los **tokens**.\n\nUn **token** es una pieza de una palabra. 100 tokens ≈ 75 palabras en inglés.\n\n* **Costo:** Los proveedores cobran por tokens input y output. Más contexto = más caro.\n* **Latencia:** Más tokens = más tiempo en procesar.\n* **Rendimiento:** Más grande no es mejor. Contexto relleno de 'ruido' puede confundir al modelo ('lost in the middle').\n\nEl objetivo es lograr la mayor **densidad de información** - la mayor 'señal' por token.",
+          "math": {
+            "title": "Cálculo de Costo",
+            "scenario": "Customer support bot con RAG:\n- 3 documentos de 500 tokens cadauno\n- Query del usuario: 30 tokens\n- Respuesta: 100 tokens\n- Pricing: $5.00/1M input, $15.00/1M output",
+            "calculations": [
+              "Input tokens: (3 × 500) + 30 = 1,530 tokens",
+              "Output tokens: 100 tokens",
+              "Costo por turno: $0.00765 + $0.0015 = $0.00915",
+              "Costo para 1,000 usuarios (8 turnos avg): $73.20"
+            ]
+          }
+        }
+      ],
+      "keyTakeaways": [
+        "Los chatbots modernos envían el historial con cada nuevo turn.",
+        "Los LLMs tienen 'knowledge cutoff' - no saben de eventos recientes.",
+        "El contexto es un recurso - balancea información con costo y latencia."
+      ]
+    },
+    {
+      "id": "principios-diseno",
+      "title": "Principios de Diseño de Contexto",
+      "difficulty": "Intermedio",
+      "time": "30 min",
+      "summary": "Principios fundamentales para diseñar contexto efectivo.",
+      "sections": [
+        {
+          "title": "1. Los 4 Pilares del Diseño de Contexto",
+          "content": "**1. Relevancia**\nSolo incluye información directamente relacionada con la tarea. Cada pieza de contexto debe justificar su existencia.\n\n**2. Jerarquía**\nEstructura clara: Instrucciones → Contexto → Pregunta. El modelo presta más atención al principio y final.\n\n**3. Economía**\nMáximo valor por token. Comprime, resume, selecciona lo essential.\n\n**4. Verificabilidad**\nCapacidad de citar fuentes. Permite al usuario verificar las respuestas.",
+          "pillars": {
+            "relevance": "Solo información necesaria",
+            "hierarchy": "Instrucciones → Contexto → Pregunta",
+            "economy": "Máximo valor por token",
+            "verifiability": "Citas y fuentes"
+          }
+        },
+        {
+          "title": "2. Patrones de Atención del Modelo",
+          "content": "Los LLMs tienen un patrón de atención específico:\n\n* ** Primacy Effect:** La primera información recibida tiene más peso.\n* ** Recency Effect:** La información más reciente es más accesible.\n* ** Lost in the Middle:** Información en el medio puede ser ignorada.\n\n**Estrategia:** Coloca lo más importante al inicio y final.",
+          "strategy": {
+            "title": "Estructura Óptima",
+            "format": "[INICIO: Instrucciones críticas]\n[MEDIO: Contexto denso]\n[FINAL: Pregunta específica]"
+          }
+        }
+      ],
+      "keyTakeaways": [
+        "Aplicar los 4 pilares: relevancia, jerarquía, economía, verificabilidad.",
+        "Estructurar el contexto para aprovechar los patrones de atención.",
+        "Iterar basándose en respuestas del modelo."
+      ]
+    }
+  ]
           }
         },
         {

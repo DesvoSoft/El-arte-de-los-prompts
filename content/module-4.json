@@ -3,7 +3,7 @@
   "title": "Optimización del Contexto",
   "lessons": [
     {
-      "id": "context-window",
+      "id": "ventana-contexto",
       "title": "Dominando la Ventana de Contexto",
       "difficulty": "Intermedio",
       "time": "25 min",
@@ -36,7 +36,7 @@
       ]
     },
     {
-      "id": "contextual-compression",
+      "id": "compresion-contexto",
       "title": "Compresión y Distilación de Contexto",
       "difficulty": "Avanzado",
       "time": "30 min",

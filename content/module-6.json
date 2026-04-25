@@ -3,7 +3,7 @@
   "title": "Seguridad y Evaluación",
   "lessons": [
     {
-      "id": "rag-evaluation",
+      "id": "evaluacion-rag",
       "title": "Evaluación de Calidad de Contexto y RAG",
       "difficulty": "Intermedio",
       "time": "30 min",
@@ -56,7 +56,7 @@
       ]
     },
     {
-      "id": "security",
+      "id": "seguridad-sistemas",
       "title": "Seguridad para Sistemas Context-Aware",
       "difficulty": "Avanzado",
       "time": "40 min",

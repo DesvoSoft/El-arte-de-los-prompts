@@ -51,7 +51,7 @@
       ]
     },
     {
-      "id": "chunking-embeddings",
+      "id": "chunking-embebidos",
       "title": "Chunking y Embeddings",
       "difficulty": "Intermedio",
       "time": "35 min",
@@ -90,7 +90,7 @@
       ]
     },
     {
-      "id": "retrieval-process",
+      "id": "proceso-recuperacion",
       "title": "El Proceso de Recuperación",
       "difficulty": "Intermedio",
       "time": "35 min",

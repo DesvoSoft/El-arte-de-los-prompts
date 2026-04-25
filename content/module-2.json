@@ -3,7 +3,7 @@
   "title": "Técnicas de Prompting",
   "lessons": [
     {
-      "id": "anatomy-prompt",
+      "id": "anatomia-prompt",
       "title": "Anatomía de un Prompt Avanzado",
       "difficulty": "Introductorio",
       "time": "20 min",
@@ -21,7 +21,7 @@
         },
         {
           "title": "2. Los 3 Componentes de un System Prompt Fuerte",
-          "content": "**A. Persona: Dile a la IA *Quién* ser**\n* Persona débil: 'Sé friendly.'\n* Persona fuerte: 'Eres un maestro de química de preparatoria con pasión por hacer temas complejos fáciles y divertidos.'\n\n**B. Rules: Las Leyes Inquebrantables**\nUsa Markdown, mayúsculas (MUST, NEVER) y listas numeradas.\n\n```markdown\n# REGLAS\n1. NUNCA inventar productos o precios.\n2. Debes usar la herramienta search_products si el usuario pregunta por un producto específico.\n3. Siempre sé amable y alegre.\n```\n\n**C. Constraints: Definiendo los Límites**\n* Formato: 'Responde SOLO con un objeto JSON válido.'\n* Alcance: 'No uses información más allá del documento proporcionado.'"
+          "content": "**A. Persona: Dile a la IA *Quién* ser**\n* Persona débil: 'Sé friendly.'\n* Persona fuerte: 'Eres un maestro de química de preparatoria con pasión por hacer temas complejos fáciles y divertidos.'\n\n**B. Rules: Las Leyes Inquebrantables**\nUsa Markdown, mayúsculas (MUST, NEVER) y listas numeradas.\n\n**C. Constraints: Definiendo los Límites**\n* Formato: 'Responde SOLO con un objeto JSON válido.'\n* Alcance: 'No uses información más allá del documento proporcionado.'"
         },
         {
           "title": "3. De Consulta Vaga a Comando Específico",
@@ -45,7 +45,7 @@
       ]
     },
     {
-      "id": "zero-few-shot",
+      "id": "zero-shot-few-shot",
       "title": "Zero-shot y Few-shot Prompting",
       "difficulty": "Introductorio",
       "time": "15 min",
