@@ -297,6 +297,32 @@
     }
     .empty .quick-links a:hover { border-color: var(--accent); color: var(--accent); }
 
+    /* Particles background */
+    .particles {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .particle {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      border-radius: 50%;
+      opacity: 0;
+      animation: float 20s infinite linear;
+    }
+    .particle:nth-child(odd) { background: var(--accent); }
+    .particle:nth-child(even) { background: var(--success); }
+    @keyframes float {
+      0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+      10% { opacity: 0.4; }
+      90% { opacity: 0.4; }
+      100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
+    }
+    .layout { position: relative; z-index: 1; }
+
     /* Footer */
     .footer { padding: 1.5rem; text-align: center; border-top: 1px solid var(--border); color: var(--text-muted); font-size: 0.85rem; }
 
@@ -317,6 +343,8 @@
   </style>
 </head>
 <body>
+  <div class="particles" id="particles"></div>
+  
   <header class="header">
     <a href="index.html" class="logo">El Arte de los Prompts</a>
     <div class="header-right">
@@ -364,6 +392,22 @@
       root.setAttribute('data-theme', next);
       localStorage.setItem('theme', next);
       document.querySelector('.toggle').textContent = next === 'dark' ? '☾' : '☀';
+    }
+
+    // Particles
+    function createParticles() {
+      const container = document.getElementById('particles');
+      if (!container) return;
+      const colors = ['#3b82f6', '#10b981', '#60a5fa', '#34d399'];
+      for (let i = 0; i < 40; i++) {
+        const p = document.createElement('div');
+        p.className = 'particle';
+        p.style.left = Math.random() * 100 + '%';
+        p.style.animationDelay = Math.random() * 20 + 's';
+        p.style.animationDuration = (15 + Math.random() * 10) + 's';
+        p.style.background = colors[Math.floor(Math.random() * colors.length)];
+        container.appendChild(p);
+      }
     }
 
     // Data
@@ -424,7 +468,7 @@
       });
     }
 
-    // Simple markdown: **bold** and *italic*
+    // Markdown rendering: **bold**, *italic*, `code`
     function renderMd(text) {
       if (!text) return '';
       return text
@@ -481,7 +525,7 @@
           if (sec.deepDive) {
             content += `<div class="deep-dive"><h3>${sec.deepDive.title}</h3><ul>`;
             for (const item of sec.deepDive.items) {
-              content += `<li>${item}</li>`;
+              content += `<li>${renderMd(item)}</li>`;
             }
             content += `</ul></div>`;
           }
@@ -595,6 +639,7 @@
 
     // Init
     initTheme();
+    createParticles();
     loadData().then(() => {
       renderMenu();
       handleUrlParams();
