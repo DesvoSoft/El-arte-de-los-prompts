@@ -5,7 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Contenido — El Arte de los Prompts</title>
   <meta name="description" content="Catálogo de técnicas de ingeniería de prompts." />
+  <meta name="keywords" content="ingeniería de prompts,prompt engineering,context engineering,LLM,inteligencia artificial" />
+  <meta name="author" content="DesvoSoft" />
+  <meta name="robots" content="index, follow" />
+  <meta property="og:title" content="El Arte de los Prompts - Contenido" />
+  <meta property="og:description" content="Catálogo de técnicas de ingeniería de prompts." />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://desvosoft.github.io/El-arte-de-los-prompts/content.html" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="El Arte de los Prompts - Contenido" />
   <link rel="canonical" href="https://desvosoft.github.io/El-arte-de-los-prompts/content.html" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧠</text></svg>" />
   <link rel="stylesheet" href="style.css" />
   <style>
     :root {
@@ -231,9 +241,11 @@
       if (!entry) return;
       const { section, topic } = entry;
       
-      // Update active
-      document.querySelectorAll('.menu button').forEach(b => b.classList.remove('active'));
-      event.target.classList.add('active');
+      // Update active - use event from the click handler
+      if (event) {
+        document.querySelectorAll('.menu button').forEach(b => b.classList.remove('active'));
+        event.target.classList.add('active');
+      }
 
       const main = document.getElementById('main');
       main.innerHTML = `
@@ -253,6 +265,9 @@
           ${topic.when ? `<div class="section"><h2>Cuándo usarla</h2><p>${topic.when}</p></div>` : ''}
           ${topic.steps && topic.steps.length ? `<div class="section"><h2>Pasos</h2><ul>${topic.steps.map(s => '<li>'+s+'</li>').join('')}</ul></div>` : ''}
           ${topic.example ? `<div class="section"><h2>Ejemplo</h2><div class="example"><h4>${topic.example.title}</h4><pre>${topic.example.prompt}</pre></div></div>` : ''}
+          ${topic.errors && topic.errors.length ? `<div class="section"><h2>Errores Comunes</h2><ul>${topic.errors.map(e => '<li>'+e+'</li>').join('')}</ul></div>` : ''}
+          ${topic.bestPractices && topic.bestPractices.length ? `<div class="section"><h2>Mejores Prácticas</h2><ul>${topic.bestPractices.map(b => '<li>'+b+'</li>').join('')}</ul></div>` : ''}
+          ${topic.related && topic.related.length ? `<div class="section"><h2>Temas Relacionados</h2><p>${topic.related.join(', ')}</p></div>` : ''}
         </article>
       `;
     }
