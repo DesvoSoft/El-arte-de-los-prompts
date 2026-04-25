@@ -10,6 +10,145 @@
     <loc>https://desvosoft.github.io/El-arte-de-los-prompts/content.html</loc>
     <lastmod>2026-04-25</lastmod>
     <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <!-- Fundamentos -->
+  <url>
+    <loc>https://desvosoft.github.io/El-arte-de-los-prompts/content.html?topic=que-es-contexto</loc>
+    <lastmod>2026-04-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://desvosoft.github.io/El-arte-de-los-prompts/content.html?topic=evolucion-economia-contexto</loc>
+    <lastmod>2026-04-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://desvosoft.github.io/El-arte-de-los-prompts/content.html?topic=principios-diseno</loc>
+    <lastmod>2026-04-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <!-- Técnicas -->
+  <url>
+    <loc>https://desvosoft.github.io/El-arte-de-los-prompts/content.html?topic=anatomia-prompt</loc>
+    <lastmod>2026-04-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://desvosoft.github.io/El-arte-de-los-prompts/content.html?topic=zero-shot-few-shot</loc>
+    <lastmod>2026-04-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://desvosoft.github.io/El-arte-de-los-prompts/content.html?topic=chain-of-thought</loc>
+    <lastmod>2026-04-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <!-- RAG -->
+  <url>
+    <loc>https://desvosoft.github.io/El-arte-de-los-prompts/content.html?topic=intro-rag</loc>
+    <lastmod>2026-04-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://desvosoft.github.io/El-arte-de-los-prompts/content.html?topic=chunking-embebidos</loc>
+    <lastmod>2026-04-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://desvosoft.github.io/El-arte-de-los-prompts/content.html?topic=re-ranking</loc>
+    <lastmod>2026-04-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://desvosoft.github.io/El-arte-de-los-prompts/content.html?topic=proceso-recuperacion</loc>
+    <lastmod>2026-04-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://desvosoft.github.io/El-arte-de-los-prompts/content.html?topic=generacion-sintesis</loc>
+    <lastmod>2026-04-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <!-- Agentes -->
+  <url>
+    <loc>https://desvosoft.github.io/El-arte-de-los-prompts/content.html?topic=agentes-ia</loc>
+    <lastmod>2026-04-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://desvosoft.github.io/El-arte-de-los-prompts/content.html?topic=function-calling</loc>
+    <lastmod>2026-04-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://desvosoft.github.io/El-arte-de-los-prompts/content.html?topic=arquitecturas-agentes</loc>
+    <lastmod>2026-04-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <!-- Optimización -->
+  <url>
+    <loc>https://desvosoft.github.io/El-arte-de-los-prompts/content.html?topic=ventana-contexto</loc>
+    <lastmod>2026-04-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://desvosoft.github.io/El-arte-de-los-prompts/content.html?topic=compresion-contexto</loc>
+    <lastmod>2026-04-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <!-- Seguridad -->
+  <url>
+    <loc>https://desvosoft.github.io/El-arte-de-los-prompts/content.html?topic=evaluacion-rag</loc>
+    <lastmod>2026-04-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://desvosoft.github.io/El-arte-de-los-prompts/content.html?topic=debugging-tracing</loc>
+    <lastmod>2026-04-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://desvosoft.github.io/El-arte-de-los-prompts/content.html?topic=seguridad-sistemas</loc>
+    <lastmod>2026-04-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <!-- Futuro -->
+  <url>
+    <loc>https://desvosoft.github.io/El-arte-de-los-prompts/content.html?topic=multimodal</loc>
+    <lastmod>2026-04-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://desvosoft.github.io/El-arte-de-los-prompts/content.html?topic=protocolos-estandares</loc>
+    <lastmod>2026-04-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://desvosoft.github.io/El-arte-de-los-prompts/content.html?topic=cwa</loc>
+    <lastmod>2026-04-25</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 </urlset>

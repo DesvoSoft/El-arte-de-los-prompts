@@ -539,13 +539,17 @@
     // URL params
     function handleUrlParams() {
       const params = new URLSearchParams(window.location.search);
-      const section = params.get('section');
-      if (section) {
-        const topic = flatTopics.find(t => t.topic.id === section);
+      const topicParam = params.get('topic');
+      const sectionParam = params.get('section');
+      
+      // Support both ?topic=ID and ?section=ID formats
+      const topicId = topicParam || sectionParam;
+      
+      if (topicId) {
+        const topic = flatTopics.find(t => t.topic.id === topicId);
         if (topic) {
-          renderTopic(section);
+          renderTopic(topicId);
         } else {
-          // Topic not found - show empty state
           document.getElementById('main').innerHTML = '<div class="empty"><h2>Selecciona una técnica</h2><p>Explora las secciones en el menú lateral.</p></div>';
         }
       }

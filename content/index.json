@@ -3,37 +3,37 @@
     {
       "id": 1,
       "title": "Fundamentos del Contexto",
-      "lessons": ["what-is-context", "evolution-economics", "core-principles"]
+      "lessons": ["que-es-contexto", "evolucion-economia-contexto", "principios-diseno"]
     },
     {
       "id": 2,
       "title": "Técnicas de Prompting",
-      "lessons": ["anatomy-prompt", "zero-few-shot", "chain-of-thought"]
+      "lessons": ["anatomia-prompt", "zero-shot-few-shot", "chain-of-thought"]
     },
     {
       "id": 3,
       "title": "RAG y Gestión de Conocimiento",
-      "lessons": ["intro-rag", "chunking-embeddings", "retrieval-process"]
+      "lessons": ["intro-rag", "chunking-embebidos", "re-ranking", "proceso-recuperacion", "generacion-sintesis"]
     },
     {
       "id": 4,
-      "title": "Optimización del Contexto",
-      "lessons": ["context-window", "contextual-compression"]
+      "title": "Agentes IA",
+      "lessons": ["agentes-ia", "function-calling", "arquitecturas-agentes"]
     },
     {
       "id": 5,
-      "title": "Agentes IA",
-      "lessons": ["ai-agents", "function-calling", "agent-architectures"]
+      "title": "Optimización del Contexto",
+      "lessons": ["ventana-contexto", "compresion-contexto"]
     },
     {
       "id": 6,
       "title": "Seguridad y Evaluación",
-      "lessons": ["rag-evaluation", "debugging-tracing", "security"]
+      "lessons": ["evaluacion-rag", "debugging-tracing", "seguridad-sistemas"]
     },
     {
       "id": 7,
       "title": "El Futuro del Contexto",
-      "lessons": ["multimodal", "protocols", "cwa"]
+      "lessons": ["multimodal", "protocolos-estandares", "cwa"]
     }
   ]
 }
