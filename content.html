@@ -159,7 +159,12 @@
     .technique .section { margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border); }
     .technique .section:last-child { border-bottom: none; }
     .technique .section h2 { font-size: 1.1rem; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); font-weight: 600; }
-    .technique .section p, .technique .section li { font-size: 0.95rem; color: var(--text-muted); margin-bottom: 0.75rem; line-height: 1.7; }
+    .technique .section-content { font-size: 0.95rem; color: var(--text-muted); line-height: 1.7; }
+    .technique .section-content p { margin-bottom: 0.75rem; }
+    .technique .section-content strong { color: var(--text); font-weight: 600; }
+    .technique .section-content code { background: var(--surface); padding: 0.15rem 0.4rem; border-radius: 4px; font-size: 0.9em; }
+    .technique .section-content ul, .technique .section-content ol { margin: 0.75rem 0; padding-left: 1.5rem; }
+    .technique .section-content li { margin-bottom: 0.5rem; }
     .technique ul { padding-left: 1.25rem; }
     .technique li { margin-bottom: 0.5rem; }
     
@@ -393,6 +398,15 @@
       });
     }
 
+    // Simple markdown: **bold** and *italic*
+    function renderMd(text) {
+      if (!text) return '';
+      return text
+        .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\*(.+?)\*/g, '<em>$1</em>')
+        .replace(/`([^`]+)`/g, '<code>$1</code>');
+    }
+
     // Render topic
     function renderTopic(id) {
       const entry = flatTopics.find(e => e.topic.id === id);
@@ -429,7 +443,6 @@
           <p class="summary">${topic.summary || ''}</p>
           <div class="meta">
             <span>${topic.difficulty || ''}</span>
-            <span>${topic.time || ''}</span>
           </div>
       `;
 
@@ -437,7 +450,7 @@
       if (lesson && lesson.sections) {
         for (const sec of lesson.sections) {
           content += `<div class="section"><h2>${sec.title}</h2>`;
-          content += `<p>${sec.content}</p>`;
+          content += `<div class="section-content">${renderMd(sec.content)}</div>`;
           
           if (sec.deepDive) {
             content += `<div class="deep-dive"><h3>${sec.deepDive.title}</h3><ul>`;
@@ -523,7 +536,6 @@
           <p class="summary">${topic.summary || ''}</p>
           <div class="meta">
             <span>${topic.difficulty || ''}</span>
-            <span>${topic.time || ''}</span>
           </div>
           ${topic.definition ? `<div class="section"><h2>Definición</h2><p>${topic.definition}</p></div>` : ''}
           ${topic.when ? `<div class="section"><h2>Cuándo usarla</h2><p>${topic.when}</p></div>` : ''}
