@@ -60,7 +60,17 @@
     const isDark = root.getAttribute("data-theme") === "dark";
     const button = $(".toggle-theme");
     if (!button) return;
-    button.setAttribute("aria-label", isDark ? "Cambiar a tema claro" : "Cambiar a tema oscuro");
+    const sunIcon = button.querySelector(".theme-icon");
+    const moonIcon = button.querySelector(".theme-icon-dark");
+    if (isDark) {
+      button.setAttribute("aria-label", "Cambiar a tema claro");
+      if (sunIcon) sunIcon.style.display = "none";
+      if (moonIcon) moonIcon.style.display = "inline";
+    } else {
+      button.setAttribute("aria-label", "Cambiar a tema oscuro");
+      if (sunIcon) sunIcon.style.display = "inline";
+      if (moonIcon) moonIcon.style.display = "none";
+    }
   }
 
   window.toggleTheme = function toggleTheme() {

@@ -321,6 +321,71 @@
             "Monitorear métricas de relevancia en producción"
           ],
           "related": ["chunking-embebidos", "intro-rag"]
+        },
+        {
+          "id": "proceso-recuperacion",
+          "title": "El Proceso de Recuperación",
+          "difficulty": "Intermedio",
+          "time": "35 min",
+          "summary": "Cómo las bases de datos vectoriales almacenan embeddings y buscan información semánticamente similar.",
+          "definition": "Una base de datos vectorial es una base de datos especializada diseñada para almacenar y buscar embeddings vectoriales. A diferencia de las bases de datos tradicionales organizadas alfabéticamente, organizan documentos por significado: conceptos similares quedan cerca en el espacio vectorial.",
+          "when": "Al implementar sistemas RAG y necesitas entender cómo el retriever encuentra información relevante.",
+          "steps": [
+            "Entender indexing: cómo se placing books en el 'espacio de ideas'",
+            "Usar algoritmos como HNSW para navegación eficiente",
+            "Convertir query del usuario a vector con el mismo embedding model",
+            "Implementar búsqueda por similaridad semántica"
+          ],
+          "example": {
+            "title": "Pipeline RAG con ChromaDB",
+            "prompt": "import chromadb\n\nchroma_client = chromadb.Client()\ncollection = chroma_client.create_collection(name='my_docs')\n\n# INDEXING\ndocuments = [\n    'El plan Pro cuesta $20 mensuales.',\n    'Nuestra sede está en Ciudad de México.',\n    'La empresa fue fundada en 2015.'\n]\ncollection.add(\n    embeddings=[get_embedding(doc) for doc in documents],\n    documents=documents,\n    ids=[f'doc_{i}' for i in range(len(documents))]\n)\n\n# RETRIEVAL\nquery = '¿Cuánto cuesta la suscripción profesional?'\nquery_embedding = get_embedding(query)\nresults = collection.query(query_embeddings=[query_embedding], n_results=1)\n# Resultado: ['El plan Pro cuesta $20 mensuales.']",
+            "context": "Ejemplo completo de pipeline RAG con ChromaDB mostrando indexación y recuperación.",
+            "copy": true
+          },
+          "errors": [
+            "Usar embedding models inconsistentes entre indexación y búsqueda",
+            "No considerar la dimensionalidad del vector",
+            "Ignorar el problema de redundancia en resultados similares"
+          ],
+          "bestPractices": [
+            "Usar el mismo embedding model para indexar y buscar",
+            "Implementar MMR para diversidad en resultados",
+            "Combinar búsqueda vectorial con keyword search (hybrid search)"
+          ],
+          "related": ["chunking-embebidos", "generacion-sintesis"]
+        },
+        {
+          "id": "generacion-sintesis",
+          "title": "Generación y Síntesis de Respuestas",
+          "difficulty": "Intermedio",
+          "time": "40 min",
+          "summary": "Cómo ensamblar el prompt final para el Generator LLM y producir respuestas citedas y fundamentadas.",
+          "definition": "La generación en RAG requiere ensamblar un prompt maestro que incluye: rol e instrucciones claras, contexto recuperado con metadatos de fuente, y la pregunta del usuario. La estructura correcta es crítica para obtener respuestas precisas, factual y verificables.",
+          "when": "Al construir el paso final del pipeline RAG donde se genera la respuesta al usuario.",
+          "steps": [
+            "Definir rol claro del modelo (ej: 'Asistente IA de ACME Inc')",
+            "Establecer regla: 'Responde SOLO usando el contexto proporcionado'",
+            "Incluir 'escape hatch': decir 'No tengo suficiente información' si aplica",
+            "Agregar metadatos de fuente junto con cada chunk de contexto",
+            "Requerir citaciones en cada afirmación"
+          ],
+          "example": {
+            "title": "Prompt de generación RAG",
+            "prompt": "# ROL\nEres un asistente IA helpful para ACME Inc.\n\n# INSTRUCCIONES\n- Responde la PREGUNTA basándote SOLO en el CONTEXTO proporcionado.\n- Si la información no está en el CONTEXTO, di: 'No tengo suficiente información.'\n- Sé conciso y no agregues información fuera del CONTEXTO.\n- Cita la fuente entre paréntesis al final de cada afirmación.\n\n# CONTEXTO\n---\n**Fuente:** producto_faq.md\n**Contenido:** El modelo Pro tiene 12 horas de batería.\n---\n**Fuente:** press_release_2023.txt\n**Contenido:** El nuevo modelo Pro cuenta con chip M3.\n---\n\n# PREGUNTA\n¿Qué specs tiene el modelo Pro?",
+            "context": "Template de prompt para generación RAG con instrucciones claras y estructura de citación.",
+            "copy": true
+          },
+          "errors": [
+            "No incluir escape hatch para 'no sé'",
+            "Olvidar incluir metadatos de fuente con cada chunk",
+            "Permitir que el modelo use conocimiento externo"
+          ],
+          "bestPractices": [
+            "Estructura consistente: ROL → INSTRUCCIONES → CONTEXTO → PREGUNTA",
+            "Delimitadores claros con # y ---",
+            "Regla obligatoria de citación para cada afirmación"
+          ],
+          "related": ["proceso-recuperacion", "evaluacion-rag"]
         }
       ]
     },

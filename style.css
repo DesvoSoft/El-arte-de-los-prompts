@@ -175,6 +175,7 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
+  font-size: 1.25rem;
   transition: all var(--transition-smooth);
   backdrop-filter: blur(10px);
 }
@@ -185,12 +186,9 @@ button {
   box-shadow: var(--shadow-glow);
 }
 
-.toggle-theme svg {
-  width: 20px;
-  height: 20px;
-  stroke: currentColor;
-  stroke-width: 2;
-  fill: none;
+.theme-icon,
+.theme-icon-dark {
+  line-height: 1;
 }
 
 /* Hero Section */
