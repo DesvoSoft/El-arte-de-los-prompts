@@ -1,12 +1,12 @@
-# 🧠 El Arte de los Prompts
+# El Arte de los Prompts
 
-> *Donde la ingeniería de prompts se convierte en arte.*
+> Donde la ingeniería de prompts se convierte en arte.
 
 ---
 
-### ¿Qué es esto?
+### Qué es esto?
 
-Una guía vivida, iterada y refinada en el fuego de producción real. No es teoría — es lo que funciona cuandoConstruyes con LLMs.
+Una guía vivida, iterada y refinada en el fuego de producción real. No es teoría — es lo que funciona cuando construyes con LLMs.
 
 Aquí encontrarás:
 - **Patrones que se usan** — no lo que "debería" funcionar
@@ -17,11 +17,11 @@ No es un manual académico. Es el toolkit de alguien que construye con LLMs todo
 
 ---
 
-### ¿Por dónde empie?
+### Por dónde empie?
 
 | Si eres nuevo | Si ya sabes lo básico |
 |--------------|---------------------|
-| Empieza por **Fundamentos** | Salt a **Técnicas de Prompting** |
+| Empieza por **Fundamentos** | Salta a **Técnicas de Prompting** |
 | Entiende el "por qué" | Aprende el "cómo" |
 
 Cada sección es independiente. Lee en orden o salta lo que ya dominas.
@@ -34,13 +34,13 @@ Todo vive en `content/` como módulos JSON. Los temas están indexados en `topic
 
 **Navega** — Abre `index.html` en tu navegador o visita el [sitio live](https://desvosoft.github.io/El-arte-de-los-prompts/).
 
-**explora** — Hace clone y abre `content.html` para el catálogo completo con lecciones detalladas.
+**Explora** — Haz clone y abre `content.html` para el catálogo completo con lecciones detalladas.
 
 ---
 
 ### Créditos
 
-Construido por [DesvoSoft](https://desvosoft.github.io)
+Construido por [DesvoSoft](https://github.com/DesvoSoft)
 
 Mejora más en el día a día.
 
