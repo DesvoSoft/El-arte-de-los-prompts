@@ -105,6 +105,14 @@
       height: calc(100vh - 60px);
       background: var(--bg);
     }
+    /* Custom scrollbar */
+    .sidebar::-webkit-scrollbar { width: 6px; }
+    .sidebar::-webkit-scrollbar-track { background: var(--surface); }
+    .sidebar::-webkit-scrollbar-thumb {
+      background: var(--border);
+      border-radius: 3px;
+    }
+    .sidebar::-webkit-scrollbar-thumb:hover { background: var(--accent); }
     .sidebar h3 {
       font-size: 0.7rem;
       text-transform: uppercase;

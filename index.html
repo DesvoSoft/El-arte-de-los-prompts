@@ -71,6 +71,14 @@
       90% { opacity: 0.6; }
       100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
     }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
     
     /* Header */
     .header {
@@ -105,7 +113,7 @@
       padding: 6rem 2rem 4rem;
       text-align: center;
     }
-    .hero-badge {
+.hero-badge {
       display: inline-block;
       padding: 0.4rem 1rem;
       font-size: 0.7rem;
@@ -117,6 +125,50 @@
       border: 1px solid rgba(59, 130, 246, 0.3);
       border-radius: 50px;
       margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeInDown 0.6s ease-out 0.2s forwards;
+    }
+    .hero h1 {
+      font-size: clamp(2rem, 6vw, 4rem);
+      font-weight: 800;
+      line-height: 1.1;
+      margin-bottom: 1rem;
+      opacity: 0;
+      animation: fadeInUp 0.6s ease-out 0.4s forwards;
+    }
+    .hero h1 span { color: var(--accent); }
+    .hero p {
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      max-width: 550px;
+      margin: 0 auto 2rem;
+      opacity: 0;
+      animation: fadeInUp 0.6s ease-out 0.6s forwards;
+    }
+    .hero-stats {
+      display: flex;
+      justify-content: center;
+      gap: 2.5rem;
+      margin-bottom: 2rem;
+      opacity: 0;
+      animation: fadeInUp 0.6s ease-out 0.8s forwards;
+    }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.875rem 1.75rem;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #fff;
+      background: var(--accent);
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      text-decoration: none;
+      opacity: 0;
+      animation: fadeInUp 0.6s ease-out 1s forwards;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
     .hero h1 {
       font-size: clamp(2rem, 6vw, 4rem);
@@ -196,11 +248,24 @@
       border-radius: 12px;
       text-decoration: none;
       color: var(--text);
-      transition: border-color 0.2s, transform 0.2s;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      opacity: 0;
+      transform: translateY(20px);
+      animation: cardIn 0.5s ease-out forwards;
+    }
+    .card:nth-child(1) { animation-delay: 0.1s; }
+    .card:nth-child(2) { animation-delay: 0.2s; }
+    .card:nth-child(3) { animation-delay: 0.3s; }
+    .card:nth-child(4) { animation-delay: 0.4s; }
+    .card:nth-child(5) { animation-delay: 0.5s; }
+    .card:nth-child(6) { animation-delay: 0.6s; }
+    @keyframes cardIn {
+      to { opacity: 1; transform: translateY(0); }
     }
     .card:hover {
       border-color: var(--accent);
       transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(59, 130, 246, 0.2);
     }
     .card-icon {
       width: 40px;
