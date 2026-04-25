@@ -10,7 +10,9 @@
     brain: "M9.5 4a3.5 3.5 0 0 0-3.5 3.5v9a3.5 3.5 0 0 0 3.5 3.5H10V4.5A.5.5 0 0 0 9.5 4zm5 0a.5.5 0 0 0-.5.5V20h.5a3.5 3.5 0 0 0 3.5-3.5v-9A3.5 3.5 0 0 0 14.5 4z",
     refresh: "M4 4v6h6M20 20v-6h-6M5.5 18.5A8 8 0 0 0 19 13m-6-8a8 8 0 0 0-13 5",
     workflow: "M6 3h12v6H6zm0 12h5v6H6zm7 0h5v6h-5zM8 9v3m8-3v3m-4 0v3",
-    shield: "M12 2l7 4v6c0 5-3.5 9.74-7 10-3.5-.26-7-5-7-10V6z"
+    shield: "M12 2l7 4v6c0 5-3.5 9.74-7 10-3.5-.26-7-5-7-10V6z",
+    search: "M21 21l-6-6m2-5a7 7 0 1 1-14 0 7 7 0 0 1 14 0z",
+    book: "M4 19.5A2.5 2.5 0 0 1 6.5 17H20M4 19.5A2.5 2.5 0 0 0 6.5 22H20V2H6.5A2.5 2.5 0 0 0 4 4.5v15z"
   };
 
   const state = {
@@ -23,20 +25,53 @@
   function createParticles() {
     const container = $("#particles");
     if (!container) return;
-    const particleCount = 60;
+    const colors = ["#8b5cf6", "#3b82f6", "#10b981", "#60a5fa", "#34d399"];
+    const particleCount = 80;
     for (let i = 0; i < particleCount; i++) {
       const particle = document.createElement("div");
       particle.className = "particle";
       particle.style.left = Math.random() * 100 + "%";
       particle.style.animationDelay = Math.random() * 20 + "s";
       particle.style.animationDuration = (15 + Math.random() * 15) + "s";
-      particle.style.opacity = 0.15 + Math.random() * 0.35;
+      particle.style.opacity = 0.15 + Math.random() * 0.3;
+      particle.style.background = colors[Math.floor(Math.random() * colors.length)];
       const size = 1 + Math.random() * 4;
       particle.style.width = size + "px";
       particle.style.height = size + "px";
       container.appendChild(particle);
     }
   }
+
+  function initTheme() {
+    const root = document.documentElement;
+    const btn = document.querySelector(".toggle-theme");
+    const icon = btn?.querySelector(".theme-icon");
+    const isDark = localStorage.getItem("theme") === "dark" || !localStorage.getItem("theme");
+    if (isDark) {
+      root.setAttribute("data-theme", "dark");
+      if (icon) icon.textContent = "☾";
+    } else {
+      root.setAttribute("data-theme", "light");
+      if (icon) icon.textContent = "☀";
+    }
+  }
+
+  window.toggleTheme = function() {
+    const root = document.documentElement;
+    const btn = document.querySelector(".toggle-theme");
+    const icon = btn?.querySelector(".theme-icon");
+    const isDark = root.getAttribute("data-theme") !== "light";
+    
+    if (isDark) {
+      root.setAttribute("data-theme", "light");
+      localStorage.setItem("theme", "light");
+      if (icon) icon.textContent = "☀";
+    } else {
+      root.setAttribute("data-theme", "dark");
+      localStorage.setItem("theme", "dark");
+      if (icon) icon.textContent = "☾";
+    }
+  };
 
   function animateCounters() {
     const counters = $$(".stat-number[data-count]");
@@ -54,20 +89,6 @@
       requestAnimationFrame(animate);
     });
   }
-
-  window.toggleTheme = function() {
-    const root = document.documentElement;
-    const btn = document.querySelector(".toggle-theme");
-    const icon = btn?.querySelector(".theme-icon");
-    
-    if (root.getAttribute("data-theme") === "dark") {
-      root.setAttribute("data-theme", "light");
-      if (icon) icon.textContent = "☀";
-    } else {
-      root.setAttribute("data-theme", "dark");
-      if (icon) icon.textContent = "☾";
-    }
-  };
 
   const hexToRgba = (hex, alpha = 1) => {
     const clean = hex.replace('#', '');
@@ -765,8 +786,8 @@
   }
 
   window.addEventListener("load", async () => {
-    try {
-      createParticles();
+    initTheme();
+    createParticles();
       
       const content = $("#content");
       if (content) state.landingHTML = content.innerHTML;
@@ -783,6 +804,8 @@
       setupQuickNavigation();
       setupSearch();
       updateProgressStats();
+      
+      handleUrlParams();
       
       setTimeout(animateCounters, 300);
       
@@ -802,6 +825,14 @@
             <p>No se pudo cargar topics.json. Verifica que el archivo exista.</p>
           </div>
         `;
+      }
+    }
+
+    function handleUrlParams() {
+      const params = new URLSearchParams(window.location.search);
+      const section = params.get("section");
+      if (section && window.loadTopic) {
+        window.loadTopic(section);
       }
     }
   });
