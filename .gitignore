@@ -1,8 +1,14 @@
 # Context Engineering source (educational reference only)
 context-engineering/
 
-# AI agent documents (project context, roadmap, checklists)
+# AI agent documents and project context
 .ai/
+
+# Backups and research files
+investigacion.pdf
+topics-backup.json
+*-backup.*
+*.backup
 
 # OS files
 .DS_Store
@@ -16,11 +22,3 @@ Thumbs.db
 
 # Logs
 *.log
-
-# GSD/Vibecoding docs (planning, agents, research)
-assets/**/*.md
-*.md
-
-# Backups and research files
-investigacion.pdf
-topics-backup.json
