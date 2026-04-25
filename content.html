@@ -113,14 +113,23 @@
       margin-bottom: 1rem;
       font-weight: 600;
     }
-    .menu { list-style: none; }
-    .menu-section { margin-bottom: 1.5rem; }
+    .menu { list-style: }
+    .menu-section { margin-bottom: 0.5rem; }
     .menu-header {
-      font-size: 0.85rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.8rem;
       font-weight: 600;
       color: var(--accent);
-      margin-bottom: 0.5rem;
+      padding: 0.5rem 0;
+      cursor: pointer;
+      border-bottom: 1px solid var(--border);
     }
+    .menu-header:hover { opacity: 0.8; }
+    .menu-arrow { font-size: 0.7rem; transition: transform 0.2s; }
+    .menu-content { overflow: hidden; }
+    .menu li { margin-bottom: 0.15rem; }
     .menu li { margin-bottom: 0.25rem; }
     .menu button {
       width: 100%;
@@ -447,24 +456,53 @@
       }
     }
 
-    // Render menu
+    // Render menu with collapsible sections
     function renderMenu() {
       const menu = document.getElementById('menu');
       menu.innerHTML = '';
-      sections.forEach(section => {
-        const li = document.createElement('li');
-        li.className = 'menu-section';
-        li.innerHTML = '<div class="menu-header">' + section.title + '</div>';
+      sections.forEach((section, idx) => {
+        const sectionDiv = document.createElement('div');
+        sectionDiv.className = 'menu-section';
+        
+        // Header (clickable to collapse/expand)
+        const header = document.createElement('div');
+        header.className = 'menu-header';
+        header.innerHTML = `<span>${section.title}</span><span class="menu-arrow">▾</span>`;
+        header.style.cursor = 'pointer';
+        header.onclick = () => {
+          const content = sectionDiv.querySelector('.menu-content');
+          const arrow = header.querySelector('.menu-arrow');
+          const isOpen = content.style.display !== 'none';
+          content.style.display = isOpen ? 'none' : 'block';
+          arrow.textContent = isOpen ? '▸' : '▾';
+        };
+        
+        // Content (topic list)
+        const content = document.createElement('div');
+        content.className = 'menu-content';
+        
         const ul = document.createElement('ul');
         ul.className = 'menu';
         section.topics.forEach(topic => {
+          const li = document.createElement('li');
           const btn = document.createElement('button');
           btn.textContent = topic.title;
+          btn.style.paddingLeft = '1rem';
           btn.onclick = () => renderTopic(topic.id);
-          ul.appendChild(btn);
+          li.appendChild(btn);
+          ul.appendChild(li);
         });
-        li.appendChild(ul);
-        menu.appendChild(li);
+        content.appendChild(ul);
+        
+        sectionDiv.appendChild(header);
+        sectionDiv.appendChild(content);
+        menu.appendChild(sectionDiv);
+        
+        // Auto-collapse sections after first
+        if (idx > 2) {
+          content.style.display = 'none';
+          sectionDiv.querySelector('.menu-arrow').textContent = '▸';
+        }
       });
     }
 
