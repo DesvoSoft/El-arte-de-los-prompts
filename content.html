@@ -399,7 +399,7 @@
       const container = document.getElementById('particles');
       if (!container) return;
       const colors = ['#3b82f6', '#10b981', '#60a5fa', '#34d399'];
-      for (let i = 0; i < 40; i++) {
+      for (let i = 0; i < 80; i++) {
         const p = document.createElement('div');
         p.className = 'particle';
         p.style.left = Math.random() * 100 + '%';
@@ -421,29 +421,29 @@
           flatTopics.push({ section: s, topic: t });
         });
       });
-      // Load detailed lessons
-      await loadDetailedLessons();
+      // Detailed lessons loaded on demand via loadDetailedLesson(id)
     }
 
-    // Detailed lessons from /content/
+    // Detailed lessons cached
     let detailedLessons = {};
-    async function loadDetailedLessons() {
+
+    // Load single detailed lesson on demand
+    async function loadDetailedLesson(id) {
+      if (detailedLessons[id]) return detailedLessons[id];
       try {
         const idxRes = await fetch('content/index.json');
         const idx = await idxRes.json();
-        for (const mod of idx.modules) {
-          try {
-            const modRes = await fetch('content/module-' + mod.id + '.json');
-            const modData = await modRes.json();
-            for (const lesson of modData.lessons) {
-              detailedLessons[lesson.id] = lesson;
-            }
-          } catch (e) {
-            console.log('Module ' + mod.id + ' not found');
-          }
+        const mod = idx.modules.find(m => m.id === id);
+        if (!mod) return null;
+        const modRes = await fetch('content/module-' + id + '.json');
+        const modData = await modRes.json();
+        for (const lesson of modData.lessons) {
+          detailedLessons[lesson.id] = lesson;
         }
+        return detailedLessons[id] || null;
       } catch (e) {
-        console.log('content/index.json not found');
+        console.log('Lesson ' + id + ' not found');
+        return null;
       }
     }
 
@@ -478,7 +478,7 @@
     }
 
     // Render topic
-    function renderTopic(id) {
+    async function renderTopic(id) {
       const entry = flatTopics.find(e => e.topic.id === id);
       if (!entry) {
         // Fallback: try to render basic topic without detailed lesson
@@ -498,8 +498,8 @@
         event.target.classList.add('active');
       }
 
-      // Check for detailed lesson content
-      const lesson = detailedLessons[id];
+      // Load detailed lesson on demand
+      const lesson = await loadDetailedLesson(id);
       const main = document.getElementById('main');
       
       let content = `
@@ -511,10 +511,7 @@
         <article class="technique">
           <h1>${topic.title}</h1>
           <p class="summary">${topic.summary || ''}</p>
-          <div class="meta">
-            <span>${topic.difficulty || ''}</span>
-          </div>
-      `;
+`;
 
       // If detailed lesson exists, render rich content
       if (lesson && lesson.sections) {
@@ -604,9 +601,6 @@
         <article class="technique">
           <h1>${topic.title}</h1>
           <p class="summary">${topic.summary || ''}</p>
-          <div class="meta">
-            <span>${topic.difficulty || ''}</span>
-          </div>
           ${topic.definition ? `<div class="section"><h2>Definición</h2><p>${topic.definition}</p></div>` : ''}
           ${topic.when ? `<div class="section"><h2>Cuándo usarla</h2><p>${topic.when}</p></div>` : ''}
           ${topic.steps && topic.steps.length ? `<div class="section"><h2>Pasos</h2><ul>${topic.steps.map(s => '<li>'+s+'</li>').join('')}</ul></div>` : ''}
