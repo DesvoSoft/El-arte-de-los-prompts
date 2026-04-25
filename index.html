@@ -1,40 +1,243 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>El Arte de los Prompts — Ingeniería de Prompts y Context Engineering</title>
-  <meta name="description" content="Plataforma de referencia técnica para dominar la ingeniería de prompts y context engineering. Técnicas profesionales, patrones probados y seguridad en producción." />
-  <meta name="keywords" content="prompt engineering, context engineering, LLM, AI, prompting, RAG, agentes IA" />
-  <meta name="author" content="DesvoSoft" />
-  <meta name="robots" content="index, follow" />
-  
-  <meta property="og:title" content="El Arte de los Prompts" />
-  <meta property="og:description" content="Guía de referencia para dominar la ingeniería de prompts y context engineering." />
-  <meta property="og:type" content="website" />
-  
+  <title>El Arte de los Prompts — Ingeniería de Prompts</title>
+  <meta name="description" content="Plataforma de referencia para ingeniería de prompts y context engineering." />
   <link rel="canonical" href="https://desvosoft.github.io/El-arte-de-los-prompts/" />
   <link rel="stylesheet" href="style.css" />
+  <style>
+    :root {
+      --bg: #0a0a0b;
+      --surface: #141416;
+      --border: #27272a;
+      --text: #fafafa;
+      --text-muted: #71717a;
+      --accent: #3b82f6;
+      --accent-subtle: rgba(59, 130, 246, 0.15);
+    }
+    [data-theme="light"] {
+      --bg: #fafafa;
+      --surface: #ffffff;
+      --border: #e4e4e7;
+      --text: #18181b;
+      --text-muted: #71717a;
+      --accent: #2563eb;
+      --accent-subtle: rgba(37, 99, 235, 0.1);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+    .landing { min-height: 100vh; }
+    
+    /* Particles */
+    .particles {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .particle {
+      position: absolute;
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      opacity: 0;
+      animation: fall 20s infinite linear;
+    }
+    .particle:nth-child(odd) { background: #3b82f6; }
+    .particle:nth-child(even) { background: #10b981; }
+    @keyframes fall {
+      0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; }
+      10% { opacity: 0.6; }
+      90% { opacity: 0.6; }
+      100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+    }
+    
+    /* Header */
+    .header {
+      position: relative;
+      z-index: 10;
+      padding: 1.5rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+      background: rgba(10, 10, 11, 0.8);
+      backdrop-filter: blur(12px);
+    }
+    [data-theme="light"] .header { background: rgba(250, 250, 250, 0.8); }
+    .logo { font-weight: 700; font-size: 1.1rem; }
+    .toggle {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      cursor: pointer;
+      font-size: 1.2rem;
+    }
+    .toggle:hover { border-color: var(--accent); }
+    
+    /* Hero */
+    .hero {
+      position: relative;
+      z-index: 1;
+      padding: 6rem 2rem 4rem;
+      text-align: center;
+    }
+    .hero-badge {
+      display: inline-block;
+      padding: 0.4rem 1rem;
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--accent);
+      background: var(--accent-subtle);
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      border-radius: 50px;
+      margin-bottom: 1.5rem;
+    }
+    .hero h1 {
+      font-size: clamp(2rem, 6vw, 4rem);
+      font-weight: 800;
+      line-height: 1.1;
+      margin-bottom: 1rem;
+    }
+    .hero h1 span { color: var(--accent); }
+    .hero p {
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      max-width: 550px;
+      margin: 0 auto 2rem;
+    }
+    .hero-stats {
+      display: flex;
+      justify-content: center;
+      gap: 2.5rem;
+      margin-bottom: 2rem;
+    }
+    .stat-item { text-align: center; }
+    .stat-number {
+      display: block;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+    .stat-label {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.875rem 1.75rem;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #fff;
+      background: var(--accent);
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);
+    }
+    
+    /* Sections Grid */
+    .sections {
+      position: relative;
+      z-index: 1;
+      padding: 3rem 2rem 5rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .sections h2 {
+      text-align: center;
+      font-size: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.25rem;
+    }
+    .card {
+      display: block;
+      padding: 1.5rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      text-decoration: none;
+      color: var(--text);
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .card:hover {
+      border-color: var(--accent);
+      transform: translateY(-3px);
+    }
+    .card-icon {
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 10px;
+      margin-bottom: 1rem;
+    }
+    .card-icon.blue { background: rgba(59, 130, 246, 0.15); color: #3b82f6; }
+    .card-icon.green { background: rgba(16, 185, 129, 0.15); color: #10b981; }
+    .card-icon.teal { background: rgba(20, 184, 166, 0.15); color: #14b8a6; }
+    .card-icon.indigo { background: rgba(99, 102, 241, 0.15); color: #6366f1; }
+    .card h3 {
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+    }
+    .card p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+    
+    /* Footer */
+    .footer {
+      position: relative;
+      z-index: 1;
+      padding: 2rem;
+      text-align: center;
+      border-top: 1px solid var(--border);
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+  </style>
 </head>
 <body>
   <div class="particles" id="particles"></div>
   
-  <button class="toggle-theme" type="button" aria-label="Cambiar tema" onclick="toggleTheme()">
-    <span class="theme-icon">☾</span>
-  </button>
+  <div class="landing">
+    <header class="header">
+      <div class="logo">El Arte de los Prompts</div>
+      <button class="toggle" onclick="toggleTheme()">☾</button>
+    </header>
 
-  <header class="hero" role="banner">
-    <div class="hero-bg-pattern"></div>
-    <div class="hero-content">
+    <section class="hero">
       <div class="hero-badge">Referencia Técnica</div>
-      <h1 class="hero-title">
-        <span class="title-line">El Arte de</span>
-        <span class="title-line title-accent">los Prompts</span>
-      </h1>
-      <p class="hero-subtitle">
-        Guía de referencia para dominar la ingeniería de prompts y el context engineering. 
-        Documentación técnica con ejemplos prácticos, patrones probados y consideraciones de seguridad.
-      </p>
+      <h1>El Arte de los <span>Prompts</span></h1>
+      <p>Guía de referencia para dominar la ingeniería de prompts y el context engineering. Técnicas documentadas, patrones probados.</p>
       <div class="hero-stats">
         <div class="stat-item">
           <span class="stat-number" data-count="7">0</span>
@@ -49,74 +252,110 @@
           <span class="stat-label">Ejemplos</span>
         </div>
       </div>
-      <div class="hero-actions">
-        <button id="ctaStart" class="btn btn-primary">
-          <span>Explorar Técnicas</span>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M5 12h14M13 5l7 7-7 7"/>
-          </svg>
-        </button>
-      </div>
-    </div>
-  </header>
+      <a href="content.html" class="btn-primary">
+        Explorar Técnicas
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M5 12h14M13 5l7 7-7 7"/>
+        </svg>
+      </a>
+    </section>
 
-  <nav class="quick-nav" role="navigation" aria-label="Navegación principal">
-    <div class="nav-container">
-      <div class="nav-sections">
-        <button class="nav-btn" data-section="fundamentos">Fundamentos</button>
-        <button class="nav-btn" data-section="tecnicas">Técnicas</button>
-        <button class="nav-btn" data-section="rag">RAG</button>
-        <button class="nav-btn" data-section="agentes">Agentes</button>
-        <button class="nav-btn" data-section="seguridad">Seguridad</button>
-      </div>
-    </div>
-  </nav>
-
-  <section class="featured-techniques" role="main">
-    <div class="featured-header">
-      <h2>Techniques</h2>
-      <p>Estrategias probadas para resultados inmediatos en producción.</p>
-    </div>
-    <div class="techniques-grid" id="sectionCards" aria-label="Técnicas destacadas"></div>
-  </section>
-
-  <button class="menu-handle" id="menuHandle" type="button" aria-expanded="false" aria-controls="sidebar">
-    <span class="menu-icon"></span>
-    <span class="menu-text">Menú</span>
-  </button>
-
-  <div class="layout" role="presentation">
-    <aside id="sidebar" class="sidebar" aria-label="Navegación principal">
-      <div class="sidebar-head">
-        <h2>Secciones</h2>
-      </div>
-      <nav>
-        <ul id="menu" class="menu" role="tree"></ul>
-      </nav>
-    </aside>
-
-    <main id="main" class="main" tabindex="-1">
-      <nav class="breadcrumbs" aria-label="Breadcrumb">
-        <ol id="breadcrumbs"></ol>
-      </nav>
-      <article id="content" class="content" tabindex="-1">
-        <div class="empty-state">
-          <div class="empty-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
-              <path d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+    <section class="sections">
+      <h2>Explora las Secciones</h2>
+      <div class="grid">
+        <a href="content.html?section=fundamentos" class="card">
+          <div class="card-icon blue">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
             </svg>
           </div>
-          <h2>Selecciona una técnica</h2>
-          <p>Explora las técnicas en el menú lateral o usa los enlaces rápidos arriba para comenzar.</p>
-        </div>
-      </article>
-    </main>
+          <h3>Fundamentos</h3>
+          <p>Conceptos esenciales sobre cómo los LLMs procesan información.</p>
+        </a>
+        <a href="content.html?section=tecnicas" class="card">
+          <div class="card-icon green">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/>
+            </svg>
+          </div>
+          <h3>Técnicas de Prompting</h3>
+          <p>Chain-of-Thought, Zero-shot, Few-shot y más patrones.</p>
+        </a>
+        <a href="content.html?section=rag" class="card">
+          <div class="card-icon teal">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 21l-6-6m2-5a7 7 0 1 1-14 0 7 7 0 0 1 14 0z"/>
+            </svg>
+          </div>
+          <h3>RAG</h3>
+          <p>Retrieval-Augmented Generation, embeddings y optimización.</p>
+        </a>
+        <a href="content.html?section=agentes" class="card">
+          <div class="card-icon indigo">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M13 10V3L4 14h7v7l9-11h-7z"/>
+            </svg>
+          </div>
+          <h3>Agentes IA</h3>
+          <p>De Q&A a agentes autónomos y function calling.</p>
+        </a>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <p>&copy; 2026 DesvoSoft · Ingeniería de prompts para profesionales.</p>
+    </footer>
   </div>
 
-  <footer class="footer">
-    <p>&copy; 2026 DesvoSoft · Ingeniería de prompts para profesionales.</p>
-  </footer>
+  <script>
+    // Theme
+    function initTheme() {
+      const saved = localStorage.getItem('theme');
+      const isDark = saved === 'dark' || !saved;
+      document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+      document.querySelector('.toggle').textContent = isDark ? '☾' : '☀';
+    }
+    function toggleTheme() {
+      const root = document.documentElement;
+      const current = root.getAttribute('data-theme');
+      const next = current === 'dark' ? 'light' : 'dark';
+      root.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+      document.querySelector('.toggle').textContent = next === 'dark' ? '☾' : '☀';
+    }
+    initTheme();
 
-  <script src="script.js"></script>
+    // Particles
+    function createParticles() {
+      const container = document.getElementById('particles');
+      const colors = ['#3b82f6', '#10b981', '#60a5fa', '#34d399'];
+      for (let i = 0; i < 60; i++) {
+        const p = document.createElement('div');
+        p.className = 'particle';
+        p.style.left = Math.random() * 100 + '%';
+        p.style.animationDelay = Math.random() * 20 + 's';
+        p.style.animationDuration = (15 + Math.random() * 10) + 's';
+        p.style.background = colors[Math.floor(Math.random() * colors.length)];
+        container.appendChild(p);
+      }
+    }
+    createParticles();
+
+    // Counter animation
+    function animateCounters() {
+      document.querySelectorAll('.stat-number').forEach(c => {
+        const target = parseInt(c.dataset.count);
+        const duration = 1500;
+        const start = performance.now();
+        const animate = (now) => {
+          const progress = Math.min((now - start) / duration, 1);
+          c.textContent = Math.round(target * (1 - Math.pow(1 - progress, 3)));
+          if (progress < 1) requestAnimationFrame(animate);
+        };
+        requestAnimationFrame(animate);
+      });
+    }
+    setTimeout(animateCounters, 300);
+  </script>
 </body>
 </html>

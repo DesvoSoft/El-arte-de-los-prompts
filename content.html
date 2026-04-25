@@ -1,67 +1,278 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Contenido — El Arte de los Prompts</title>
-  <meta name="description" content="Catálogo completo de técnicas de ingeniería de prompts: fundamentos, prompting, RAG, agentes, optimización y seguridad." />
-  
+  <meta name="description" content="Catálogo de técnicas de ingeniería de prompts." />
   <link rel="canonical" href="https://desvosoft.github.io/El-arte-de-los-prompts/content.html" />
   <link rel="stylesheet" href="style.css" />
+  <style>
+    :root {
+      --bg: #0a0a0b;
+      --surface: #141416;
+      --border: #27272a;
+      --text: #fafafa;
+      --text-muted: #71717a;
+      --accent: #3b82f6;
+    }
+    [data-theme="light"] {
+      --bg: #fafafa;
+      --surface: #ffffff;
+      --border: #e4e4e7;
+      --text: #18181b;
+      --text-muted: #71717a;
+      --accent: #2563eb;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+    
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: 1rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+    }
+    .logo { font-weight: 700; text-decoration: none; color: var(--text); }
+    .header-right { display: flex; align-items: center; gap: 1rem; }
+    .toggle {
+      width: 36px;
+      height: 36px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    .layout {
+      display: flex;
+      min-height: calc(100vh - 60px);
+    }
+    .sidebar {
+      width: 280px;
+      flex-shrink: 0;
+      border-right: 1px solid var(--border);
+      padding: 1.5rem;
+      overflow-y: auto;
+      position: sticky;
+      top: 60px;
+      height: calc(100vh - 60px);
+    }
+    .sidebar h3 {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+    }
+    .menu { list-style: none; }
+    .menu-section { margin-bottom: 1.5rem; }
+    .menu-header {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+    }
+    .menu li { margin-bottom: 0.25rem; }
+    .menu button {
+      width: 100%;
+      text-align: left;
+      padding: 0.5rem 0.75rem;
+      font-size: 0.875rem;
+      background: transparent;
+      border: none;
+      border-radius: 6px;
+      color: var(--text-muted);
+      cursor: pointer;
+    }
+    .menu button:hover { background: var(--surface); color: var(--text); }
+    .menu button.active { background: rgba(59, 130, 246, 0.15); color: var(--accent); }
+
+    .main { flex: 1; padding: 2rem; max-width: 800px; }
+    .breadcrumb { display: flex; gap: 0.5rem; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.5rem; }
+    .breadcrumb a { color: var(--text-muted); text-decoration: none; }
+    .breadcrumb a:hover { color: var(--accent); }
+
+    .technique h1 { font-size: 1.75rem; margin-bottom: 0.75rem; }
+    .technique .summary { font-size: 1.1rem; color: var(--text-muted); margin-bottom: 1.5rem; }
+    .technique .meta { display: flex; gap: 1rem; margin-bottom: 2rem; }
+    .technique .meta span {
+      padding: 0.25rem 0.75rem;
+      font-size: 0.8rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 50px;
+    }
+    .technique .section { margin-bottom: 2rem; }
+    .technique .section h2 { font-size: 1.1rem; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); }
+    .technique .section p, .technique .section li { font-size: 0.95rem; color: var(--text-muted); margin-bottom: 0.75rem; line-height: 1.7; }
+    .technique ul { padding-left: 1.25rem; }
+    .example {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.25rem;
+      margin: 1rem 0;
+    }
+    .example h4 { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.75rem; }
+    .example pre {
+      font-size: 0.85rem;
+      white-space: pre-wrap;
+      font-family: 'SF Mono', Monaco, monospace;
+      line-height: 1.6;
+    }
+
+    .empty { text-align: center; padding: 4rem 2rem; }
+    .empty h2 { font-size: 1.5rem; margin-bottom: 0.5rem; }
+    .empty p { color: var(--text-muted); }
+
+    .footer { padding: 1.5rem; text-align: center; border-top: 1px solid var(--border); color: var(--text-muted); font-size: 0.85rem; }
+
+    @media (max-width: 768px) {
+      .layout { flex-direction: column; }
+      .sidebar { width: 100%; height: auto; position: static; border-right: none; border-bottom: 1px solid var(--border); }
+      .main { padding: 1.5rem; }
+    }
+  </style>
 </head>
 <body>
-  <div class="particles" id="particles"></div>
-
-  <button class="toggle-theme" type="button" aria-label="Cambiar tema" onclick="toggleTheme()">
-    <span class="theme-icon">☾</span>
-  </button>
-
-  <nav class="quick-nav" role="navigation" aria-label="Navegación principal">
-    <div class="nav-container">
-      <a href="index.html" class="nav-logo">El Arte de los Prompts</a>
-      <div class="nav-sections">
-        <a href="index.html" class="nav-btn">Inicio</a>
-      </div>
+  <header class="header">
+    <a href="index.html" class="logo">El Arte de los Prompts</a>
+    <div class="header-right">
+      <button class="toggle" onclick="toggleTheme()">☾</button>
     </div>
-  </nav>
+  </header>
 
-  <button class="menu-handle" id="menuHandle" type="button" aria-expanded="false" aria-controls="sidebar">
-    <span class="menu-icon"></span>
-    <span class="menu-text">Menú</span>
-  </button>
-
-  <div class="layout" role="presentation">
-    <aside id="sidebar" class="sidebar" aria-label="Navegación principal">
-      <div class="sidebar-head">
-        <h2>Secciones</h2>
-      </div>
-      <nav>
-        <ul id="menu" class="menu" role="tree"></ul>
-      </nav>
+  <div class="layout">
+    <aside class="sidebar">
+      <h3>Secciones</h3>
+      <ul class="menu" id="menu"></ul>
     </aside>
-
-    <main id="main" class="main" tabindex="-1">
-      <nav class="breadcrumbs" aria-label="Breadcrumb">
-        <ol id="breadcrumbs"></ol>
-      </nav>
-      <article id="content" class="content" tabindex="-1">
-        <div class="empty-state">
-          <div class="empty-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
-              <path d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-            </svg>
-          </div>
-          <h2>Selecciona una técnica</h2>
-          <p>Explora las técnicas en el menú lateral para comenzar.</p>
-        </div>
-      </article>
+    <main class="main" id="main">
+      <div class="empty">
+        <h2>Selecciona una técnica</h2>
+        <p>Explora las secciones en el menú lateral.</p>
+      </div>
     </main>
   </div>
 
   <footer class="footer">
-    <p>&copy; 2026 DesvoSoft · Ingeniería de prompts para profesionales.</p>
+    <p>&copy; 2026 DesvoSoft · Ingeniería de prompts</p>
   </footer>
 
-  <script src="script.js"></script>
+  <script>
+    let sections = [];
+    let flatTopics = [];
+
+    // Theme
+    function initTheme() {
+      const saved = localStorage.getItem('theme');
+      const isDark = saved === 'dark' || !saved;
+      document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+      document.querySelector('.toggle').textContent = isDark ? '☾' : '☀';
+    }
+    function toggleTheme() {
+      const root = document.documentElement;
+      const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      root.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+      document.querySelector('.toggle').textContent = next === 'dark' ? '☾' : '☀';
+    }
+
+    // Data
+    async function loadData() {
+      const res = await fetch('topics.json');
+      const data = await res.json();
+      sections = data.sections || [];
+      sections.forEach(s => {
+        s.topics = s.topics || [];
+        s.topics.forEach(t => {
+          flatTopics.push({ section: s, topic: t });
+        });
+      });
+    }
+
+    // Render menu
+    function renderMenu() {
+      const menu = document.getElementById('menu');
+      menu.innerHTML = '';
+      sections.forEach(section => {
+        const li = document.createElement('li');
+        li.className = 'menu-section';
+        li.innerHTML = '<div class="menu-header">' + section.title + '</div>';
+        const ul = document.createElement('ul');
+        ul.className = 'menu';
+        section.topics.forEach(topic => {
+          const btn = document.createElement('button');
+          btn.textContent = topic.title;
+          btn.onclick = () => renderTopic(topic.id);
+          ul.appendChild(btn);
+        });
+        li.appendChild(ul);
+        menu.appendChild(li);
+      });
+    }
+
+    // Render topic
+    function renderTopic(id) {
+      const entry = flatTopics.find(e => e.topic.id === id);
+      if (!entry) return;
+      const { section, topic } = entry;
+      
+      // Update active
+      document.querySelectorAll('.menu button').forEach(b => b.classList.remove('active'));
+      event.target.classList.add('active');
+
+      const main = document.getElementById('main');
+      main.innerHTML = `
+        <nav class="breadcrumb">
+          <a href="index.html">Inicio</a>
+          <span>/</span>
+          <span>${topic.title}</span>
+        </nav>
+        <article class="technique">
+          <h1>${topic.title}</h1>
+          <p class="summary">${topic.summary || ''}</p>
+          <div class="meta">
+            <span>${topic.difficulty || ''}</span>
+            <span>${topic.time || ''}</span>
+          </div>
+          ${topic.definition ? `<div class="section"><h2>Definición</h2><p>${topic.definition}</p></div>` : ''}
+          ${topic.when ? `<div class="section"><h2>Cuándo usarla</h2><p>${topic.when}</p></div>` : ''}
+          ${topic.steps && topic.steps.length ? `<div class="section"><h2>Pasos</h2><ul>${topic.steps.map(s => '<li>'+s+'</li>').join('')}</ul></div>` : ''}
+          ${topic.example ? `<div class="section"><h2>Ejemplo</h2><div class="example"><h4>${topic.example.title}</h4><pre>${topic.example.prompt}</pre></div></div>` : ''}
+        </article>
+      `;
+    }
+
+    // URL params
+    function handleUrlParams() {
+      const params = new URLSearchParams(window.location.search);
+      const section = params.get('section');
+      if (section) {
+        const topic = flatTopics.find(t => t.topic.id === section);
+        if (topic) renderTopic(section);
+      }
+    }
+
+    // Init
+    initTheme();
+    loadData().then(() => {
+      renderMenu();
+      handleUrlParams();
+    });
+  </script>
 </body>
 </html>
