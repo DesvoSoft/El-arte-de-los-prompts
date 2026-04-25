@@ -23,15 +23,15 @@
   function createParticles() {
     const container = $("#particles");
     if (!container) return;
-    const particleCount = 30;
+    const particleCount = 60;
     for (let i = 0; i < particleCount; i++) {
       const particle = document.createElement("div");
       particle.className = "particle";
       particle.style.left = Math.random() * 100 + "%";
       particle.style.animationDelay = Math.random() * 20 + "s";
       particle.style.animationDuration = (15 + Math.random() * 15) + "s";
-      particle.style.opacity = 0.1 + Math.random() * 0.3;
-      const size = 1 + Math.random() * 3;
+      particle.style.opacity = 0.15 + Math.random() * 0.35;
+      const size = 1 + Math.random() * 4;
       particle.style.width = size + "px";
       particle.style.height = size + "px";
       container.appendChild(particle);
@@ -55,29 +55,18 @@
     });
   }
 
-  function syncThemeToggle() {
+  window.toggleTheme = function() {
     const root = document.documentElement;
-    const isDark = root.getAttribute("data-theme") === "dark";
-    const button = $(".toggle-theme");
-    if (!button) return;
-    const sunIcon = button.querySelector(".theme-icon");
-    const moonIcon = button.querySelector(".theme-icon-dark");
-    if (isDark) {
-      button.setAttribute("aria-label", "Cambiar a tema claro");
-      if (sunIcon) sunIcon.style.display = "none";
-      if (moonIcon) moonIcon.style.display = "inline";
+    const btn = document.querySelector(".toggle-theme");
+    const icon = btn?.querySelector(".theme-icon");
+    
+    if (root.getAttribute("data-theme") === "dark") {
+      root.setAttribute("data-theme", "light");
+      if (icon) icon.textContent = "☀";
     } else {
-      button.setAttribute("aria-label", "Cambiar a tema oscuro");
-      if (sunIcon) sunIcon.style.display = "inline";
-      if (moonIcon) moonIcon.style.display = "none";
+      root.setAttribute("data-theme", "dark");
+      if (icon) icon.textContent = "☾";
     }
-  }
-
-  window.toggleTheme = function toggleTheme() {
-    const root = document.documentElement;
-    const cur = root.getAttribute("data-theme") || "light";
-    root.setAttribute("data-theme", cur === "light" ? "dark" : "light");
-    syncThemeToggle();
   };
 
   const hexToRgba = (hex, alpha = 1) => {
@@ -790,8 +779,6 @@
       setupReaderToggle();
       setupCTA();
       setupCopy();
-      setupShortcuts();
-      syncThemeToggle();
       
       setupQuickNavigation();
       setupSearch();
