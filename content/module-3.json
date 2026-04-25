@@ -48,7 +48,28 @@
         "RAG convierte examen libro cerrado → libro abierto.",
         "Dos pasos: Retriever encuentra docs, Generator escribe respuesta.",
         "RAG es el método primario para reducir alucinaciones."
-      ]
+      ],
+      "deepDive": {
+        "title": "Profundizando: RAG en Producción",
+        "sections": [
+          {
+            "title": "Historia de RAG",
+            "content": "RAG (Retrieval-Augmented Generation) fue introducido por Facebook AI Research (Meta) en 2020. El paper demostró que combinar recuperación de documentos con generación mejoraba respuestas factuales.\n\nPara 2026, RAG se ha convertido en el patrón estándar para cualquier AI system que necesita trabajar con datos privados o frecuentemente cambiantes.\n\nLa evolución: Naive RAG → Advanced RAG (hybrid + rerank) → Agentic RAG (con agents)."
+          },
+          {
+            "title": "Arquitectura de 6 Capas",
+            "content": "Production RAG tiene seis capas:\n\n1. **Document Processing:** Limpiar, estructurar, preparar\n2. **Chunking:** Dividir en fragmentos óptimos\n3. **Embedding:** Convertir a vectores semánticos\n4. **Retrieval (Hybrid):** Vector + keyword search\n5. **Reranking:** Re-scoring con cross-encoder\n6. **Guarded Generation:** Verificar claims contra contexto\n\n**Skipping cualquier capa degrada el pipeline.**"
+          },
+          {
+            "title": "Por Qué RAG es Esencial",
+            "content": "**Tres razones fundacionales:**\n\n1. **Datos en tiempo real:** El LLM sabe hasta su knowledge cutoff. RAG permite acceso a información fresca.\n\n2. **Datos propietarios:** Documentos internos, bases de conocimiento privadas - el LLM no fue entrenado en ellos.\n\n3. **Verificabilidad:** Puedes citars las fuentes exactas - el usuario puede verificar.\n\n**El insight clave:** RAG te permite trattar el LLM como un motor de generación, no como una base de conocimiento."
+          },
+          {
+            "title": "Errores Comunes",
+            "content": "1. **Garbage in, garbage out:** Limpiar datos primero\n2. **Chunking malo:** La estrategia de chunking tiene más impacto que el modelo de embedding\n3. **No monitorear retrieval separately:** Bad answer = bad retrieval vs bad generation\n4. **No caching:** Queries frecuentes = caché\n\n**Medir RAG con RAGAS:**\n- Faithfulness: Claims soportados por contexto?\n- Answer relevance: Responde la pregunta?\n- Context precision: Top chunks son relevantes?"
+          }
+        ]
+      }
     },
     {
       "id": "chunking-embebidos",
@@ -87,7 +108,28 @@
         "Pipeline = Ingestar → Chunkear → Embedding.",
         "Chunking recursivo es el mejor punto de partida.",
         "Embeddings traducen significado a números para búsqueda."
-      ]
+      ],
+      "deepDive": {
+        "title": "Profundizando: Chunking y Embeddings",
+        "sections": [
+          {
+            "title": "Estrategias de Chunking",
+            "content": "| Estrategia | Cuándo Usar | Tamaño Recomendado |\n|------------|-------------|-------------------|\n| Fijo | Baseline, rápido | 500-1000 tokens |\n| Recursivo | Mejor punto de partida | 500-1000 tokens |\n| Semántico | Estructura importante | Variable |\n| Markdown | Documentos técnicos | Por header |\n\n**Regla heurística:** Empezar con chunking recursivo de 512 tokens. Ajustar basada en resultados de retrieval."
+          },
+          {
+            "title": "El Chunking Tiende a Ser Subestimado",
+            "content": "Estudios de 2025 muestran que la estrategia de chunking tiene **más impacto** que la elección del modelo de embedding.\n\nUn estudio clínico encontró:\n- Adaptive chunking: 87% accuracy\n- Fixed-size: 13% accuracy\n\n**Esto no es marginal.** Es la diferencia entre un sistema que funciona y uno que no.\n\n**Factores a considerar:**\n- Overlap (10-20%) para no perder contexto en bordes\n- Metadata (source, section, page) para filtrado\n- Parent document retrieval: buscar con chunks pequeños, retornar documento padre."
+          },
+          {
+            "title": "Embeddings: Más Allá de Similarity Search",
+            "content": "Un modelo de embedding convierte texto a vectores numéricos. Chunks con significado similar tendrán vectores 'cercanos' en el espacio.\n\n**Modelos populares (2026):**\n- OpenAI text-embedding-3-small (barato, bueno)\n- Cohere embed-multilingual\n- BGE (open source)\n\n**Ojo:** No mezclar vectores de diferentes modelos. Tag cada vector con la versión del modelo de embedding."
+          },
+          {
+            "title": "Limitaciones del Embedding-based Retrieval",
+            "content": "**Cuándo falla:**\n- Queries con palabras clave específicas (nombres, códigos)\n- Sinonyms no capturados en training\n- Domain específico fuera del training data\n\n**Solución:** Hybrid search - combinar vector search con BM25 keyword matching."
+          }
+        ]
+      }
     },
     {
       "id": "proceso-recuperacion",
@@ -119,7 +161,32 @@
         "Una base de datos vectorial almacena y busca por proximidad semántica.",
         "El proceso: convertir query a vector → encontrar documentos similares.",
         "MMR optimiza para relevancia + diversidad."
-      ]
+      ],
+      "deepDive": {
+        "title": "Profundizando: Retrieval Advanced",
+        "sections": [
+          {
+            "title": "El Pipeline de Retrieval",
+            "content": "Un sistema de retrieval production:\n\n```\nQuery del usuario\n    ↓\nQuery transformation (opcional)\n    ↓\nEmbedding de la query\n    ↓\nHybrid search (vector + keyword)\n    ↓\nTop-20 candidates\n    ↓\nReranking (cross-encoder)\n    ↓\nTop-5 final\n    ↓\nLLM generation\n```\n\n**Cada etapa aborda un failure mode específico.**"
+          },
+          {
+            "title": "Hybrid Search en Profundidad",
+            "content": "Hybrid search combina dos técnicas:\n\n**Vector search (semántico):**\n- Encuentra documentos conceptualmente similares\n- Maneja sinónimos\n- Flexible a variaciones\n\n**Keyword/Bm25 (literal):**\n- Encuentra términos exactos\n- Para nombres, códigos, acrónimos\n- No le importa el contexto\n\n**Fusión:** Reciprocal Rank Fusion (RRF) combina resultados.\n\n**Resultado:** Mejora recall 10-30% sobre vector-only."
+          },
+          {
+            "title": "Reranking: El Mayor ROI",
+            "content": "El reranking tiene el **mayor ROI** en el pipeline RAG:\n\n1. **Bi-encoder** (vector search) → rápido pero impreciso\n2. **Cross-encoder** (reranker) → más preciso pero lento\n\n**Patrón:**\n1. Retrieval rápido: bi-encoder → top 20-50\n2. Rerank preciso: cross-encoder → reordenar\n3. Return: top 3-5\n\n**Mejora típica:** 10-30% precisión extra."
+          },
+          {
+            "title": "Query Transformation",
+            "content": "A veces la query del usuario no es óptima para retrieval.\n\n**Técnicas:**\n\n**HyDE (Hypothetical Document Embedding):**\n1. Generar una respuesta hipotética\n2. Buscar con la respuesta (no la query)\n\n**Query expansion:**\n1. Agregar sinónimos y variations\n2. Buscar con todas\n\n**Multi-query:**\n1. Generar 3-5 paráfrasis\n2. Buscar con todas, fusionar resultados"
+          },
+          {
+            "title": "MMR: Diversidad en Resultados",
+            "content": "**Maximal Marginal Relevance** optimiza para:\n1. Relevancia a la query\n2. Diversidad entre resultados\n\n**Problema que solve:** Top 5 resultados podrían ser todos muy similares.\n\n**Cómo funciona:**\n1. Traer un conjunto grande\n2. Seleccionar el más relevante\n3. Penalizar similarity a seleccionados\n4. Repetir hasta tener K diversos\n\nAnthropic reporta 49% reducción en retrieval failures para documentos complejos."
+          }
+        ]
+      }
     }
   ]
 }

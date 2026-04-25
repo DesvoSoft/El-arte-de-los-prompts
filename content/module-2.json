@@ -42,7 +42,24 @@
         "El User Prompt es la tarea inmediata.",
         "Un system prompt fuerte tiene Persona clara, Reglas y Constraints.",
         "Formula requests como comandos específicos, no preguntas vagas."
-      ]
+      ],
+      "deepDive": {
+        "title": "Profundizando: Anatomía Avanzada de Prompts",
+        "sections": [
+          {
+            "title": "Historia del System Prompt",
+            "content": "El system prompt surgió naturalmente de la arquitectura de OpenAI ChatGPT. Antes de 2023, los prompts eran stateless: una pregunta, una respuesta. Cuando se añadió capacidad conversacional, el campo 'system' permitió establecer el 'personaje' persistent.\n\nEl campo system no es magia - es otro prompt que el modelo trata de manera especial. Los proveedores de API lo procesan primero y puede recibir tratamiento optimizado (más cuidadoso)."
+          },
+          {
+            "title": "Por Qué XML Tags Son Superiores",
+            "content": "Estudios de 2025-2026 revelan que **XML tags superan a Markdown** para estructurar contexto:\n\n```xml\n<system>\nEres un asistente de análisis de datos.\n</system>\n<context>\nDatos proporcionados por el usuario...\n</context>\n<task>\nAnaliza y proporciona insights...\n</task>\n```\n\nRazones:\n1. Tags son inequívocos - namespace explícito\n2. El modelo los reconoce como bloques estructurados\n3. Permite referencia precisa en instrucciones\n4. Facilita parsing y debugging"
+          },
+          {
+            "title": "Errores Comunes en System Prompts",
+            "content": "1. **Persona vaga:** 'Sé helpful' no define comportamiento\n2. **Reglas ambiguas:** Usar 'considera' en vez de 'MUST'\n3. **Exceso de instrucciones:** El modelo ignora después de cierto punto\n4. **Sin output format:** Dejar a elección del modelo\n\n**Best practice:** Treat el system prompt como código versionable."
+          }
+        ]
+      }
     },
     {
       "id": "zero-shot-few-shot",
@@ -81,7 +98,24 @@
         "One-shot: 1 ejemplo - para formato específico.",
         "Few-shot: 2-5 ejemplos - para tareas complejas.",
         "Selecciona ejemplos representativos y diversos."
-      ]
+      ],
+      "deepDive": {
+        "title": "Profundizando: Zero-shot vs Few-shot",
+        "sections": [
+          {
+            "title": "Cuándo Usar Cuál Técnica",
+            "content": "| Técnica | Cuándo Usar | Costo | Fiabilidad |\n|--------|------------|-------|----------|\n| Zero-shot | Tareas simples, clasificación básica | Bajo | Media |\n| One-shot | Formato específico requerido | Medio | Alta |\n| Few-shot | Tareas complejas, formato nuanceado | Alto | Muy alta |\n\n**Regla práctica:** Empezar con zero-shot. Si el output es inconsistente, agregar un ejemplo. Si sigue fallando, pasar a few-shot."
+          },
+          {
+            "title": "El Mecanismo: Por Qué Funciona Few-shot",
+            "content": "Few-shot funciona porque el modelo aprende del **patrón** en los ejemplos:\n\n1. **Aprendizaje in-context:** El modelo infiere reglas de los ejemplos sin weights updates\n2. **Formato:** Entiende estructura de output esperada\n3. **Estilo:** Adopta el tono y estilo de los ejemplos\n4. **Scope:** Entiende qué debe y no debe incluir\n\n**Nota:** Para modelos de razonamiento (GPT-4.5, Claude 3.5), zero-shot es más confiable - benefits menos de few-shot."
+          },
+          {
+            "title": "Variaciones: One-shot vs Few-shot",
+            "content": "**One-shot:**\n- Un ejemplo establece formato exacto\n- Ideal para JSON, tablas, código estructurada\n- Mínimo overhead de tokens\n\n**Few-shot (2-5 ejemplos):**\n- Muestra diversidad de casos\n- Para tareas donde hay variación legítima\n- Consider edge cases en ejemplos\n\n**Anti-pattern:** No usar más de 5 ejemplos - el modelo ignora después."
+          }
+        ]
+      }
     },
     {
       "id": "chain-of-thought",
@@ -113,8 +147,29 @@
         "CoT mejora rendimiento en tareas de razonamiento.",
         "Pedir 'pensar paso a paso' es simple pero poderoso.",
         "Combinar con self-consistency para mayor precisión.",
-        "Verificar que el modelo siga la cadena de pensamiento."
-      ]
+        "Verificar que el modelo sigua la cadena de pensamiento."
+      ],
+      "deepDive": {
+        "title": "Profundizando: Chain-of-Thought Avanzado",
+        "sections": [
+          {
+            "title": "Historia y Evolución de CoT",
+            "content": "CoT fue introducido por Wei et al. (2022) y causó sensación inmediata. El paper mostró mejoras de hasta 40% en tareas de razonamiento para PaLM 540B.\n\nLa observación clave: los LLMs son modelos de siguiente token - predicen el siguiente token basados en todos los anteriores. Cuando forzas razonamiento paso a paso, esos tokens de reasoning se convierten en contexto para las siguientes predicciones.\n\nEsto externaliza el proceso de razonamiento - el modelo 'piensa en voz alta'."
+          },
+          {
+            "title": "Variaciones de CoT",
+            "content": "| Variación | Descripción | Cuándo Usar |\n|----------|------------|-------------|\n| Zero-shot CoT | 'Pensemos paso a paso' | Modelos grandes |\n| Few-shot CoT | Con ejemplos de razonamiento | Tareas complejas |\n| Auto-CoT | El modelo genera sus propios ejemplos | Escalabilidad |\n| Self-consistency | Múltiples paths, mayoría voting | Alta stakes |\n| Tree-of-Thought | Branching reasoning | Problemas complejos |\n\n**Zero-shot CoT** funciona mejor en modelos con >100B parámetros. Modelos más pequeños requieren few-shot examples."
+          },
+          {
+            "title": "Self-Consistency en Profundidad",
+            "content": "Self-consistency (Wang et al., 2022) es una extensión que mejora CoT significativamente:\n\n1. **Sample múltiples reasoning paths** - cambiar temperature o samplings\n2. **Agregar por majority vote** - la respuesta más común gana\n\n**Resultados en benchmarks:**\n- GSM8K: +17.9% mejora\n- SVAMP: +11.0%\n- AQuA: +12.2%\n\n**Trade-off:** Multiplica latencia y costo por número de samples. La mayoría del benefício viene en los primeros 8-16 samples."
+          },
+          {
+            "title": "Limitaciones de CoT",
+            "content": "**Cuándo CoT NO funciona:**\n- Tareas simples que no requieren razonamiento\n- Razonamiento incorrecto en los ejemplos\n- Modelos muy pequeños (<10B params)\n- Cuando el modelo no sabe la respuesta\n\n**Errores comunes:**\n- Aplicar CoT a todo - sobreingeniería\n- No verificar coherencia del razonamiento\n- Razonamiento largo que diverge del problema\n\n**Estrategia:** Usar CoT para matemáticas, lógica, análisis. Para otros tasks, zero-shot es suficiente."
+          }
+        ]
+      }
     }
   ]
 }
